@@ -9,7 +9,7 @@ app.use(cors())
 
 const port = process.env.PORT || "8000";
 
-const mongoDB = 'mongodb://right-lyrics:right-lyrics@rl-mongodb/right-lyrics';
+const mongoDB = 'mongodb://right-lyrics:right-lyrics@rl-mongodb/rl-mongodb';
 
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
