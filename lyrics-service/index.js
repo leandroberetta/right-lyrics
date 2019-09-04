@@ -7,9 +7,7 @@ const app = express();
 
 app.use(cors())
 
-const port = process.env.PORT || "8000";
-
-const mongoDB = 'mongodb://right-lyrics:right-lyrics@rl-mongodb/rl-mongodb';
+const mongoDB = "mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD +  "@" + process.env.DB_HOST + "/" + process.env.DB_NAME;
 
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
@@ -51,6 +49,6 @@ app.get('/api/populate/:name', (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`);
+app.listen("8080", () => {
+    console.log("Listening to requests...");
 });
