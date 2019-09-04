@@ -21,13 +21,13 @@ class App extends React.Component {
     }
 
     onSelectSong = (song) => {
-        fetch("http://localhost:8080/api/song/" + song.id)
+        fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song/" + song.id)
             .then(result => result.json())
             .then(
                 (result) => {
                     console.log(result);
 
-                    fetch("http://localhost:8000/api/lyric/" + result.lyricId)
+                    fetch("http://rl-lyrics-service-right-lyrics.apps-crc.testing/api/lyric/" + result.lyricId)
                         .then(result => result.json())
                         .then(
                             (result) => {
@@ -58,7 +58,7 @@ class App extends React.Component {
 
     onSearch = (event) => {
         console.log("asd")
-        fetch("http://localhost:8080/api/song/search", {
+        fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song/search", {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({"text": event.target.value})
@@ -86,7 +86,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/song")
+        fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song")
             .then(res => res.json())
             .then(
                 (result) => {
