@@ -1,4 +1,4 @@
-FROM nodejs:10
+FROM registry.redhat.io/rhoar-nodejs/nodejs-10
 
 COPY . .
 
