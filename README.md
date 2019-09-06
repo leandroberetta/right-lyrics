@@ -55,9 +55,9 @@ TBD
         -i redhat-openjdk18-openshift:1.5 \
         --code=https://github.com/leandroberetta/right-lyrics.git \
         --context-dir=songs-service \
-        -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-postgres:5432/rl-postgres \
+        -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-postgresql:5432/rl-postgresql \
         -e SPRING_DATASOURCE_USERNAME=right-lyrics \
-        -e SPRING_DATASOURCE_PASSWORD=rl-mongodb 
+        -e SPRING_DATASOURCE_PASSWORD=right-lyrics 
 
     oc expose svc rl-songs-service -n right-lyrics
 
