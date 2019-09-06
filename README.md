@@ -22,14 +22,14 @@ TBD
 
     oc new-project right-lyrics
 
-    oc new-app --name=rl-mongodb -n right-lyrics \
+    oc new-app --name=rl-lyrics-mongodb -n right-lyrics \
         -l app=rl-lyrics-service \
         --template mongodb-ephemeral \
-        -p MONGODB_DATABASE=rl-mongodb \
+        -p MONGODB_DATABASE=rl-lyrics-mongodb \
         -p MONGODB_VERSION=3.6 \
         -p MONGODB_USER=right-lyrics \
         -p MONGODB_PASSWORD=right-lyrics \
-        -p DATABASE_SERVICE_NAME=rl-mongodb
+        -p DATABASE_SERVICE_NAME=rl-lyrics-mongodb
 
     oc new-app --name=rl-lyrics-service -n right-lyrics \
         -i nodejs:8 \
@@ -37,25 +37,25 @@ TBD
         --context-dir=lyrics-service \
         -e DB_USERNAME=right-lyrics \
         -e DB_PASSWORD=right-lyrics \
-        -e DB_NAME=rl-mongodb \
-        -e DB_HOST=rl-mongodb
+        -e DB_NAME=rl-lyrics-mongodb \
+        -e DB_HOST=rl-lyrics-mongodb
 
     oc expose svc rl-lyrics-service -n right-lyrics
 
-    oc new-app --name=rl-postgresql -n right-lyrics \
+    oc new-app --name=rl-songs-postgresql -n right-lyrics \
         -l app=rl-songs-service \
         --template postgresql-ephemeral \
-        -p POSTGRESQL_DATABASE=rl-postgresql\
+        -p POSTGRESQL_DATABASE=rl-songs-postgresql\
         -p POSTGRESQL_VERSION=10 \
         -p POSTGRESQL_USER=right-lyrics \
         -p POSTGRESQL_PASSWORD=right-lyrics \
-        -p DATABASE_SERVICE_NAME=rl-postgresql 
+        -p DATABASE_SERVICE_NAME=rl-songs-postgresql 
 
     oc new-app --name=rl-songs-service -n right-lyrics \
         -i redhat-openjdk18-openshift:1.5 \
         --code=https://github.com/leandroberetta/right-lyrics.git \
         --context-dir=songs-service \
-        -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-postgresql:5432/rl-postgresql \
+        -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-songs-postgresql:5432/rl-songs-postgresql \
         -e SPRING_DATASOURCE_USERNAME=right-lyrics \
         -e SPRING_DATASOURCE_PASSWORD=right-lyrics 
 
