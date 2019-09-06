@@ -57,7 +57,6 @@ class App extends React.Component {
     }
 
     onSearch = (event) => {
-        console.log("asd")
         fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song/search", {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
@@ -86,6 +85,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        console.log(process.env.NODE_ENV)
         fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song")
             .then(res => res.json())
             .then(

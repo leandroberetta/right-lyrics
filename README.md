@@ -18,6 +18,8 @@ TBD
 
     oc new-app -i redhat-openjdk18-openshift:1.5 --code=https://github.com/leandroberetta/right-lyrics.git -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-postgres:5432/rl-postgres -e SPRING_DATASOURCE_USERNAME=right-lyrics -e SPRING_DATASOURCE_PASSWORD=rl-mongodb --context-dir=songs-service --name=rl-songs-service -n right-lyrics
 
+    oc new-build https://github.com/leandroberetta/right-lyrics.git --context-dir=lyrics-page --strategy=docker --name lyrics-page-builder -n right-lyrics
+
     oc new-build -i nginx:1.12 --binary --name=rl-lyrics-page -n right-lyrics
     oc start-build rl-lyrics-page --from-dir=./lyrics-page/build/ -n right-lyrics
     oc new-app rl-lyric-page:latest -n right-lyrics
