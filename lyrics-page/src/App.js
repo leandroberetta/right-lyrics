@@ -57,7 +57,7 @@ class App extends React.Component {
     }
 
     onSearch = (event) => {
-        fetch("http://rl-songs-service-right-lyrics.apps-crc.testing/api/song/search", {
+        fetch(process.env.RL_SONGS_SERVICE + "/api/song/search", {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({"text": event.target.value})
