@@ -10,7 +10,7 @@ A very simple microservice architecture demonstration to be deployed in OpenShif
 
 ## Deploy in OpenShift
 
-### Operator
+### Operator
 
 TBD
 
@@ -18,7 +18,7 @@ TBD
 
 TBD
 
-### CLI
+### CLI
 
     oc new-project right-lyrics
 
