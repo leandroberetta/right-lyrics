@@ -2,6 +2,8 @@
 
 oc new-project right-lyrics
 
+oc create configmap rl-lyrics-mongodb-data --from-file=lyrics.json=./data/lyrics.json -n right-lyrics
+
 oc new-app --name=rl-lyrics-mongodb -n right-lyrics \
     -l app=rl-lyrics-service \
     --template mongodb-ephemeral \
@@ -10,6 +12,10 @@ oc new-app --name=rl-lyrics-mongodb -n right-lyrics \
     -p MONGODB_USER=right-lyrics \
     -p MONGODB_PASSWORD=right-lyrics \
     -p DATABASE_SERVICE_NAME=rl-lyrics-mongodb
+
+oc patch dc/rl-lyrics-mongodb -p '{"spec":{"strategy":{"recreateParams":{"post":{"execNewPod":{"command":["/bin/sh","-i","-c","mongoimport --collection=lyrics --username=right-lyrics --password=right-lyrics --db=rl-lyrics-mongodb --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017"],"containerName":"mongodb","volumes":["rl-lyrics-mongodb-data"]},"failurePolicy":"Abort"}},"type":"Recreate"}}}' -n right-lyrics
+
+oc set volume dc/rl-lyrics-mongodb --add --name=rl-lyrics-mongodb-data -t configmap --configmap-name=rl-lyrics-mongodb-data --mount-path=/tmp/data --overwrite -n right-lyrics
 
 oc new-app --name=rl-lyrics-service -n right-lyrics \
     -i nodejs:8 \
@@ -52,7 +58,11 @@ oc new-build -i nginx:1.12 --name=rl-lyrics-page -n right-lyrics \
     --source-image-path=/opt/app-root/src/build/.:. \
     --allow-missing-imagestream-tags
 
+oc create configmap rl-lyrics-page --from-file=./lyrics-page/public/config.js -n right-lyrics
+
 oc new-app rl-lyrics-page:latest --name=rl-lyrics-page --allow-missing-imagestream-tags -n right-lyrics
+
+oc set volume dc/rl-lyrics-page --add --name=rl-lyrics-page -t configmap --configmap-name=rl-lyrics-page --mount-path=/opt/app-root/src/config.js --sub-path=config.js --overwrite -n right-lyrics
 
 oc expose dc rl-lyrics-page --port=8080 -n right-lyrics
 
