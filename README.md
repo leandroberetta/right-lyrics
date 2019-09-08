@@ -16,11 +16,17 @@ TBD
 
 ### Template
 
-TBD
+    oc new-project right-lyrics
+
+    oc create -f template.yaml -n right-lyrics
+
+    oc new-app --template=right-lyrics -n right-lyrics
 
 ### CLI
 
     oc new-project right-lyrics
+
+    oc create configmap rl-lyrics-mongodb-data --from-file=lyrics.json=./data/lyrics.json -n right-lyrics
 
     oc new-app --name=rl-lyrics-mongodb -n right-lyrics \
         -l app=rl-lyrics-service \
@@ -30,6 +36,10 @@ TBD
         -p MONGODB_USER=right-lyrics \
         -p MONGODB_PASSWORD=right-lyrics \
         -p DATABASE_SERVICE_NAME=rl-lyrics-mongodb
+
+    oc patch dc/rl-lyrics-mongodb -p '{"spec":{"strategy":{"recreateParams":{"post":{"execNewPod":{"command":["/bin/sh","-i","-c","mongoimport --collection=lyrics --username=right-lyrics --password=right-lyrics --db=rl-lyrics-mongodb --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017"],"containerName":"mongodb","volumes":["rl-lyrics-mongodb-data"]},"failurePolicy":"Abort"}},"type":"Recreate"}}}' -n right-lyrics
+
+    oc set volume dc/rl-lyrics-mongodb --add --name=rl-lyrics-mongodb-data -t configmap --configmap-name=rl-lyrics-mongodb-data --mount-path=/tmp/data --overwrite -n right-lyrics
 
     oc new-app --name=rl-lyrics-service -n right-lyrics \
         -i nodejs:8 \
@@ -42,6 +52,8 @@ TBD
 
     oc expose svc rl-lyrics-service -n right-lyrics
 
+    oc create configmap rl-songs-postgresql-data --from-file=songs.sql=./data/songs.sql -n right-lyrics
+
     oc new-app --name=rl-songs-postgresql -n right-lyrics \
         -l app=rl-songs-service \
         --template postgresql-ephemeral \
@@ -50,6 +62,10 @@ TBD
         -p POSTGRESQL_USER=right-lyrics \
         -p POSTGRESQL_PASSWORD=right-lyrics \
         -p DATABASE_SERVICE_NAME=rl-songs-postgresql 
+
+    oc patch dc/rl-songs-postgresql -p '{"spec":{"strategy":{"recreateParams":{"post":{"execNewPod":{"command":["/bin/sh","-i","-c","PGPASSWORD=right-lyrics psql -U right-lyrics -h rl-songs-postgresql -d rl-songs-postgresql -f /tmp/data/songs.sql"],"containerName":"postgresql","volumes":["rl-songs-postgresql-data"]},"failurePolicy":"Abort"}},"type":"Recreate"}}}' -n right-lyrics
+
+    oc set volume dc/rl-songs-postgresql --add --name=rl-songs-postgresql-data -t configmap --configmap-name=rl-songs-postgresql-data --mount-path=/tmp/data --overwrite -n right-lyrics
 
     oc new-app --name=rl-songs-service -n right-lyrics \
         -i redhat-openjdk18-openshift:1.5 \
@@ -72,7 +88,17 @@ TBD
         --source-image-path=/opt/app-root/src/build/.:. \
         --allow-missing-imagestream-tags
 
+    export RL_SONGS_ROUTE=$(oc get route rl-songs-service --template={{.spec.host}})
+    sed -i "" "s/RL_SONGS_ROUTE/$RL_SONGS_ROUTE/g" ../lyrics-page/public/config.js
+
+    export RL_LYRICS_ROUTE=$(oc get route rl-lyrics-service --template={{.spec.host}})
+    sed -i "" "s/RL_LYRICS_ROUTE/$RL_LYRICS_ROUTE/g" ../lyrics-page/public/config.js
+
+    oc create configmap rl-lyrics-page --from-file=./data/config.js -n right-lyrics
+
     oc new-app rl-lyrics-page:latest --name=rl-lyrics-page --allow-missing-imagestream-tags -n right-lyrics
+
+    oc set volume dc/rl-lyrics-page --add --name=rl-lyrics-page -t configmap --configmap-name=rl-lyrics-page --mount-path=/opt/app-root/src/config.js --sub-path=config.js --overwrite -n right-lyrics
 
     oc expose dc rl-lyrics-page --port=8080 -n right-lyrics
 

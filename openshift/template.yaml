@@ -1,0 +1,715 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: right-lyrics
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-mongodb
+  stringData:
+    database-admin-password: right-lyrics
+    database-name: rl-lyrics-mongodb
+    database-password: right-lyrics
+    database-user: right-lyrics
+  type: Opaque
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: rl-lyrics-mongodb-data
+  data:
+    lyrics.json: |-
+      {"_id":{"$oid":"5d72534eef68ea00194ac5e8"},"name":"Californication","lyric":"Psychic spies from China  \nTry to steal your mind's elation  \nLittle girls from Sweden  \nDream of silver screen quotations  \nAnd if you want these kind of dreams  \nIt's Californication  \n\nIt's the edge of the world  \nAnd all of western civilization  \nThe sun may rise in the East  \nAt least it settles in the final location  \nIt's understood that Hollywood  \nSells Californication  \n\nPay your surgeon very well  \nTo break the spell of aging  \nCelebrity skin is this your chin  \nOr is that war you're waging?  \n\nFirst born unicorn  \nHard core soft porn  \nDream of Californication  \nDream of Californication  \nDream of Californication  \nDream of Californication  \n\nMarry me girl be my fairy to the world  \nBe my very own constellation  \nA teenage bride with a baby inside  \nGetting high on information  \nAnd buy me a star on the boulevard  \nIt'sCalifornication  \n\nSpace may be the final frontier  \nBut it's made in a Hollywood basement  \nCobain can you hear the spheres  \nSinging songs off station to station  \nAnd Alderaan's not far away  \nIt's Californication  \n\nBorn and raised by those who praise  \nControl of population everybody's been there and  \nI don't mean on vacation  \n\nFirst born unicorn  \nHard core soft porn  \nDream of Californication  \nDream of Californication  \nDream of Californication  \nDream of Californication  \n\nDestruction leads to a very rough road  \nBut it also breeds creation  \nAnd earthquakes are to a girl's guitar  \nThey're just another good vibration  \nAnd tidal waves couldn't save the world  \nFrom Californication  \n\nPay your surgeon very well  \nTo break the spell of aging  \nSicker than the rest  \nThere is no test  \nBut this is what you're craving  \n\nFirst born unicorn  \nHard core soft porn  \nDream of Californication  \nDream of Californication  \nDream of Californication  \nDream of Californication  ","__v":0}
+      {"_id":{"$oid":"5d725355ef68ea00194ac5e9"},"name":"Even Flow","lyric":"Freezin', rests his head on a pillow made of concrete, again  \nOh, feelin' maybe he'll see a little better, set of days, ooh yeah  \nOh, hand out, faces that he sees time again ain't that familiar, oh yeah  \nOh, dark grin, he can't help, when he's happy looks insane, oh yeah  \n\nEven flow, thoughts arrive like butterflies  \nOh, hedon't know, so he chases them away  \nSomeday yet, he'll begin his life again  \nLife again, life again...  \n\nKneelin', looking through the paper though he doesn't know to read, ooh yeah  \nOh, prayin', now to something that has never showed him anything  \nOh, feelin', understands the weather of the winters on its way  \nOh, ceilings, few and far between all the legal halls of shame, yeah  \n\nEven flow, thoughts arrive like butterflies  \nOh, he don't know, so he chases them away  \nSomeday yet, he'll begin his life again  \n\nWhispering hands, gently lead him away  \nHim away, him away...  \nYeah!  \nWoo...ah yeah...fuck it up...  \n\nEven flow, thoughts arrive likebutterflies  \nOh, he don't know, so he chases them away  \nSomeday yet, he'll begin his life again, yeah  \n\nOh, whispering hands, gently lead him away  \nHim away, him away...  \nYeah!  \nWoo...uh huh...yeah, yeah, mommy, mommy...  ","__v":0}
+      {"_id":{"$oid":"5d72535def68ea00194ac5ea"},"name":"Everlong","lyric":"Hello  \nI've waited here for you  \nEverlong  \nTonight  \nI throw myself into  \nAnd out of the red  \nOut of her head she sang  \n\nCome down  \nAnd waste away with me  \nDown with me  \nSlow how  \nYou wanted it to be  \nI'm over my head  \nOut of her head she sang  \n\nAnd I wonder  \nWhen I sing along with you  \nIf everything could ever feel this real forever  \nIf anything could ever be this good again  \nThe only thing I'll ever ask of you  \nYou gotta promisenot to stop when I say when she sang  \n\nBreathe out  \nSo I can breathe you in  \nHold you in  \nAnd now  \nI know you've always been \nOut of your head  \nOut of my head I sang  \n\nAnd I wonder  \nWhen I sing along with you  \nIf everything could ever feel this realforever  \nIf anything could ever be this good again  \nThe only thing I'll ever ask of you  \nYou gotta promise not to stop when I saywhen she sang  \n\nSo, Dad would take the Sundays off.  \nAnd that's the only time he could ever get any rest.  \nAnd so, because we were loud on Sundays, he'd make us hold his construction boots over our head, 'til we'd sleep.  \nAnd they were really heavy boots and I used to say, \"Dad, come on, please.\"  \nAnd like start crying, 'cause they're too heavy.  \n\nAnd I wonder  \nIf everything could ever feel this real forever  \nIf anything could ever be this good again  \nThe only thing I'll ever ask of you  \nYou've got to promise not to stop when I say when  ","__v":0}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-mongodb
+  spec:
+    replicas: 1
+    selector:
+      name: rl-lyrics-mongodb
+    strategy:
+      recreateParams:
+        post:
+          execNewPod:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - mongoimport --collection=lyrics --username=right-lyrics --password=right-lyrics
+              --db=rl-lyrics-mongodb --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017
+            containerName: mongodb
+            volumes:
+            - rl-lyrics-mongodb-data
+          failurePolicy: Abort
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: rl-lyrics-service
+          name: rl-lyrics-mongodb
+      spec:
+        containers:
+        - env:
+          - name: MONGODB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: rl-lyrics-mongodb
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: rl-lyrics-mongodb
+          - name: MONGODB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-admin-password
+                name: rl-lyrics-mongodb
+          - name: MONGODB_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: rl-lyrics-mongodb
+          image: ''
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD
+                --eval="quit()"
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+          - mountPath: /tmp/data
+            name: rl-lyrics-mongodb-data
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rl-lyrics-mongodb-data
+          name: rl-lyrics-mongodb-data
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - mongodb
+        from:
+          kind: ImageStreamTag
+          name: mongodb:3.6
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-mongodb
+  spec:
+    ports:
+    - name: mongo
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      name: rl-lyrics-mongodb
+    type: ClusterIP
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-service
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-service
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rl-lyrics-service:latest
+    runPolicy: Serial
+    source:
+      contextDir: lyrics-service
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nodejs:8
+          namespace: openshift
+      type: Source
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-service
+  spec:
+    replicas: 1
+    selector:
+      app: rl-lyrics-service
+      deploymentconfig: rl-lyrics-service
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: rl-lyrics-service
+          deploymentconfig: rl-lyrics-service
+      spec:
+        containers:
+        - env:
+          - name: DB_HOST
+            value: rl-lyrics-mongodb
+          - name: DB_NAME
+            value: rl-lyrics-mongodb
+          - name: DB_PASSWORD
+            value: right-lyrics
+          - name: DB_USERNAME
+            value: right-lyrics
+          image: ''
+          name: rl-lyrics-service
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - rl-lyrics-service
+        from:
+          kind: ImageStreamTag
+          name: rl-lyrics-service:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-service
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: rl-lyrics-service
+      deploymentconfig: rl-lyrics-service
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: rl-lyrics-service
+    name: rl-lyrics-service
+  spec:
+    host: rl-lyrics-service-${PROJECT_NAME}.${ROUTE_POSTFIX}
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: rl-lyrics-service
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    labels:
+      app: rl-songs-service
+      template: postgresql-ephemeral-template
+    name: rl-songs-postgresql
+  stringData:
+    database-name: rl-songs-postgresql
+    database-password: right-lyrics
+    database-user: right-lyrics
+  type: Opaque
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: rl-songs-postgresql-data
+  data:
+    songs.sql: |
+      CREATE TABLE song (
+          id bigint NOT NULL,
+          artist character varying(255),
+          lyric_id character varying(255),
+          name character varying(255)
+      );
+
+      ALTER TABLE song OWNER TO "right-lyrics";
+
+      CREATE SEQUENCE song_id_seq
+          START WITH 1
+          INCREMENT BY 1
+          NO MINVALUE
+          NO MAXVALUE
+          CACHE 1;
+
+      ALTER TABLE song_id_seq OWNER TO "right-lyrics";
+
+      ALTER SEQUENCE song_id_seq OWNED BY song.id;
+
+      ALTER TABLE ONLY song ALTER COLUMN id SET DEFAULT nextval('song_id_seq'::regclass);
+
+      ALTER TABLE ONLY song ADD CONSTRAINT song_pkey PRIMARY KEY (id);
+
+      INSERT INTO song (name, artist, lyric_id) VALUES ('Californication', 'Red Hot Chili Peppers', '5d72534eef68ea00194ac5e8');
+      INSERT INTO song (name, artist, lyric_id) VALUES ('Everlong', 'Foo Fighters', '5d72535def68ea00194ac5ea');
+      INSERT INTO song (name, artist, lyric_id) VALUES ('Even Flow', 'Pearl Jam', '5d725355ef68ea00194ac5e9');
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-postgresql
+  spec:
+    replicas: 1
+    selector:
+      name: rl-songs-postgresql
+    strategy:
+      recreateParams:
+        post:
+          execNewPod:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - PGPASSWORD=right-lyrics psql -U right-lyrics -h rl-songs-postgresql -d
+              rl-songs-postgresql -f /tmp/data/songs.sql
+            containerName: postgresql
+            volumes:
+            - rl-songs-postgresql-data
+          failurePolicy: Abort
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: rl-songs-service
+          name: rl-songs-postgresql
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: rl-songs-postgresql
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: rl-songs-postgresql
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: rl-songs-postgresql
+          image: ''
+          livenessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+              - --live
+            failureThreshold: 3
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: postgresql
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+          - mountPath: /tmp/data
+            name: rl-songs-postgresql-data
+        volumes:
+        - configMap:
+            name: rl-songs-postgresql-data
+          name: rl-songs-postgresql-data
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:10
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-postgresql
+  spec:
+    ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      name: rl-songs-postgresql
+    type: ClusterIP
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-service
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-service
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rl-songs-service:latest
+    source:
+      contextDir: songs-service
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: redhat-openjdk18-openshift:1.5
+          namespace: openshift
+      type: Source
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-service
+  spec:
+    replicas: 1
+    selector:
+      app: rl-songs-service
+      deploymentconfig: rl-songs-service
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: rl-songs-service
+          deploymentconfig: rl-songs-service
+      spec:
+        containers:
+        - env:
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: right-lyrics
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:postgresql://rl-songs-postgresql:5432/rl-songs-postgresql
+          - name: SPRING_DATASOURCE_USERNAME
+            value: right-lyrics
+          image: ''
+          name: rl-songs-service
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - rl-songs-service
+        from:
+          kind: ImageStreamTag
+          name: rl-songs-service:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-service
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    - name: 8778-tcp
+      port: 8778
+      protocol: TCP
+      targetPort: 8778
+    selector:
+      app: rl-songs-service
+      deploymentconfig: rl-songs-service
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: rl-songs-service
+    name: rl-songs-service
+  spec:
+    host: rl-songs-service-${PROJECT_NAME}.${ROUTE_POSTFIX}
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: rl-songs-service
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      build: rl-lyrics-page-builder
+    name: rl-lyrics-page-builder
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      build: rl-lyrics-page-builder
+    name: rl-lyrics-page-builder
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rl-lyrics-page-builder:latest
+    source:
+      contextDir: lyrics-page
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nodejs:10
+          namespace: openshift
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      build: rl-lyrics-page
+    name: rl-lyrics-page
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      build: rl-lyrics-page
+    name: rl-lyrics-page
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: rl-lyrics-page:latest
+    source:
+      images:
+      - as: null
+        from:
+          kind: ImageStreamTag
+          name: rl-lyrics-page-builder:latest
+        paths:
+        - destinationDir: .
+          sourcePath: /opt/app-root/src/build/.
+      type: Image
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nginx:1.12
+          namespace: openshift
+      type: Source
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: rl-lyrics-page-builder:latest
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: rl-lyrics-page
+  data:
+    config.js: |
+      window.ENV = {
+          "RL_SONGS_SERVICE":"http://rl-songs-service-${PROJECT_NAME}.${ROUTE_POSTFIX}",
+          "RL_LYRICS_SERVICE":"http://rl-lyrics-service-${PROJECT_NAME}.${ROUTE_POSTFIX}"
+      }
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: rl-lyrics-page
+    name: rl-lyrics-page
+  spec:
+    replicas: 1
+    selector:
+      app: rl-lyrics-page
+      deploymentconfig: rl-lyrics-page
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: rl-lyrics-page
+          deploymentconfig: rl-lyrics-page
+      spec:
+        containers:
+        - image: ''
+          name: rl-lyrics-page
+          volumeMounts:
+          - mountPath: /opt/app-root/src/config.js
+            name: rl-lyrics-page
+            subPath: config.js
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rl-lyrics-page
+          name: rl-lyrics-page
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - rl-lyrics-page
+        from:
+          kind: ImageStreamTag
+          name: rl-lyrics-page:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: rl-lyrics-page
+    name: rl-lyrics-page
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: rl-lyrics-page
+      deploymentconfig: rl-lyrics-page
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: rl-lyrics-page
+    name: rl-lyrics-page
+  spec:
+    host: rl-lyrics-page-${PROJECT_NAME}.${ROUTE_POSTFIX}
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: rl-lyrics-page
+parameters:
+- description: Application Name
+  displayName: Application Name
+  name: APP_NAME
+  required: true
+  value: right-lyrics
+- description: Project Name
+  displayName: Project Name
+  name: PROJECT_NAME
+  required: true
+  value: right-lyrics
+- description: Git Repository
+  displayName: Git Repository
+  name: GIT_REPO
+  required: true
+  value: https://github.com/leandroberetta/right-lyrics.git
+- description: Git Branch
+  displayName: Git Branch
+  name: GIT_BRANCH
+  required: true
+  value: master
+- name: ROUTE_POSTFIX
+  displayName: Route Postfix
+  description: Route Postfix
+  required: true
+  value: apps-crc.testing

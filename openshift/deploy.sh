@@ -28,6 +28,8 @@ oc new-app --name=rl-lyrics-service -n right-lyrics \
 
 oc expose svc rl-lyrics-service -n right-lyrics
 
+oc create configmap rl-songs-postgresql-data --from-file=songs.sql=./data/songs.sql -n right-lyrics
+
 oc new-app --name=rl-songs-postgresql -n right-lyrics \
     -l app=rl-songs-service \
     --template postgresql-ephemeral \
@@ -36,6 +38,10 @@ oc new-app --name=rl-songs-postgresql -n right-lyrics \
     -p POSTGRESQL_USER=right-lyrics \
     -p POSTGRESQL_PASSWORD=right-lyrics \
     -p DATABASE_SERVICE_NAME=rl-songs-postgresql 
+
+oc patch dc/rl-songs-postgresql -p '{"spec":{"strategy":{"recreateParams":{"post":{"execNewPod":{"command":["/bin/sh","-i","-c","PGPASSWORD=right-lyrics psql -U right-lyrics -h rl-songs-postgresql -d rl-songs-postgresql -f /tmp/data/songs.sql"],"containerName":"postgresql","volumes":["rl-songs-postgresql-data"]},"failurePolicy":"Abort"}},"type":"Recreate"}}}' -n right-lyrics
+
+oc set volume dc/rl-songs-postgresql --add --name=rl-songs-postgresql-data -t configmap --configmap-name=rl-songs-postgresql-data --mount-path=/tmp/data --overwrite -n right-lyrics
 
 oc new-app --name=rl-songs-service -n right-lyrics \
     -i redhat-openjdk18-openshift:1.5 \
@@ -58,7 +64,13 @@ oc new-build -i nginx:1.12 --name=rl-lyrics-page -n right-lyrics \
     --source-image-path=/opt/app-root/src/build/.:. \
     --allow-missing-imagestream-tags
 
-oc create configmap rl-lyrics-page --from-file=./lyrics-page/public/config.js -n right-lyrics
+export RL_SONGS_ROUTE=$(oc get route rl-songs-service --template={{.spec.host}})
+sed -i "" "s/RL_SONGS_ROUTE/$RL_SONGS_ROUTE/g" ../lyrics-page/public/config.js
+
+export RL_LYRICS_ROUTE=$(oc get route rl-lyrics-service --template={{.spec.host}})
+sed -i "" "s/RL_LYRICS_ROUTE/$RL_LYRICS_ROUTE/g" ../lyrics-page/public/config.js
+
+oc create configmap rl-lyrics-page --from-file=./data/config.js -n right-lyrics
 
 oc new-app rl-lyrics-page:latest --name=rl-lyrics-page --allow-missing-imagestream-tags -n right-lyrics
 
