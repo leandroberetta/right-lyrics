@@ -1,0 +1,7 @@
+apiVersion: veicot.io/v1
+kind: RightLyrics
+metadata:
+  name: example-rightlyrics
+spec:
+  # Add fields here
+  size: 3

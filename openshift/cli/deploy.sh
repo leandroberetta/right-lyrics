@@ -2,7 +2,7 @@
 
 oc new-project right-lyrics
 
-oc create configmap rl-lyrics-mongodb-data --from-file=lyrics.json=./data/lyrics.json -n right-lyrics
+oc create configmap rl-lyrics-mongodb-data --from-file=lyrics.json=../data/lyrics.json -n right-lyrics
 
 oc new-app --name=rl-lyrics-mongodb -n right-lyrics \
     -l app=rl-lyrics-service \
@@ -28,7 +28,7 @@ oc new-app --name=rl-lyrics-service -n right-lyrics \
 
 oc expose svc rl-lyrics-service -n right-lyrics
 
-oc create configmap rl-songs-postgresql-data --from-file=songs.sql=./data/songs.sql -n right-lyrics
+oc create configmap rl-songs-postgresql-data --from-file=songs.sql=../data/songs.sql -n right-lyrics
 
 oc new-app --name=rl-songs-postgresql -n right-lyrics \
     -l app=rl-songs-service \
@@ -70,7 +70,7 @@ sed -i "" "s/RL_SONGS_ROUTE/$RL_SONGS_ROUTE/g" ../lyrics-page/public/config.js
 export RL_LYRICS_ROUTE=$(oc get route rl-lyrics-service --template={{.spec.host}})
 sed -i "" "s/RL_LYRICS_ROUTE/$RL_LYRICS_ROUTE/g" ../lyrics-page/public/config.js
 
-oc create configmap rl-lyrics-page --from-file=./data/config.js -n right-lyrics
+oc create configmap rl-lyrics-page --from-file=../data/config.js -n right-lyrics
 
 oc new-app rl-lyrics-page:latest --name=rl-lyrics-page --allow-missing-imagestream-tags -n right-lyrics
 

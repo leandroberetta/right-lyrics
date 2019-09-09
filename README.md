@@ -5,8 +5,8 @@ A very simple microservice architecture demonstration to be deployed in OpenShif
 ## Components
 
 * Lyrics Page (React.js)
-* Lyrics Service (Node.js)
-* Songs Service (Spring Boot)
+* Lyrics Service (Node.js + MongoDB)
+* Songs Service (Spring Boot + PostgreSQL)
 
 ## Deploy in OpenShift
 
@@ -18,7 +18,7 @@ TBD
 
     oc new-project right-lyrics
 
-    oc create -f template.yaml -n right-lyrics
+    oc create -f ./openshift/template/template.yaml -n right-lyrics
 
     oc new-app --template=right-lyrics -n right-lyrics
 

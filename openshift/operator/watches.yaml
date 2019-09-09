@@ -1,0 +1,5 @@
+---
+- version: v1
+  group: veicot.io
+  kind: RightLyrics
+  role: /opt/ansible/roles/rightlyrics

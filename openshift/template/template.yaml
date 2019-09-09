@@ -11,7 +11,7 @@ objects:
     name: rl-lyrics-mongodb
   stringData:
     database-admin-password: right-lyrics
-    database-name: rl-lyrics-mongodb
+    database-name: right-lyrics
     database-password: right-lyrics
     database-user: right-lyrics
   type: Opaque
@@ -43,7 +43,7 @@ objects:
             - -i
             - -c
             - mongoimport --collection=lyrics --username=right-lyrics --password=right-lyrics
-              --db=rl-lyrics-mongodb --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017
+              --db=right-lyrics --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017
             containerName: mongodb
             volumes:
             - rl-lyrics-mongodb-data
@@ -261,7 +261,7 @@ objects:
       template: postgresql-ephemeral-template
     name: rl-songs-postgresql
   stringData:
-    database-name: rl-songs-postgresql
+    database-name: right-lyrics
     database-password: right-lyrics
     database-user: right-lyrics
   type: Opaque
@@ -317,7 +317,7 @@ objects:
             - -i
             - -c
             - PGPASSWORD=right-lyrics psql -U right-lyrics -h rl-songs-postgresql -d
-              rl-songs-postgresql -f /tmp/data/songs.sql
+              right-lyrics -f /tmp/data/songs.sql
             containerName: postgresql
             volumes:
             - rl-songs-postgresql-data
@@ -688,11 +688,6 @@ objects:
       kind: Service
       name: rl-lyrics-page
 parameters:
-- description: Application Name
-  displayName: Application Name
-  name: APP_NAME
-  required: true
-  value: right-lyrics
 - description: Project Name
   displayName: Project Name
   name: PROJECT_NAME

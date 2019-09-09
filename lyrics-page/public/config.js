@@ -1,4 +1,4 @@
 window.ENV = {
-    "RL_SONGS_SERVICE":"http://RL_SONGS_ROUTE",
-    "RL_LYRICS_SERVICE":"http://RL_LYRICS_ROUTE"
+    "RL_SONGS_SERVICE":"http://localhost:8080",
+    "RL_LYRICS_SERVICE":"http://localhost:8000"
 }
