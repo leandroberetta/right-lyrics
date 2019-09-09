@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: rl-lyrics-service
+  name: rl-lyrics-mongodb
+  namespace: right-lyrics
+spec:
+  replicas: 1
+  selector:
+    name: rl-lyrics-mongodb
+  strategy:
+    recreateParams:
+      post:
+        execNewPod:
+          command:
+          - /bin/sh
+          - -i
+          - -c
+          - mongoimport --collection=lyrics --username=right-lyrics --password=right-lyrics
+            --db=right-lyrics --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017
+          containerName: mongodb
+          volumes:
+          - rl-lyrics-mongodb-data
+        failurePolicy: Abort
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: rl-lyrics-service
+        name: rl-lyrics-mongodb
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: rl-lyrics-mongodb
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: rl-lyrics-mongodb
+        - name: MONGODB_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-admin-password
+              name: rl-lyrics-mongodb
+        - name: MONGODB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: database-name
+              name: rl-lyrics-mongodb
+        image: ''
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 27017
+          timeoutSeconds: 1
+        name: mongodb
+        ports:
+        - containerPort: 27017
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD
+              --eval="quit()"
+          failureThreshold: 3
+          initialDelaySeconds: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /tmp/data
+          name: rl-lyrics-mongodb-data
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: rl-lyrics-mongodb-data
+        name: rl-lyrics-mongodb-data
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - mongodb
+      from:
+        kind: ImageStreamTag
+        name: mongodb:3.6
+        namespace: openshift
+    type: ImageChange
+  - type: ConfigChange

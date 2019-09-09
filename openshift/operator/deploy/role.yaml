@@ -2,8 +2,42 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: right-lyrics-operator
+  name: rl-operator
 rules:
+- apiGroups:
+  - ""
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs
+  - deploymentconfigs/scale
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  - apps.openshift.io
+  resources:
+  - deploymentconfigrollbacks
+  - deploymentconfigs/instantiate
+  - deploymentconfigs/rollback
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs/log
+  - deploymentconfigs/status
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -14,6 +48,7 @@ rules:
   - events
   - configmaps
   - secrets
+  - deploymentconfigs
   verbs:
   - '*'
 - apiGroups:
@@ -29,6 +64,7 @@ rules:
   - daemonsets
   - replicasets
   - statefulsets
+  - deploymentconfigs
   verbs:
   - '*'
 - apiGroups:
@@ -41,7 +77,7 @@ rules:
 - apiGroups:
   - apps
   resourceNames:
-  - right-lyrics-operator
+  - rl-operator
   resources:
   - deployments/finalizers
   verbs:

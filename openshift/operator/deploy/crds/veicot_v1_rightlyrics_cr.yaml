@@ -1,7 +1,7 @@
 apiVersion: veicot.io/v1
 kind: RightLyrics
 metadata:
-  name: example-rightlyrics
+  name: rightlyrics-dev
 spec:
   size: 1
   

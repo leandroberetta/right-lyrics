@@ -1,35 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: right-lyrics-operator
+  name: rl-operator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: right-lyrics-operator
+      name: rl-operator
   template:
     metadata:
       labels:
-        name: right-lyrics-operator
+        name: rl-operator
     spec:
-      serviceAccountName: right-lyrics-operator
+      serviceAccountName: rl-operator
       containers:
-        - name: ansible
-          command:
-          - /usr/local/bin/ao-logs
-          - /tmp/ansible-operator/runner
-          - stdout
-          # Replace this with the built image name
-          image: "{{ REPLACE_IMAGE }}"
-          imagePullPolicy: "{{ pull_policy|default('Always') }}"
-          volumeMounts:
-          - mountPath: /tmp/ansible-operator/runner
-            name: runner
-            readOnly: true
         - name: operator
-          # Replace this with the built image name
-          image: "{{ REPLACE_IMAGE }}"
-          imagePullPolicy: "{{ pull_policy|default('Always') }}"
+          image: "quay.io/right-lyrics/operator:1.0.0"
+          imagePullPolicy: "Always"
           volumeMounts:
           - mountPath: /tmp/ansible-operator/runner
             name: runner
@@ -43,7 +30,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
-              value: "right-lyrics-operator"
+              value: "rl-operator"
       volumes:
         - name: runner
           emptyDir: {}

@@ -1,1 +1,17 @@
 ---
+- name: Lyrics MongoDB - Create Secret
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'lyrics-mongodb/secret.yaml') }}"
+- name: Lyrics MongoDB - Create ConfigMap
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'lyrics-mongodb/configmap.yaml') }}"
+- name: Lyrics MongoDB - Create DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'lyrics-mongodb/deploymentconfig.yaml') }}" 
+- name: Lyrics MongoDB - Create Service
+  k8s:
+    state: present
+    definition: "{{ lookup('file', 'lyrics-mongodb/service.yaml') }}" 
