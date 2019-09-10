@@ -1,14 +1,12 @@
 # Right Lyrics
 
-A very simple microservice architecture demonstration to be deployed in OpenShift.
+A very simple microservice architecture to be deployed in OpenShift with Ansible Operators.
+
+![page](./openshift/img/page.png)
 
 ## Overview
 
 ![overview](./openshift/img/overview.png)
-
-## Page
-
-![page](./openshift/img/page.png)
 
 ## Components
 
@@ -19,6 +17,8 @@ A very simple microservice architecture demonstration to be deployed in OpenShif
 ## Deploy in OpenShift
 
 ### Operator
+
+    oc new-project right-lyrics
 
     oc create -f ./openshift/operator/deploy/crds/veicot_v1_rightlyrics_crd.yaml
     oc create -f ./openshift/operator/deploy/service_account.yaml

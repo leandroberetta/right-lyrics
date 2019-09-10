@@ -6,7 +6,7 @@ metadata:
   name: rl-songs-service
   namespace: {{ meta.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ songs_service_replicas }}
   selector:
     app: rl-songs-service
     deploymentconfig: rl-songs-service

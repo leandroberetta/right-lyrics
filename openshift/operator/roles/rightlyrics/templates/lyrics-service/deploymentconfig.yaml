@@ -6,7 +6,7 @@ metadata:
   name: rl-lyrics-service
   namespace: {{ meta.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ lyrics_service_replicas }}
   selector:
     app: rl-lyrics-service
     deploymentconfig: rl-lyrics-service
