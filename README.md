@@ -10,9 +10,11 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 * Lyrics Service (Node.js + MongoDB)
 * Songs Service (Spring Boot + PostgreSQL)
 
-![overview](./openshift/img/overview.png)
-
 ## Deploy in OpenShift
+
+### Overview
+
+![overview](./openshift/img/overview.png)
 
 ### Operator
 
