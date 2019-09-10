@@ -4,15 +4,13 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 
 ![page](./openshift/img/page.png)
 
-## Overview
-
-![overview](./openshift/img/overview.png)
-
 ## Components
 
 * Lyrics Page (React.js)
 * Lyrics Service (Node.js + MongoDB)
 * Songs Service (Spring Boot + PostgreSQL)
+
+![overview](./openshift/img/overview.png)
 
 ## Deploy in OpenShift
 
@@ -26,7 +24,14 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
     oc create -f ./openshift/operator/deploy/role_binding.yaml
     oc create -f ./openshift/operator/deploy/operator.yaml
     
-    oc create -f ./openshift/operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
+    echo "apiVersion: veicot.io/v1
+    kind: RightLyrics
+    metadata:
+      name: my-rightlyrics
+    spec:
+      routePostfix: apps-crc.testing
+      lyricsServiceReplicas: 1
+      songsServiceReplicas: 1" | oc create -f -
 
 ### Template
 
