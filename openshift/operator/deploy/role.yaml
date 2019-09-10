@@ -6,6 +6,20 @@ metadata:
 rules:
 - apiGroups:
   - ""
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
   - apps.openshift.io
   resources:
   - deploymentconfigs
@@ -48,7 +62,6 @@ rules:
   - events
   - configmaps
   - secrets
-  - deploymentconfigs
   verbs:
   - '*'
 - apiGroups:
@@ -64,7 +77,6 @@ rules:
   - daemonsets
   - replicasets
   - statefulsets
-  - deploymentconfigs
   verbs:
   - '*'
 - apiGroups:

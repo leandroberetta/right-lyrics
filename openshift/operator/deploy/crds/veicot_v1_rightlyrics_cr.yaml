@@ -1,7 +1,7 @@
 apiVersion: veicot.io/v1
 kind: RightLyrics
 metadata:
-  name: rightlyrics-dev
+  name: my-rightlyrics
 spec:
-  size: 1
+  routePostfix: apps-crc.testing
   

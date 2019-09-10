@@ -4,7 +4,7 @@ metadata:
   labels:
     app: rl-lyrics-service
   name: rl-lyrics-mongodb
-  namespace: right-lyrics
+  namespace: {{ meta.namespace }}
 spec:
   ports:
   - name: mongo

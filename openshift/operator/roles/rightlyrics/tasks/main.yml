@@ -1,17 +1,75 @@
 ---
-- name: Lyrics MongoDB - Create Secret
+- name: Lyrics MongoDB - Secret
   k8s:
     state: present
-    definition: "{{ lookup('file', 'lyrics-mongodb/secret.yaml') }}"
-- name: Lyrics MongoDB - Create ConfigMap
+    definition: "{{ lookup('template', 'lyrics-mongodb/secret.yaml') }}"
+    merge_type: merge
+- name: Lyrics MongoDB - ConfigMap
   k8s:
     state: present
-    definition: "{{ lookup('file', 'lyrics-mongodb/configmap.yaml') }}"
-- name: Lyrics MongoDB - Create DeploymentConfig
+    definition: "{{ lookup('template', 'lyrics-mongodb/configmap.yaml') }}"
+- name: Lyrics MongoDB - DeploymentConfig
   k8s:
     state: present
-    definition: "{{ lookup('file', 'lyrics-mongodb/deploymentconfig.yaml') }}" 
-- name: Lyrics MongoDB - Create Service
+    definition: "{{ lookup('template', 'lyrics-mongodb/deploymentconfig.yaml') }}" 
+- name: Lyrics MongoDB - Service
   k8s:
     state: present
-    definition: "{{ lookup('file', 'lyrics-mongodb/service.yaml') }}" 
+    definition: "{{ lookup('template', 'lyrics-mongodb/service.yaml') }}" 
+- name: Lyrics Service - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-service/deploymentconfig.yaml') }}" 
+- name: Lyrics Service - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-service/service.yaml') }}"
+- name: Lyrics Service - Route
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-service/route.yaml') }}"
+- name: Songs PostgreSQL - Secret
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-postgresql/secret.yaml') }}"
+    merge_type: merge
+- name: Songs PostgreSQL - ConfigMap
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-postgresql/configmap.yaml') }}"
+- name: Songs PostgreSQL - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-postgresql/deploymentconfig.yaml') }}"
+- name: Songs PostgreSQL - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-postgresql/service.yaml') }}"
+- name: Songs Service - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-service/deploymentconfig.yaml') }}"
+- name: Songs Service - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-service/service.yaml') }}"
+- name: Songs Service - Route
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-service/route.yaml') }}"
+- name: Lyrics Page - ConfigMap
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-page/configmap.yaml') }}"
+- name: Lyrics Page - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-page/deploymentconfig.yaml') }}"
+- name: Lyrics Page - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-page/service.yaml') }}"
+- name: Lyrics Page - Route
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-page/route.yaml') }}"

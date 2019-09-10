@@ -4,7 +4,7 @@ metadata:
   labels:
     app: rl-lyrics-service
   name: rl-lyrics-service
-  namespace: right-lyrics
+  namespace: {{ meta.namespace }}
 spec:
   ports:
   - name: 8080-tcp

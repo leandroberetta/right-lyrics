@@ -204,7 +204,7 @@ objects:
           - name: DB_HOST
             value: rl-lyrics-mongodb
           - name: DB_NAME
-            value: rl-lyrics-mongodb
+            value: right-lyrics
           - name: DB_PASSWORD
             value: right-lyrics
           - name: DB_USERNAME
@@ -258,7 +258,6 @@ objects:
   metadata:
     labels:
       app: rl-songs-service
-      template: postgresql-ephemeral-template
     name: rl-songs-postgresql
   stringData:
     database-name: right-lyrics
@@ -469,7 +468,7 @@ objects:
           - name: SPRING_DATASOURCE_PASSWORD
             value: right-lyrics
           - name: SPRING_DATASOURCE_URL
-            value: jdbc:postgresql://rl-songs-postgresql:5432/rl-songs-postgresql
+            value: jdbc:postgresql://rl-songs-postgresql:5432/right-lyrics
           - name: SPRING_DATASOURCE_USERNAME
             value: right-lyrics
           image: ''

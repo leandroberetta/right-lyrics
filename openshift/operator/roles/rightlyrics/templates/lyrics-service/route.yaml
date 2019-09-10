@@ -4,11 +4,10 @@ metadata:
   labels:
     app: rl-lyrics-service
   name: rl-lyrics-service
-  namespace: right-lyrics
+  namespace: {{ meta.namespace }}
 spec:
-  host: rl-lyrics-service-right-lyrics.apps.crc.testing
   port:
-    targetPort: 8080-tcp
+    targetPort: 8080
   to:
     kind: Service
     name: rl-lyrics-service

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rl-lyrics-page
+  namespace: {{ meta.namespace }}
+data:
+  config.js: |
+    window.ENV = {
+        "RL_SONGS_SERVICE":"http://rl-songs-service-{{ meta.namespace }}.{{ route_postfix }}",
+        "RL_LYRICS_SERVICE":"http://rl-lyrics-service-{{ meta.namespace }}.{{ route_postfix }}"
+    }

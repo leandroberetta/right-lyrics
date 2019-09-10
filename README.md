@@ -12,7 +12,13 @@ A very simple microservice architecture demonstration to be deployed in OpenShif
 
 ### Operator
 
-TBD
+    oc create -f ./openshift/operator/crd/veicot_v1_rightlyrics_crd.yaml
+    oc create -f ./openshift/operator/deploy/service_account.yaml
+    oc create -f ./openshift/operator/deploy/role.yaml
+    oc create -f ./openshift/operator/deploy/role_binding.yaml
+    oc create -f ./openshift/operator/deploy/operator.yaml
+    
+    oc create -f ./openshift/operator/deploy/veicot_v1_rightlyrics_cr.yaml
 
 ### Template
 

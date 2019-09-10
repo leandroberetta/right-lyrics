@@ -4,7 +4,7 @@ metadata:
   labels:
     app: rl-lyrics-service
   name: rl-lyrics-service
-  namespace: right-lyrics
+  namespace: {{ meta.namespace }}
 spec:
   replicas: 1
   selector:
@@ -29,12 +29,12 @@ spec:
         - name: DB_HOST
           value: rl-lyrics-mongodb
         - name: DB_NAME
-          value: rl-lyrics-mongodb
+          value: right-lyrics
         - name: DB_PASSWORD
           value: right-lyrics
         - name: DB_USERNAME
           value: right-lyrics
-        image: 'quay.io/right-lyrics/operator:1.0.0'
+        image: 'quay.io/right-lyrics/lyrics-service:1.0.0'
         name: rl-lyrics-service
         ports:
         - containerPort: 8080
