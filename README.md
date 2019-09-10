@@ -12,7 +12,7 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 
 ## Deploy in OpenShift
 
-### Overview
+### Overview
 
 ![overview](./openshift/img/overview.png)
 
