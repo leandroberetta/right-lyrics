@@ -32,7 +32,7 @@ spec:
           value: jdbc:postgresql://rl-songs-postgresql:5432/right-lyrics
         - name: SPRING_DATASOURCE_USERNAME
           value: right-lyrics
-        image: 'quay.io/right-lyrics/songs-service:1.0.0'
+        image: 'quay.io/right-lyrics/songs-service:1.0'
         name: rl-songs-service
         ports:
         - containerPort: 8080

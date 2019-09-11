@@ -4,5 +4,5 @@ metadata:
   name: my-rightlyrics
 spec:
   routesSubdomain: apps-crc.testing
-  lyricsServiceReplicas: 2
+  lyricsServiceReplicas: 1
   songsServiceReplicas: 1
