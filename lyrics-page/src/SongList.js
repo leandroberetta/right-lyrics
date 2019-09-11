@@ -5,9 +5,7 @@ import Container from 'react-bootstrap/Container'
 class SongList extends React.Component {
     render() {
         return (
-            <Container className="padding">
-                <h3>Songs</h3>
-                <hr></hr>
+            <Container>
                 <ul className="list-unstyled">
                     {this.props.songs.map(song => (
                         <Media key={song.id} className="my-4" as="li">

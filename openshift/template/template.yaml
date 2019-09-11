@@ -247,7 +247,6 @@ objects:
       app: rl-lyrics-service
     name: rl-lyrics-service
   spec:
-    host: rl-lyrics-service-${PROJECT_NAME}.${ROUTE_POSTFIX}
     port:
       targetPort: 8080-tcp
     to:
@@ -521,7 +520,6 @@ objects:
       app: rl-songs-service
     name: rl-songs-service
   spec:
-    host: rl-songs-service-${PROJECT_NAME}.${ROUTE_POSTFIX}
     port:
       targetPort: 8080-tcp
     to:
@@ -608,8 +606,8 @@ objects:
   data:
     config.js: |
       window.ENV = {
-          "RL_SONGS_SERVICE":"http://rl-songs-service-${PROJECT_NAME}.${ROUTE_POSTFIX}",
-          "RL_LYRICS_SERVICE":"http://rl-lyrics-service-${PROJECT_NAME}.${ROUTE_POSTFIX}"
+          "RL_SONGS_SERVICE":"http://rl-songs-service-${PROJECT_NAME}.${ROUTE_SUBDOMAIN}",
+          "RL_LYRICS_SERVICE":"http://rl-lyrics-service-${PROJECT_NAME}.${ROUTE_SUBDOMAIN}"
       }
 - apiVersion: v1
   kind: DeploymentConfig
@@ -680,7 +678,6 @@ objects:
       app: rl-lyrics-page
     name: rl-lyrics-page
   spec:
-    host: rl-lyrics-page-${PROJECT_NAME}.${ROUTE_POSTFIX}
     port:
       targetPort: 8080
     to:
@@ -702,8 +699,8 @@ parameters:
   name: GIT_BRANCH
   required: true
   value: master
-- name: ROUTE_POSTFIX
-  displayName: Route Postfix
-  description: Route Postfix
+- name: ROUTE_SUBDOMAIN
+  displayName: Route Subdomain
+  description: Route Subdomain
   required: true
   value: apps-crc.testing

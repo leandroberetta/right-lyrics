@@ -111,10 +111,17 @@ class App extends React.Component {
     render() {
         var lyricsSection = "";
         var errorSection = "";
+        var songList = "";
 
         if (this.state.selectedSong.song) {
             lyricsSection = (
                 <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>                
+            );
+
+            songList = "";
+        } else {
+            songList = (
+                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs}></SongList>
             );
         }
 
@@ -133,7 +140,7 @@ class App extends React.Component {
             <div>
                 <NavBar onSearch={this.onSearch}></NavBar>
                 <SearchBar onSearch={this.onSearch}></SearchBar>
-                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs}></SongList>
+                { songList }
                 { errorSection }
                 { lyricsSection }
             </div>
