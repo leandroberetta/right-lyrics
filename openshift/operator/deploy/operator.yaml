@@ -17,7 +17,7 @@ spec:
       serviceAccountName: rl-operator
       containers:
         - name: operator
-          image: "quay.io/right-lyrics/operator:1.0.0"
+          image: "quay.io/right-lyrics/operator:1.0"
           imagePullPolicy: "Always"
           volumeMounts:
           - mountPath: /tmp/ansible-operator/runner
