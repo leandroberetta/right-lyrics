@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require('fs');
 const mongoose = require('mongoose');
 const cors = require('cors')
 
@@ -9,7 +8,16 @@ app.use(cors())
 
 const mongoDB = "mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD +  "@" + process.env.DB_HOST + "/" + process.env.DB_NAME;
 
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+var connectWithRetry = function() {
+    return mongoose.connect(mongoDB, function(err) {
+        if (err) {
+            console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
+            setTimeout(connectWithRetry, 5000);
+        }
+    });
+};
+
+connectWithRetry();
 
 var db = mongoose.connection;
 
@@ -34,20 +42,9 @@ app.get('/api/lyric/:lyricId', (req, res) => {
     })    
 });
 
-app.get('/api/populate/:name', (req, res) => {
-    var lyricFile = fs.readFileSync('./lyrics/' + req.params.name);
-
-    var lyric = new Lyric({
-        name: req.params.name,
-        lyric: lyricFile.toString()
-    });
-
-    lyric.save(function (err) {
-        if (err) return handleError(err);
-
-        return res.send({ 'id': lyric._id });
-    });
-});
+app.get('/health', (req, res) => {
+    res.send('ok')
+})
 
 app.listen("8080", () => {
     console.log("Listening to requests...");
