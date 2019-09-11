@@ -25,6 +25,6 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
     metadata:
       name: my-rightlyrics
     spec:
-      routeSubdomain: apps-crc.testing
+      routesBaseDomain: apps-crc.testing
       lyricsServiceReplicas: 1
       songsServiceReplicas: 1" | oc create -f -

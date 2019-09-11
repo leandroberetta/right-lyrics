@@ -3,6 +3,6 @@ kind: RightLyrics
 metadata:
   name: my-rightlyrics
 spec:
-  routesSubdomain: apps-crc.testing
+  routesBaseDomain: apps-crc.testing
   lyricsServiceReplicas: 1
   songsServiceReplicas: 1
