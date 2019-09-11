@@ -6,17 +6,11 @@ metadata:
   name: rl-lyrics-page
   namespace: {{ meta.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ lyrics_page_replicas }}
   selector:
     app: rl-lyrics-page
     deploymentconfig: rl-lyrics-page
   strategy:
-    rollingParams:
-      intervalSeconds: 1
-      maxSurge: 25%
-      maxUnavailable: 25%
-      timeoutSeconds: 600
-      updatePeriodSeconds: 1
     type: Rolling
   template:
     metadata:
@@ -27,6 +21,22 @@ spec:
       containers:
       - image: 'quay.io/right-lyrics/lyrics-page:1.0'
         name: rl-lyrics-page
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /opt/app-root/src/config.js
           name: rl-lyrics-page

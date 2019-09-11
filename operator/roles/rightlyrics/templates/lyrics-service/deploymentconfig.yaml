@@ -11,12 +11,6 @@ spec:
     app: rl-lyrics-service
     deploymentconfig: rl-lyrics-service
   strategy:
-    rollingParams:
-      intervalSeconds: 1
-      maxSurge: 25%
-      maxUnavailable: 25%
-      timeoutSeconds: 600
-      updatePeriodSeconds: 1
     type: Rolling
   template:
     metadata:
@@ -36,6 +30,22 @@ spec:
           value: right-lyrics
         image: 'quay.io/right-lyrics/lyrics-service:1.0'
         name: rl-lyrics-service
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
         ports:
         - containerPort: 8080
           protocol: TCP

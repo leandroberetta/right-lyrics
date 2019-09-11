@@ -1,4 +1,0 @@
-window.ENV = {
-    "RL_SONGS_SERVICE":"http://RL_SONGS_ROUTE",
-    "RL_LYRICS_SERVICE":"http://RL_LYRICS_ROUTE"
-}
