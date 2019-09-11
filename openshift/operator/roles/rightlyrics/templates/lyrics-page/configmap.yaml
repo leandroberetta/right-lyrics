@@ -6,6 +6,6 @@ metadata:
 data:
   config.js: |
     window.ENV = {
-        "RL_SONGS_SERVICE":"http://rl-songs-service-{{ meta.namespace }}.{{ route_postfix }}",
-        "RL_LYRICS_SERVICE":"http://rl-lyrics-service-{{ meta.namespace }}.{{ route_postfix }}"
+        "RL_SONGS_SERVICE":"http://rl-songs-service-{{ meta.namespace }}.{{ routes_subdomain }}",
+        "RL_LYRICS_SERVICE":"http://rl-lyrics-service-{{ meta.namespace }}.{{ routes_subdomain }}"
     }
