@@ -35,6 +35,7 @@ Deploy a CR representing the application:
       name: my-rightlyrics
     spec:
       routesBaseDomain: apps-crc.testing
+      lyricsPageReplicas: 1
       lyricsServiceReplicas: 1
       songsServiceReplicas: 1" | oc create -f -
 
