@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rl-lyrics-mongodb-data
+  name: rl-lyrics-mongodb-import
   namespace: {{ meta.namespace }}
 data:
   lyrics.json: |-

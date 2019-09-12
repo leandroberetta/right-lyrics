@@ -21,7 +21,7 @@ spec:
             right-lyrics -f /tmp/data/songs.sql
           containerName: postgresql
           volumes:
-          - rl-songs-postgresql-data
+          - rl-songs-postgresql-import
         failurePolicy: Abort
     type: Recreate
   template:
@@ -76,11 +76,16 @@ spec:
             memory: 512Mi
         volumeMounts:
         - mountPath: /tmp/data
+          name: rl-songs-postgresql-import
+        - mountPath: /var/lib/pgsql/data
           name: rl-songs-postgresql-data
       volumes:
       - configMap:
-          name: rl-songs-postgresql-data
-        name: rl-songs-postgresql-data
+          name: rl-songs-postgresql-import
+        name: rl-songs-postgresql-import
+      - name: rl-songs-postgresql-data
+        persistentVolumeClaim:
+          claimName: rl-songs-postgresql-data
   triggers:
   - imageChangeParams:
       automatic: true

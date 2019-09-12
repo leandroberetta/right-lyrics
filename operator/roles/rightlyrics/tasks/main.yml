@@ -8,6 +8,10 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'lyrics-mongodb/configmap.yaml') }}"
+- name: Songs MongoDB - PersistentVolumeClaim
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-mongodb/pvc.yaml') }}"
 - name: Lyrics MongoDB - DeploymentConfig
   k8s:
     state: present
@@ -37,6 +41,10 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'songs-postgresql/configmap.yaml') }}"
+- name: Songs PostgreSQL - PersistentVolumeClaim
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'songs-postgresql/pvc.yaml') }}"
 - name: Songs PostgreSQL - DeploymentConfig
   k8s:
     state: present

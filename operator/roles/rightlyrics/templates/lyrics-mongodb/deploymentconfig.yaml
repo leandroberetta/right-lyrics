@@ -21,7 +21,7 @@ spec:
             --db=right-lyrics --file=/tmp/data/lyrics.json --host=rl-lyrics-mongodb:27017
           containerName: mongodb
           volumes:
-          - rl-lyrics-mongodb-data
+          - rl-lyrics-mongodb-import
         failurePolicy: Abort
     type: Recreate
   template:
@@ -83,12 +83,17 @@ spec:
             memory: 512Mi
         volumeMounts:
         - mountPath: /tmp/data
+          name: rl-lyrics-mongodb-import
+        - mountPath: /var/lib/mongodb/data
           name: rl-lyrics-mongodb-data
       volumes:
       - configMap:
           defaultMode: 420
-          name: rl-lyrics-mongodb-data
-        name: rl-lyrics-mongodb-data
+          name: rl-lyrics-mongodb-import
+        name: rl-lyrics-mongodb-import
+      - name: rl-lyrics-mongodb-data
+        persistentVolumeClaim:
+          claimName: rl-lyrics-mongodb-data
   triggers:
   - imageChangeParams:
       automatic: true
