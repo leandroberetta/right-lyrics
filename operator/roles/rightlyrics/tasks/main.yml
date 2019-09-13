@@ -8,7 +8,7 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'lyrics-mongodb/configmap.yaml') }}"
-- name: Songs MongoDB - PersistentVolumeClaim
+- name: Lyrics MongoDB - PersistentVolumeClaim
   k8s:
     state: present
     definition: "{{ lookup('template', 'lyrics-mongodb/pvc.yaml') }}"
@@ -82,3 +82,32 @@
     state: present
     definition: "{{ lookup('template', 'lyrics-page/route.yaml') }}"
     merge_type: merge
+- name: Hits Redis - Secret
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-redis/secret.yaml') }}"
+    merge_type: merge
+- name: Hits Redis - PersistentVolumeClaim
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-redis/pvc.yaml') }}"
+- name: Hits Redis - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-redis/deploymentconfig.yaml') }}" 
+- name: Hits Redis - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-redis/service.yaml') }}" 
+- name: Hits Service - DeploymentConfig
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-service/deploymentconfig.yaml') }}"
+- name: Hits Service - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-service/service.yaml') }}"
+- name: Hits Service - Route
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'hits-service/route.yaml') }}"

@@ -7,3 +7,4 @@ spec:
   lyricsPageReplicas: 1
   lyricsServiceReplicas: 1
   songsServiceReplicas: 1
+  hitsServiceReplicas: 1
