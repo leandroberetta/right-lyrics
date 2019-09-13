@@ -1,7 +1,8 @@
 from flask import Flask, request
 import redis
+import os
 
-redis = redis.Redis(decode_responses=True, password="right-lyrics", host="rl-hits-redis")
+redis = redis.Redis(decode_responses=True, password=os.environ["DB_PASSWORD"], host=os.environ["DB_HOST"])
 app = Flask(__name__)
 
 @app.route('/api/hits/<id>')
