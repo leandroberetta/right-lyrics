@@ -11,6 +11,8 @@ def get(id):
         return {"status": "0", "hits": str(r.get(id)), "total": str(r.get("total")), "message": "ok"}
     except redis.ConnectionError as e:
         return {"status": "-1", "message": str(e)}
+    except:
+        return {"status": "-1", "message": "Unexpected Error"} 
     
 @app.route('/api/popularity/<id>')
 def get_popularity(id):
@@ -20,9 +22,11 @@ def get_popularity(id):
 
         ratio = hits * 5 / total
 
-        return {"status": "0", "popularity": str(round(ratio, 2)) + '/5', "message": "ok"}
+        return {"status": "0", "popularity": str(round(ratio, 2)) + '/5.0', "message": "ok"}
     except redis.ConnectionError as e:
-        return {"status": "-1", "message": str(e)}    
+        return {"status": "-1", "message": str(e)}
+    except:
+        return {"status": "-1", "message": "Unexpected Error"}    
 
 @app.route('/api/hits', methods=['POST'])
 def hit():
@@ -38,7 +42,8 @@ def hit():
         return {"status": "0", "message": "ok"}
     except redis.ConnectionError as e:
         return {"status": "-1", "message": str(e)}
-
+    except:
+        return {"status": "-1", "message": "Unexpected Error"} 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

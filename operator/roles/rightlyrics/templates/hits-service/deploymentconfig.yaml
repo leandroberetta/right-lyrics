@@ -6,7 +6,7 @@ metadata:
   name: rl-hits-service
   namespace: {{ meta.namespace }}
 spec:
-  replicas: { hits_service_replicas }
+  replicas: {{ hits_service_replicas }}
   selector:
     app: rl-hits-service
     deploymentconfig: rl-hits-service
@@ -24,19 +24,10 @@ spec:
           value: rl-hits-redis
         - name: DB_PASSWORD
           value: right-lyrics
-        image: ''
+        image: 'quay.io/right-lyrics/hits-service:1.0'
         name: rl-hits-service
         ports:
         - containerPort: 8080
           protocol: TCP
   triggers:
   - type: ConfigChange
-  - imageChangeParams:
-      automatic: true
-      containerNames:
-      - rl-hits-service
-      from:
-        kind: ImageStreamTag
-        name: rl-hits-service:latest
-        namespace: right-lyrics
-    type: ImageChange
