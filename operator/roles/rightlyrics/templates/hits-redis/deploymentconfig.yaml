@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: rl-hits-service
+  name: rl-hits-redis
+  namespace: {{ meta.namespace }}
+spec:
+  replicas: 1
+  selector:
+    name: rl-hits-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: rl-hits-service
+        name: rl-hits-redis
+    spec:
+      containers:
+      - env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: rl-hits-redis
+        image: ''
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 6379
+          timeoutSeconds: 1
+        name: redis
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /var/lib/redis/data
+          name: rl-hits-redis-data
+      volumes:
+      - name: rl-hits-redis-data
+        persistentVolumeClaim:
+          claimName: rl-hits-redis-data
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - redis
+      from:
+        kind: ImageStreamTag
+        name: redis:3.2
+        namespace: openshift
+    type: ImageChange
+  - type: ConfigChange
