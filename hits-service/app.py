@@ -14,9 +14,9 @@ def get_popularity(id):
     hits = int(redis.get(id))
     total = int(redis.get('total'))
 
-    ratio = hits / total
+    ratio = hits * 5 / total
 
-    return {"status": "0", "popularity": round(ratio, 2), "total": total}
+    return {"status": "0", "popularity": str(round(ratio, 2)) + '/5'}
 
 @app.route('/api/hits', methods=['POST'])
 def hit():
