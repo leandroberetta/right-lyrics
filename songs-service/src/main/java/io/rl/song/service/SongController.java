@@ -1,14 +1,18 @@
 package io.rl.song.service;
 
+import io.rl.song.model.Hit;
 import io.rl.song.model.SearchText;
 import io.rl.song.model.Song;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -23,8 +27,24 @@ public class SongController {
         this.repository = repository;
     }
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @GetMapping("/{id}")
     public Optional<Song> get(@PathVariable("id") Long id) {
+        Hit hit = new Hit();
+        hit.setId(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<Hit> entity = new HttpEntity<Hit>(hit,headers);
+
+        try {
+            restTemplate.exchange(System.getenv("HITS_SERVICE_URL"), HttpMethod.POST, entity, String.class).getBody();
+        } catch(Exception e) {
+            ;
+        }
+
         return repository.findById(id);
 }
 
