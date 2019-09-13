@@ -9,6 +9,15 @@ app = Flask(__name__)
 def get(id):
     return {"status": "0", "hits": str(redis.get(id)), "total": str(redis.get("total"))}
 
+@app.route('/api/popularity/<id>')
+def get_popularity(id):
+    hits = int(redis.get(id))
+    total = int(redis.get('total'))
+
+    ratio = hits / total
+
+    return {"status": "0", "popularity": round(ratio, 2), "total": total}
+
 @app.route('/api/hits', methods=['POST'])
 def hit():
     data = request.json
