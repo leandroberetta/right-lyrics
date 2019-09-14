@@ -2,48 +2,70 @@ from flask import Flask, request
 import redis
 import os
 
-r = redis.Redis(decode_responses=True, password=os.environ["DB_PASSWORD"], host=os.environ["DB_HOST"])
+r = redis.Redis(decode_responses=True, 
+                password=os.environ["DB_PASSWORD"], 
+                host=os.environ["DB_HOST"])
+
 app = Flask(__name__)
 
-@app.route('/api/hits/<id>')
+@app.route("/health")
+def health(id):
+    return {"status": "0", "message": "OK"} 
+
+@app.route("/api/hits/<id>")
 def get(id):
     try :
-        return {"status": "0", "hits": str(r.get(id)), "total": str(r.get("total")), "message": "ok"}
+        hits = r.get(id) if r.get(id) is not None else 0
+        total = r.get("total") if r.get("total") is not None else 0
+
+        return {"status": "0", "hits": str(hits), "total": str(total)}
     except redis.ConnectionError as e:
         return {"status": "-1", "message": str(e)}
     except:
         return {"status": "-1", "message": "Unexpected Error"} 
     
-@app.route('/api/popularity/<id>')
+@app.route("/api/popularity/<id>")
 def get_popularity(id):
     try: 
-        hits = int(r.get(id))
-        total = int(r.get('total'))
+        print(id)
+        hits = int(r.get(id)) if r.get(id) is not None else 0
+        total = int(r.get("total")) if r.get("total") is not None else 0
 
-        ratio = hits * 5 / total
+        if (total is not 0):
+            ratio = hits * 5 // total
+        else:
+            ratio = 0 
 
-        return {"status": "0", "popularity": str(round(ratio, 2)) + '/5.0', "message": "ok"}
+        return {"status": "0", "popularity": str(round(ratio, 2))}
     except redis.ConnectionError as e:
         return {"status": "-1", "message": str(e)}
-    except:
+    except Exception as e:
+        print(e)
         return {"status": "-1", "message": "Unexpected Error"}    
 
-@app.route('/api/hits', methods=['POST'])
+@app.route("/api/hits", methods=["POST"])
 def hit():
     try:
         data = request.json
+        id = int(data["id"])
 
-        r.setnx(data['id'], 0)
-        r.incr(data['id'], 1)
+        r.setnx(id, 0)
+        r.incr(id, 1)
 
-        r.setnx('total', 0)
-        r.incr('total', 1)
+        r.setnx("total", 0)
+        r.incr("total", 1)
 
-        return {"status": "0", "message": "ok"}
+        hits = int(r.get(id))
+        total = int(r.get("total"))
+
+        ratio = hits * 5 / total
+
+        return {"status": "0", "popularity": str(round(ratio, 2))}
     except redis.ConnectionError as e:
         return {"status": "-1", "message": str(e)}
-    except:
+    except Exception as e:
+        print(e)
         return {"status": "-1", "message": "Unexpected Error"} 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)

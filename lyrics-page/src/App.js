@@ -68,7 +68,7 @@ class App extends React.Component {
                     console.log(result)
 
                     this.setState({
-                        songs: result,
+                        songs: result.data,
                         selectedSong: { song: null, lyric: "" },
                         error: null
                     });
@@ -93,7 +93,7 @@ class App extends React.Component {
 
                     this.setState({
                         isLoaded: true,
-                        songs: result,
+                        songs: result.data,
                         error: null
                     });
 

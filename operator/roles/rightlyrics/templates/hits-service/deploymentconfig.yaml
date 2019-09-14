@@ -26,6 +26,22 @@ spec:
           value: right-lyrics
         image: 'quay.io/right-lyrics/hits-service:1.0'
         name: rl-hits-service
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          periodSeconds: 10
         ports:
         - containerPort: 8080
           protocol: TCP

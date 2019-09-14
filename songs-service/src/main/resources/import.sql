@@ -1,3 +1,0 @@
-INSERT INTO SONG (NAME, ARTIST, LYRIC_ID) VALUES ('Californication', 'Red Hot Chili Peppers', '5d72534eef68ea00194ac5e8');
-INSERT INTO SONG (NAME, ARTIST, LYRIC_ID) VALUES ('Everlong', 'Foo Fighters', '5d72535def68ea00194ac5ea');
-INSERT INTO SONG (NAME, ARTIST, LYRIC_ID) VALUES ('Even Flow', 'Pearl Jam', '5d725355ef68ea00194ac5e9');

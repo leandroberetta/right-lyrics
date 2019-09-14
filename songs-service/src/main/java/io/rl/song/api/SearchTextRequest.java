@@ -1,6 +1,6 @@
-package io.rl.song.model;
+package io.rl.song.api;
 
-public class SearchText {
+public class SearchTextRequest {
 
     private String text;
 

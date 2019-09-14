@@ -1,28 +1,14 @@
-package io.rl.song.model;
+package io.rl.song.api;
 
-import javax.persistence.*;
+public class SongResponse {
 
-@Entity
-public class Song {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
-
-    @Column(name = "NAME")
     private String name;
-
-    @Column(name = "ARTIST")
     private String artist;
-
-    @Column(name = "LYRIC_ID")
     private String lyricId;
-
-    @Transient
     private String popularity;
 
-    public Song() {}
+    public SongResponse() {}
 
     public Long getId() {
         return id;

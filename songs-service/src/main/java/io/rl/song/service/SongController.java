@@ -1,9 +1,10 @@
 package io.rl.song.service;
 
-import io.rl.song.model.Hit;
-import io.rl.song.model.SearchText;
+import io.rl.song.api.*;
 import io.rl.song.model.Song;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,13 +16,14 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping(value = "/api/song")
 public class SongController {
 
     private final SongRepository repository;
+
+    Logger logger = LoggerFactory.getLogger(SongController.class);
 
     public SongController(SongRepository repository) {
         this.repository = repository;
@@ -31,38 +33,118 @@ public class SongController {
     RestTemplate restTemplate;
 
     @GetMapping("/{id}")
-    public Optional<Song> get(@PathVariable("id") Long id) {
-        Hit hit = new Hit();
-        hit.setId(id);
+    public Response get(@PathVariable("id") Long id) {
+        Optional<Song> song = repository.findById(id);
+        if (song.isPresent()) {
+            this.hitSong(song.get());
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<Hit> entity = new HttpEntity<Hit>(hit,headers);
-
-        try {
-            restTemplate.exchange(System.getenv("HITS_SERVICE_URL"), HttpMethod.POST, entity, String.class).getBody();
-        } catch(Exception e) {
-            ;
-        }
-
-        return repository.findById(id);
-}
+            return this.createSuccessResponse(this.mapSongToSongResponse(song.get()));
+        } else
+            return this.createErrorResponse("Error");
+    }
 
     @GetMapping
-    public List<Song> getAll() {
-        Spliterator<Song> songs = repository.findAll().spliterator();
+    public Response getAll() {
+        List<Song> songs = repository.findAll();
 
-        return StreamSupport
-                .stream(songs, false)
-                .collect(Collectors.toList());
+        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs));
     }
 
     @PostMapping(path= "/search", consumes = "application/json", produces = "application/json")
-    public Set<Song> search(@RequestBody SearchText searchText) {
+    public Response search(@RequestBody SearchTextRequest searchText) {
         List<Song> songsByName = repository.findByNameIgnoreCaseContaining(searchText.getText());
         List<Song> songsByArtist = repository.findByArtistIgnoreCaseContaining(searchText.getText());
 
-        return Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet());
+        Set<Song> songs = Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet());
+
+        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs.stream().collect(Collectors.toList())));
+    }
+
+    private List<SongResponse> mapSongsToSongResponseList(List<Song> songs) {
+        List<SongResponse> songResponses = new ArrayList<SongResponse>();
+
+        for (Song song: songs) {
+            songResponses.add(this.mapSongToSongResponse(song));
+        }
+
+        return songResponses;
+    }
+
+    private SongResponse mapSongToSongResponse(Song song) {
+        SongResponse songResponse = new SongResponse();
+
+        songResponse.setId(song.getId());
+        songResponse.setName(song.getName());
+        songResponse.setArtist(song.getArtist());
+        songResponse.setLyricId(song.getLyricId());
+        songResponse.setPopularity(this.getSongPopularity(song));
+
+        return songResponse;
+    }
+
+    private String hitSong(Song song) {
+        String popularity = null;
+
+        HitRequest hit = new HitRequest();
+        HitResponse hitResponse;
+
+        hit.setId(song.getId());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<HitRequest> entity = new HttpEntity<HitRequest>(hit,headers);
+
+        try {
+            hitResponse = restTemplate.exchange(String.format("%s/api/hits", System.getenv("HITS_SERVICE_URL")),
+                    HttpMethod.POST,
+                    entity,
+                    HitResponse.class).getBody();
+
+            popularity =  hitResponse.getPopularity();
+        } catch(Exception e) {
+            logger.error(e.getMessage());
+        }
+
+        return popularity;
+    }
+
+    private String getSongPopularity(Song song) {
+        String popularity = null;
+
+        HitResponse hitResponse;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        try {
+            hitResponse = restTemplate.getForEntity(
+                    String.format("%s/api/popularity/%d", System.getenv("HITS_SERVICE_URL"), song.getId()),
+                    HitResponse.class).getBody();
+
+            popularity =  hitResponse.getPopularity();
+        } catch(Exception e) {
+            logger.error(e.getMessage());
+        }
+
+        return popularity;
+    }
+
+    private Response createErrorResponse(String message) {
+        Response response = new Response();
+
+        response.setStatus(-1);
+        response.setMessage(message);
+
+        return response;
+    }
+
+    private Response createSuccessResponse(Object data) {
+        Response response = new Response();
+
+        response.setStatus(0);
+        response.setData(data);
+
+        return response;
     }
 }
 

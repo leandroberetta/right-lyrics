@@ -9,6 +9,7 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 * Lyrics Page (React.js)
 * Lyrics Service (Node.js + MongoDB)
 * Songs Service (Spring Boot + PostgreSQL)
+* Hits Service (Python + Redis)
 
 ## Deploy in OpenShift
 
@@ -37,6 +38,7 @@ Deploy a CR representing the application:
       routesBaseDomain: apps-crc.testing
       lyricsPageReplicas: 1
       lyricsServiceReplicas: 1
-      songsServiceReplicas: 1" | oc create -f -
+      songsServiceReplicas: 1
+      hitsServiceReplicas: 1" | oc create -f -
 
 Finally the Operator watches this CR an creates the application.

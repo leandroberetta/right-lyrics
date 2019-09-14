@@ -1,6 +1,6 @@
-package io.rl.song.model;
+package io.rl.song.api;
 
-public class Hit {
+public class HitRequest {
 
     private Long id;
 
