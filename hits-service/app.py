@@ -9,7 +9,7 @@ r = redis.Redis(decode_responses=True,
 app = Flask(__name__)
 
 @app.route("/health")
-def health(id):
+def health():
     return {"status": "0", "message": "OK"} 
 
 @app.route("/api/hits/<id>")
