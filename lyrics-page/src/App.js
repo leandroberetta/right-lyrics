@@ -27,7 +27,7 @@ class App extends React.Component {
                 (result) => {
                     console.log(result);
 
-                    fetch(window.ENV.RL_LYRICS_SERVICE + "/api/lyric/" + result.lyricId)
+                    fetch(window.ENV.RL_LYRICS_SERVICE + "/api/lyric/" + result.data.lyricId)
                         .then(result => result.json())
                         .then(
                             (result) => {

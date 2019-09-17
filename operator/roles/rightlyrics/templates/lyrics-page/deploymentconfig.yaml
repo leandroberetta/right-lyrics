@@ -19,7 +19,7 @@ spec:
         deploymentconfig: rl-lyrics-page
     spec:
       containers:
-      - image: 'quay.io/right-lyrics/lyrics-page:1.0'
+      - image: 'quay.io/right-lyrics/lyrics-page:1.1'
         name: rl-lyrics-page
         readinessProbe:
           httpGet:

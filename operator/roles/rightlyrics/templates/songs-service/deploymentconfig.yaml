@@ -27,7 +27,7 @@ spec:
         - name: SPRING_DATASOURCE_USERNAME
           value: right-lyrics
         - name: HITS_SERVICE_URL
-          value: http://rl-hits-service:8080/api/hits
+          value: http://rl-hits-service:8080
         image: 'quay.io/right-lyrics/songs-service:1.1'
         name: rl-songs-service
         readinessProbe:
