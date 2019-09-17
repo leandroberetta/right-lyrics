@@ -9,20 +9,7 @@ spec:
   replicas: 1
   selector:
     name: rl-songs-postgresql
-  strategy:
-    recreateParams:
-      post:
-        execNewPod:
-          command:
-          - /bin/sh
-          - -i
-          - -c
-          - PGPASSWORD=right-lyrics psql -U right-lyrics -h rl-songs-postgresql -d
-            right-lyrics -f /tmp/data/songs.sql
-          containerName: postgresql
-          volumes:
-          - rl-songs-postgresql-import
-        failurePolicy: Abort
+  strategy:    
     type: Recreate
   template:
     metadata:
@@ -75,14 +62,9 @@ spec:
           limits:
             memory: 512Mi
         volumeMounts:
-        - mountPath: /tmp/data
-          name: rl-songs-postgresql-import
         - mountPath: /var/lib/pgsql/data
           name: rl-songs-postgresql-data
       volumes:
-      - configMap:
-          name: rl-songs-postgresql-import
-        name: rl-songs-postgresql-import
       - name: rl-songs-postgresql-data
         persistentVolumeClaim:
           claimName: rl-songs-postgresql-data
