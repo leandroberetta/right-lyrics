@@ -30,6 +30,7 @@ spec:
           value: http://rl-hits-service:8080
         image: 'quay.io/right-lyrics/songs-service:1.1'
         name: rl-songs-service
+        imagePullPolicy: Always
         readinessProbe:
           httpGet:
             path: /actuator/health

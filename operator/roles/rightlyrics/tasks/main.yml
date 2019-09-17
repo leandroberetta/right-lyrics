@@ -37,10 +37,6 @@
     state: present
     definition: "{{ lookup('template', 'songs-postgresql/secret.yaml') }}"
     merge_type: merge
-- name: Songs PostgreSQL - ConfigMap
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'songs-postgresql/configmap.yaml') }}"
 - name: Songs PostgreSQL - PersistentVolumeClaim
   k8s:
     state: present
