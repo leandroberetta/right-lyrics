@@ -1,4 +1,4 @@
-package io.rl.song.service;
+package io.rl.song.repository;
 
 import io.rl.song.model.Song;
 import org.springframework.data.jpa.repository.JpaRepository;

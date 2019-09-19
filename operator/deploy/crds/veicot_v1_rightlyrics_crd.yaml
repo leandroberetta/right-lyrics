@@ -9,6 +9,8 @@ spec:
     listKind: RightLyricsList
     plural: rightlyrics
     singular: rightlyrics
+    shortNames:
+    - rl  
   scope: Namespaced
   subresources:
     status: {}

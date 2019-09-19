@@ -3,6 +3,7 @@ package io.rl.song.service;
 import io.rl.song.api.*;
 import io.rl.song.model.Song;
 
+import io.rl.song.repository.SongRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
