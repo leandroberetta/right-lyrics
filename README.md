@@ -62,4 +62,6 @@ Finally the Operator watches this CR an creates the application.
 
 ## Topology
 
+In OpenShift 4.2 the application can be seen as follows with the new Developer perspective:
+
 ![topology](./topology.png)
