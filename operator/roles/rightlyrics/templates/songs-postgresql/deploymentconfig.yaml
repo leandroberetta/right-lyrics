@@ -3,6 +3,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: rl-songs-service
+    app.openshift.io/runtime: postgresql
+    app.kubernetes.io/part-of: right-lyrics
   name: rl-songs-postgresql
   namespace: {{ meta.namespace }}
 spec:

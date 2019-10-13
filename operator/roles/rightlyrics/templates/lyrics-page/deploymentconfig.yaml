@@ -1,8 +1,12 @@
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
+  annotations:
+    app.openshift.io/connects-to: rl-songs-service,rl-lyrics-service
   labels:
     app: rl-lyrics-page
+    app.openshift.io/runtime: nginx
+    app.kubernetes.io/part-of: right-lyrics
   name: rl-lyrics-page
   namespace: {{ meta.namespace }}
 spec:

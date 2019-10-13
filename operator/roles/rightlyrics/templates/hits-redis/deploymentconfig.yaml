@@ -3,6 +3,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: rl-hits-service
+    app.openshift.io/runtime: redis
+    app.kubernetes.io/part-of: right-lyrics
   name: rl-hits-redis
   namespace: {{ meta.namespace }}
 spec:

@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   labels:
     app: rl-operator
+    app.openshift.io/runtime: ansible
+    app.kubernetes.io/part-of: right-lyrics
   name: rl-operator
 spec:
   replicas: 1

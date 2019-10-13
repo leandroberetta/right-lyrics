@@ -57,3 +57,5 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
 ```
 
 Finally the Operator watches this CR an creates the application.
+
+![topology](./topology.png)

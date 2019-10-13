@@ -3,6 +3,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: rl-lyrics-service
+    app.openshift.io/runtime: mongodb
+    app.kubernetes.io/part-of: right-lyrics
   name: rl-lyrics-mongodb
   namespace: {{ meta.namespace }}
 spec:
