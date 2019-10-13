@@ -37,10 +37,10 @@ oc new-project right-lyrics
 Deploy the Operator:
 
 ```bash
-oc create -f ./operator/deploy/service_account.yaml
-oc create -f ./operator/deploy/role.yaml
-oc create -f ./operator/deploy/role_binding.yaml
-oc create -f ./operator/deploy/operator.yaml
+oc create -f ./operator/deploy/service_account.yaml -n right-lyrics
+oc create -f ./operator/deploy/role.yaml -n right-lyrics
+oc create -f ./operator/deploy/role_binding.yaml -n right-lyrics
+oc create -f ./operator/deploy/operator.yaml -n right-lyrics
 ```
 
 Deploy a CR:
@@ -61,7 +61,7 @@ spec:
 The CR can be created as follows:
 
 ```bash
-oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
+oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyrics
 ```
 
 Finally the Operator watches this CR and creates the application.
