@@ -12,9 +12,9 @@ In OpenShift 4.2 the application can be seen as follows with the new Developer p
 
 ![topology](./topology.png)
 
-### Components
+## Components
 
-* Lyrics Page (React.js)
+* Lyrics Page (React.js + NGINX)
 * Lyrics Service (Node.js + MongoDB)
 * Songs Service (Spring Boot + PostgreSQL)
 * Hits Service (Python + Redis)
