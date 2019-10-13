@@ -2,6 +2,8 @@
 
 A very simple microservice architecture to be deployed in OpenShift with Ansible Operators.
 
+## Overview
+
 ![preview](./preview.png)
 
 ## Components
@@ -57,5 +59,7 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
 ```
 
 Finally the Operator watches this CR an creates the application.
+
+## Topology
 
 ![topology](./topology.png)
