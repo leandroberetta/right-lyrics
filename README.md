@@ -22,16 +22,16 @@ In OpenShift 4.2 the application can be seen as follows with the new Developer p
 
 ## Deploy in OpenShift
 
+Create the CRD so the Operator knows about the CR that will be watching (this requires cluster admin privileges):
+
+```bash
+oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_crd.yaml
+```
+
 Create the Right Lyrics project:
 
 ```bash
 oc new-project right-lyrics
-```
-
-Create the CRD that will be watched by the Operator:
-
-```bash
-oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_crd.yaml
 ```
 
 Deploy the Operator:
@@ -43,7 +43,7 @@ oc create -f ./operator/deploy/role_binding.yaml
 oc create -f ./operator/deploy/operator.yaml
 ```
 
-Deploy a CR representing the application:
+Deploy a CR:
 
 ```yaml
 apiVersion: veicot.io/v1
@@ -64,4 +64,4 @@ The CR can be created as follows:
 oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
 ```
 
-Finally the Operator watches this CR an creates the application.
+Finally the Operator watches this CR and creates the application.
