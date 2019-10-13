@@ -6,7 +6,13 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 
 ![preview](./preview.png)
 
-## Components
+## Topology
+
+In OpenShift 4.2 the application can be seen as follows with the new Developer perspective:
+
+![topology](./topology.png)
+
+### Components
 
 * Lyrics Page (React.js)
 * Lyrics Service (Node.js + MongoDB)
@@ -59,9 +65,3 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml
 ```
 
 Finally the Operator watches this CR an creates the application.
-
-## Topology
-
-In OpenShift 4.2 the application can be seen as follows with the new Developer perspective:
-
-![topology](./topology.png)
