@@ -10,10 +10,10 @@ oc new-build nodejs:10~https://github.com/leandroberetta/right-lyrics.git --cont
 oc new-build python:3.6~https://github.com/leandroberetta/right-lyrics.git --context-dir=hits-service --name=rl-hits-service
 
 ######## stage 3: aprovisionamiento de los servicios
-oc new-app -i hits-service -e DB_HOST=rl-hits-redis -e DB_PASSWORD=right-lyrics --name=rl-hits-service
-oc new-app -i lyrics-service --name=rl-lyrics-service -e DB_HOST=rl-lyrics-mongodb -e DB_NAME=right-lyrics -e DB_PASSWORD=right-lyrics -e DB_USERNAME=right-lyrics
-oc new-app -i lyrics-page --name=rl-lyrics-page -e PORT=8080
-oc new-app -i songs-service -e SPRING_DATASOURCE_PASSWORD=right-lyrics -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-songs-postgresql:5432/right-lyrics -e SPRING_DATASOURCE_USERNAME=right-lyrics -e HITS_SERVICE_URL=http://rl-hits-service:8080 --name=rl-songs-service
+oc new-app -i rl-hits-service -e DB_HOST=rl-hits-redis -e DB_PASSWORD=right-lyrics --name=rl-hits-service
+oc new-app -i rl-lyrics-service --name=rl-lyrics-service -e DB_HOST=rl-lyrics-mongodb -e DB_NAME=right-lyrics -e DB_PASSWORD=right-lyrics -e DB_USERNAME=right-lyrics
+oc new-app -i rl-lyrics-page --name=rl-lyrics-page -e PORT=8080
+oc new-app -i rl-songs-service -e SPRING_DATASOURCE_PASSWORD=right-lyrics -e SPRING_DATASOURCE_URL=jdbc:postgresql://rl-songs-postgresql:5432/right-lyrics -e SPRING_DATASOURCE_USERNAME=right-lyrics -e HITS_SERVICE_URL=http://rl-hits-service:8080 --name=rl-songs-service
 
 ######## stage 4: exponer servicios
 oc expose svc/rl-lyrics-page
