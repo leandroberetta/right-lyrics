@@ -28,7 +28,7 @@ oc expose svc/rl-songs-service
     }
 
 ######## stage 5b: configmap para configurar el webclient
-oc create configmap config rl-lyrics-page --from-file=config.js && rm config.js
+oc create configmap rl-lyrics-page --from-file=config.js && rm config.js
 
 ######## stage 5c: montar configuracion en webclient
 oc set volume dc/rl-lyrics-page --add --sub-path=config.js -m /opt/app-root/src/public/ -t configmap --configmap-name=rl-lyrics-page
