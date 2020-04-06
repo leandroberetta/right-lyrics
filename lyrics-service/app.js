@@ -2,11 +2,20 @@ const express = require("express");
 const mongoose = require('mongoose');
 const cors = require('cors')
 
+
+const DB = process.env.DB_NAME ||"rl"
+const HOST_DB = process.env.DB_HOST || "localhost:27017"
+const USERNAME_DB= process.env.DB_USERNAME || "rl"
+const PASSWORD_DB= process.env.DB_PASSWORD || "rl"
+
 const app = express();
 
 app.use(cors())
 
-const mongoDB = "mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD +  "@" + process.env.DB_HOST + "/" + process.env.DB_NAME;
+
+const mongoDB = "mongodb://" + USERNAME_DB + ":" + PASSWORD_DB +  "@" + HOST_DB + "/" + DB;
+
+console.log(mongoDB)
 
 var connectWithRetry = function() {
     return mongoose.connect(mongoDB, function(err) {
