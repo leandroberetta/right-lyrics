@@ -3,7 +3,7 @@
 ### Local enviroment
 
 
-#### Create mongoDB
+#### Create Postgresql
 ```bash
 USER=right-lyrics && \
 PASS=right-lyrics && \
