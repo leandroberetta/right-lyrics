@@ -3,8 +3,8 @@ import redis
 import os
 
 r = redis.Redis(decode_responses=True, 
-                password=os.environ["DB_PASSWORD"], 
-                host=os.environ["DB_HOST"])
+                password=os.environ.get("DB_PASSWORD", "pass"), 
+                host=os.environ.get("DB_HOST", "localhost"))
 
 app = Flask(__name__)
 
