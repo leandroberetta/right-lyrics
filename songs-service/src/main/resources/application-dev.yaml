@@ -1,0 +1,31 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+management:
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 8081
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: right-lyrics
+    url: jdbc:postgresql://localhost:5432/right-lyrics
+    username: right-lyrics
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+server:
+  port: 8081
+
+
+

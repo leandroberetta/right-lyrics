@@ -24,6 +24,11 @@ public class SongController {
 
     private final SongRepository repository;
 
+    private static final String  HIT_SERVICE = System.getenv("HITS_SERVICE_URL") != null ?  System.getenv("HITS_SERVICE_URL") : "http://localhost:8080";
+
+
+
+
     Logger logger = LoggerFactory.getLogger(SongController.class);
 
     public SongController(SongRepository repository) {
@@ -96,7 +101,8 @@ public class SongController {
         HttpEntity<HitRequest> entity = new HttpEntity<HitRequest>(hit,headers);
 
         try {
-            hitResponse = restTemplate.exchange(String.format("%s/api/hits", System.getenv("HITS_SERVICE_URL")),
+
+            hitResponse = restTemplate.exchange(String.format("%s/api/hits", HIT_SERVICE),
                     HttpMethod.POST,
                     entity,
                     HitResponse.class).getBody();
@@ -119,7 +125,7 @@ public class SongController {
 
         try {
             hitResponse = restTemplate.getForEntity(
-                    String.format("%s/api/popularity/%d", System.getenv("HITS_SERVICE_URL"), song.getId()),
+                    String.format("%s/api/popularity/%d",HIT_SERVICE, song.getId()),
                     HitResponse.class).getBody();
 
             popularity =  hitResponse.getPopularity();
