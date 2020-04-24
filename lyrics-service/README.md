@@ -1,9 +1,9 @@
-# Right Lyrics - Lyric Service
+# Lyrics Service
 
-### Local enviroment
+## Prepare Local Enviroment
 
+### Create mongoDB
 
-#### Create mongoDB
 ```bash
 USER=rl && \
 PASS=rl && \
@@ -18,8 +18,7 @@ docker run --name mongodb-rl -d\
     registry.redhat.io/rhscl/mongodb-36-rhel7:latest
 ```
 
-
-#### Load lyrics data
+### Load Lyrics Data
 
 ```bash
 USER=rl && \
@@ -29,7 +28,7 @@ docker exec mongodb-rl \
     mongoimport -c lyrics -d ${DB} -u ${USER} -p ${PASS}  --file /tmp/lyrics.json --host localhost:27017
 ```
 
-#### Test
+### Test
 
 ```bash
 npm i 
@@ -37,7 +36,7 @@ node app.js
 curl localhost:8080/api/lyric/5d72534eef68ea00194ac5e8
 ```
 
-#### Clean all
+### Cleanup
 
 ```bash
 docker stop mongodb-rl && docker rm mongodb-rl
