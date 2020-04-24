@@ -1,13 +1,16 @@
-# Right Lyrics - Song Service
+# Songs Service
 
-### Local enviroment
+## Local enviroment
 
+Note: The [Hits service](../hits-service) needs to be running.
 
-#### Create Postgresql
+### Create PostgreSQL
+
 ```bash
 USER=right-lyrics && \
 PASS=right-lyrics && \
 DB=right-lyrics && \
+
 docker run --name postgresql-rl  -d \
     -p 5432:5432 \
     -e POSTGRESQL_ADMIN_PASSWORD=${PASS} \
@@ -17,18 +20,17 @@ docker run --name postgresql-rl  -d \
     registry.redhat.io/rhscl/postgresql-96-rhel7:latest
 ```
 
-
-#### Test
+### Test
 
 ```bash
 mvn clean install 
+
 java -Dspring.profiles.active=dev -jar target/rl-songs-service-1.1.jar
+
 curl localhost:8081/api/song/2
 ```
 
-#### Is necessary have hits service up, see README hit service
-
-#### Clean all
+#### Cleanup
 
 ```bash
 docker stop postgresql-rl && docker rm postgresql-rl
