@@ -1,1 +1,1 @@
-# Right Lyrics - Front End
+# Lyrics Page
