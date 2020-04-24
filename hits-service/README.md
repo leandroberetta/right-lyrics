@@ -1,9 +1,9 @@
-# Right Lyrics - Hits Service
+# Hits Service
 
-### Local enviroment
+## Prepare Local Enviroment
 
+### Create Redis
 
-#### Create Redis
 ```bash
 PASSWORD=pass && \
 docker run -d --name redis-rl \
@@ -16,11 +16,13 @@ registry.redhat.io/rhel8/redis-5:latest
 
 ```bash
 pip3 install -r requirements.txt
+
 python app.py
+
 curl localhost:8080/api/popularity/2
 ```
 
-#### Clean all
+#### Cleanup
 
 ```bash
 docker stop redis-rl && docker rm redis-rl
