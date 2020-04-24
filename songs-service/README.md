@@ -1,6 +1,6 @@
 # Songs Service
 
-## Local enviroment
+## Prepare Local Enviroment
 
 Note: The [Hits service](../hits-service) needs to be running.
 
