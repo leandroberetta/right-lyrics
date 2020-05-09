@@ -4,11 +4,6 @@ metadata:
   name: rl-lyrics-page
   namespace: {{ meta.namespace }}
 data:
-  config.js: |
-    window.ENV = {
-        "RL_SONGS_SERVICE":"http://rl-songs-service-{{ meta.namespace }}.{{ routes_base_domain }}",
-        "RL_LYRICS_SERVICE":"http://rl-lyrics-service-{{ meta.namespace }}.{{ routes_base_domain }}"
-    }
   nginx.conf: |
     # For more information on configuration, see:
     #   * Official English Documentation: http://nginx.org/en/docs/
