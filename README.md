@@ -51,7 +51,6 @@ kind: RightLyrics
 metadata:
   name: my-rightlyrics
 spec:
-  routesBaseDomain: apps-crc.testing
   lyricsPageReplicas: 1
   lyricsServiceReplicas: 1
   songsServiceReplicas: 1

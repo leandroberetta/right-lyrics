@@ -23,7 +23,7 @@ spec:
         deploymentconfig: rl-lyrics-page
     spec:
       containers:
-      - image: quay.io/right-lyrics/lyrics-page:1.1
+      - image: quay.io/right-lyrics/lyrics-page:1.2
         name: rl-lyrics-page
         imagePullPolicy: Always
         readinessProbe:
@@ -43,9 +43,6 @@ spec:
           timeoutSeconds: 3
           periodSeconds: 10
         volumeMounts:
-        - mountPath: /opt/app-root/src/config.js
-          name: rl-lyrics-page
-          subPath: config.js
         - mountPath: /etc/opt/rh/rh-nginx112/nginx/nginx.conf
           name: rl-lyrics-page
           subPath: nginx.conf
