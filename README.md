@@ -64,3 +64,7 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyric
 ```
 
 Finally the Operator watches this CR and creates the application.
+
+## Contributing
+
+To contribute please visit [this](CONTRIBUTING.md) section.

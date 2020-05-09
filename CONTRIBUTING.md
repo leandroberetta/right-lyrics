@@ -1,7 +1,7 @@
-# Contributing to Right Lyrics
+# Contributing to Right Lyrics
 
-## Building the images
+## Building the Images
 
 The BuildConfig resources are found in [this](builds.yaml) file.
 
-A Secret named quay-credentials is needed to push the output images to Quay.
+A Secret named rl-quay-credentials is needed to push the output images to Quay.
