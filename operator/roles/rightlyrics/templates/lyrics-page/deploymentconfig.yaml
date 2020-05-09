@@ -46,6 +46,9 @@ spec:
         - mountPath: /opt/app-root/src/config.js
           name: rl-lyrics-page
           subPath: config.js
+        - mountPath: /etc/opt/rh/rh-nginx112/nginx/nginx.conf
+          name: rl-lyrics-page
+          subPath: nginx.conf
       volumes:
       - configMap:
           defaultMode: 420

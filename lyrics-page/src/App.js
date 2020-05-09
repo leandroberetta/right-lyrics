@@ -21,13 +21,13 @@ class App extends React.Component {
     }
 
     onSelectSong = (song) => {
-        fetch(window.ENV.RL_SONGS_SERVICE + "/api/song/" + song.id)
+        fetch("/api/song/" + song.id)
             .then(result => result.json())
             .then(
                 (result) => {
                     console.log(result);
 
-                    fetch(window.ENV.RL_LYRICS_SERVICE + "/api/lyric/" + result.data.lyricId)
+                    fetch("/api/lyric/" + result.data.lyricId)
                         .then(result => result.json())
                         .then(
                             (result) => {
@@ -57,7 +57,7 @@ class App extends React.Component {
     }
 
     onSearch = (event) => {
-        fetch(window.ENV.RL_SONGS_SERVICE + "/api/song/search", {
+        fetch("/api/song/search", {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({"text": event.target.value})
@@ -85,7 +85,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch(window.ENV.RL_SONGS_SERVICE + "/api/song")
+        fetch("/api/song")
             .then(res => res.json())
             .then(
                 (result) => {
