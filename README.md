@@ -1,6 +1,6 @@
 # Right Lyrics
 
-A very simple microservice architecture to be deployed in OpenShift with Ansible Operators.
+A very simple microservice architecture to be deployed in OpenShift.
 
 ## Overview
 
@@ -8,7 +8,7 @@ A very simple microservice architecture to be deployed in OpenShift with Ansible
 
 ## Topology
 
-In OpenShift 4.2 the application can be seen as follows with the new Developer perspective:
+In OpenShift the application can be seen as follows with the Developer perspective:
 
 ![topology](./topology.png)
 

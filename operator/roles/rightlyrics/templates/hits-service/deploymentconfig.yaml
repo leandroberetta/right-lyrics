@@ -18,6 +18,8 @@ spec:
     type: Rolling
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"    
       labels:
         app: rl-hits-service
         deploymentconfig: rl-hits-service
