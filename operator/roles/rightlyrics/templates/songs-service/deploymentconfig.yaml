@@ -56,9 +56,5 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-        - containerPort: 8443
-          protocol: TCP
-        - containerPort: 8778
-          protocol: TCP
   triggers:
   - type: ConfigChange

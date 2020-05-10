@@ -7,18 +7,10 @@ metadata:
   namespace: {{ meta.namespace }}
 spec:
   ports:
-  - name: 8080-tcp
+  - name: tcp-8080
     port: 8080
     protocol: TCP
     targetPort: 8080
-  - name: 8443-tcp
-    port: 8443
-    protocol: TCP
-    targetPort: 8443
-  - name: 8778-tcp
-    port: 8778
-    protocol: TCP
-    targetPort: 8778
   selector:
     app: rl-songs-service
     deploymentconfig: rl-songs-service

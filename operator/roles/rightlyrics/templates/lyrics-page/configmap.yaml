@@ -65,10 +65,12 @@ data:
 
             location /api/song {
                 proxy_pass http://rl-songs-service:8080/api/song;
+                proxy_http_version 1.1;
             }
 
             location /api/lyric {
                 proxy_pass http://rl-lyrics-service:8080/api/lyric;
+                proxy_http_version 1.1;
             }
 
             

@@ -7,7 +7,7 @@ metadata:
   namespace: {{ meta.namespace }}
 spec:
   ports:
-  - name: mongo
+  - name: tcp-27017
     port: 27017
     protocol: TCP
     targetPort: 27017

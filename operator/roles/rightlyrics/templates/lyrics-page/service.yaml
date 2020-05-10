@@ -10,6 +10,7 @@ spec:
   - port: 8080
     protocol: TCP
     targetPort: 8080
+    name: tcp-8080
   selector:
     app: rl-lyrics-page
     deploymentconfig: rl-lyrics-page
