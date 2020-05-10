@@ -65,6 +65,26 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyric
 
 Finally the Operator watches this CR and creates the application.
 
+## Service Mesh
+
+This section is a work in progress.
+
+### Prerequisites
+
+* A Service Mesh Control Plane
+* A Service Mesh Member Roll configured to watch the Right Lyrics namespace
+
+### Notes
+
+* Automatic Envoy sidecar injection is configured via annotations for all deployments
+* A basic configuration can be found in [this](istio.yaml) file
+
+### Service Graph in Kiali
+
+The following topology can be seen in Kiali when traffic arrives to the Service Mesh:
+
+![kiali](./kiali.png)
+
 ## Contributing
 
 To contribute please visit [this](CONTRIBUTING.md) section.
