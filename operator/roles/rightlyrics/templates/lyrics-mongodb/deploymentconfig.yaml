@@ -28,6 +28,8 @@ spec:
     type: Recreate
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
         app: rl-lyrics-service
         name: rl-lyrics-mongodb
