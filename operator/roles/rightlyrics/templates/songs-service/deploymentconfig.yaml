@@ -34,7 +34,8 @@ spec:
           value: right-lyrics
         - name: HITS_SERVICE_URL
           value: http://rl-hits-service:8080
-        image: 'quay.io/right-lyrics/songs-service:1.1'
+        image: quay.io/right-lyrics/songs-service:1.1
+        imagePullPolicy: Always
         name: rl-songs-service
         imagePullPolicy: Always
         readinessProbe:

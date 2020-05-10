@@ -28,6 +28,7 @@ spec:
       - image: quay.io/right-lyrics/lyrics-page:1.2
         name: rl-lyrics-page
         imagePullPolicy: Always
+        imagePullPolicy: Always
         readinessProbe:
           httpGet:
             path: /
