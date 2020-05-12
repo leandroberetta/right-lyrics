@@ -1,11 +1,8 @@
 import React from "react";
+import FullLayout from "./layout/FullLayout";
 
 function App() {
-  return (
-    <div className="App">
-      <div className="">Ryght Lyrics Admin</div>
-    </div>
-  );
+  return <FullLayout></FullLayout>;
 }
 
 export default App;

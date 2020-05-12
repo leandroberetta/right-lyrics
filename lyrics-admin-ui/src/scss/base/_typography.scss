@@ -1,0 +1,18 @@
+$font-title: "Raleway";
+$font-body: "Montserrat";
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-title, sans-serif;
+    font-weight: 600;
+    color: $color-blue-dark;
+}
+
+body {
+    font-family: $font-body;
+}
