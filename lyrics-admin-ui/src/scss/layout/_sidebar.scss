@@ -1,0 +1,36 @@
+.sidebar {
+    font-size: 1.8rem;
+    transition: all .2s;
+
+    &__item {
+        &:not(:last-child) {
+            padding-bottom: 1rem;
+        }
+
+
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .fas {
+        padding-right: .7rem;
+    }
+
+    .list-group-item {
+        border: none;
+        transition: all .2s;
+
+        &.active,
+        &:hover {
+            border-radius: 5px;
+            background-color: $color-gray-light-4;
+            border-color: $color-gray-light-4;
+            color: $color-blue-dark;
+
+            font-weight: 600;
+            padding-left: 2rem;
+
+
+        }
+    }
+}

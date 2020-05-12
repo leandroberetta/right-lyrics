@@ -9,8 +9,16 @@ h4,
 h5,
 h6 {
     font-family: $font-title, sans-serif;
-    font-weight: 600;
+    font-weight: 600 !important;
     color: $color-blue-dark;
+}
+
+h1 {
+    font-size: 4rem !important;
+}
+
+h2 {
+    font-size: 3rem !important;
 }
 
 body {
