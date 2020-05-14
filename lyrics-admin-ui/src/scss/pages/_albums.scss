@@ -1,0 +1,12 @@
+.albums {
+
+    width: 100%;
+
+    &__section {
+        margin-top: 2rem;
+        display: grid;
+        gap: 4rem;
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+}

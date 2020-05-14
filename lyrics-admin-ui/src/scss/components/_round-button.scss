@@ -1,0 +1,27 @@
+.btn.round-button {
+    border-radius: 50%;
+    border-width: 3px;
+    width: 5rem;
+    height: 5rem;
+
+    .fas {
+        font-size: 2rem;
+    }
+
+    &--pink {
+        &.btn:hover {
+            border-color: $color-pink-normal;
+            background-color: $color-pink-normal;
+            color: $color-white;
+        }
+    }
+
+    &--yellow {
+        &.btn:hover {
+            border-color: $color-yellow-normal;
+            background-color: $color-yellow-normal;
+            color: $color-white;
+        }
+    }
+
+}
