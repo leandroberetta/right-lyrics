@@ -1,4 +1,4 @@
-package io.veicot.rightlyrics.resource;
+package io.veicot.rightlyrics.resource.response;
 
 public class Response<T> {
 

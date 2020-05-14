@@ -1,10 +1,5 @@
 package io.veicot.rightlyrics.dto;
 
-import io.veicot.rightlyrics.model.Song;
-
-import java.util.Date;
-import java.util.List;
-
 public class AlbumDto {
 
     public Long id;
