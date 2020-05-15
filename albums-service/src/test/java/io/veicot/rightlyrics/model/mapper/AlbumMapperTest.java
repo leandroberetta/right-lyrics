@@ -13,7 +13,7 @@ public class AlbumMapperTest {
 
     @Test
     public void mapAlbumToAlbumDtoTest() {
-        Album album = new Album(1L,
+        Album album = new Album(
                 "Californication",
                 "Red Hot Chili Pepers",
                 "http://someUrl.com/californication",

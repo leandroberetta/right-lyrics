@@ -1,6 +1,7 @@
 package io.veicot.rightlyrics.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class Album {
 
     @Id
+    @GeneratedValue
     public Long id;
 
     public String title;
@@ -21,8 +23,7 @@ public class Album {
 
     public Album() {}
 
-    public Album(Long id,
-                 String title,
+    public Album(String title,
                  String artist,
                  String coverUrl,
                  String year) {

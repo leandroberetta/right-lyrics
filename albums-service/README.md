@@ -1,5 +1,9 @@
 # Albums Service
 
+For testing the services the following Postman library can be used:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c9b134cf391caba635d7)
+
 ## Test in Local Environment
 
     docker run --name rl-albums-mysql \
