@@ -15,8 +15,8 @@ public class AlbumMapperTest {
     public void mapAlbumToAlbumDtoTest() {
         Album album = new Album(
                 "Californication",
-                "Red Hot Chili Pepers",
-                "http://someUrl.com/californication",
+                "Red Hot Chili Peppers",
+                "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
                 "06/08/1999");
 
         Set<Song> songs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
