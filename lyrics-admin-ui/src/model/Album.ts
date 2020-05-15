@@ -1,5 +1,5 @@
 export default interface Album {
-  cover: string;
+  coverUrl: string;
   artist: string;
   title: string;
   year: string;
