@@ -1,4 +1,4 @@
-package io.veicot.rightlyrics.dto;
+package io.veicot.rightlyrics.model.dto;
 
 public class AlbumDto {
 

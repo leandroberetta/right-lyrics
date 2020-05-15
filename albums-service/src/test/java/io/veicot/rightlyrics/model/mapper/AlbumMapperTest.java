@@ -1,13 +1,10 @@
-package io.veicot.rightlyrics.mapper;
+package io.veicot.rightlyrics.model.mapper;
 
-import io.veicot.rightlyrics.dto.AlbumDto;
-import io.veicot.rightlyrics.model.Album;
 import io.veicot.rightlyrics.model.Song;
+import io.veicot.rightlyrics.model.dto.AlbumDto;
+import io.veicot.rightlyrics.model.Album;
 import org.junit.jupiter.api.Test;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -15,11 +12,11 @@ import static org.assertj.core.api.Assertions.*;
 public class AlbumMapperTest {
 
     @Test
-    public void shouldMapAlbumToDto() {
+    public void mapAlbumToAlbumDtoTest() {
         Album album = new Album(1L,
                 "Californication",
                 "Red Hot Chili Pepers",
-                "someUrl",
+                "http://someUrl.com/californication",
                 "06/08/1999");
 
         Set<Song> songs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));

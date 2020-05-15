@@ -1,14 +1,22 @@
 package io.veicot.rightlyrics.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
+@Entity
 public class Album {
-    
+
+    @Id
     public Long id;
+
     public String title;
     public String artist;
     public String coverUrl;
     public String year;
+
+    @OneToMany
     public Set<Song> songs;
 
     public Album() {}
