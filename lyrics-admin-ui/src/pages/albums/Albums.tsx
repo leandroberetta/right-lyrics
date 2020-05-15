@@ -1,8 +1,11 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
+import AlbumsService from "../../api/AlbumsService";
+import Search from "../../common/Search";
 import { HeaderStore } from "../../store/HeaderStore";
 import Album from "./Album";
-import Search from "../../common/Search";
+import request, { SuperAgent } from "superagent";
+import SearchResponse from "../../model/SearchResponse";
 
 const albums = [
   {
@@ -39,9 +42,26 @@ interface AlbumsProps {
   headerStore?: HeaderStore;
 }
 
+interface AlbumsState {
+  albums: Album[];
+}
+
 class Albums extends React.Component<AlbumsProps> {
+  state = {
+    albums: [],
+  };
+
   componentDidMount() {
     this.props.headerStore?.setTitle("Albums");
+    const service = new AlbumsService();
+    service.getAll(0, 0, "").then(
+      (res: request.Response) => {
+        const response: SearchResponse<Album> = res.body;
+        console.log(response);
+        this.setState({ albums: response.data });
+      },
+      (err) => {}
+    );
   }
 
   render() {
@@ -49,7 +69,7 @@ class Albums extends React.Component<AlbumsProps> {
       <div className="container-fluid albums">
         <Search></Search>
         <div className="albums__section">
-          {albums.map((elem) => (
+          {this.state.albums.map((elem) => (
             <Album album={elem}></Album>
           ))}
         </div>
