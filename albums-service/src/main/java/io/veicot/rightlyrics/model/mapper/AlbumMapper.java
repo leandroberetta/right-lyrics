@@ -5,6 +5,7 @@ import io.veicot.rightlyrics.model.Album;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper

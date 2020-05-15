@@ -20,12 +20,12 @@ import java.util.*;
 @Path("/albums")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class AlbumsResource {
+public class AlbumResource {
 
     @Inject
     AlbumRepository albumRepository;
 
-    public AlbumsResource() {}
+    public AlbumResource() {}
 
     @GET
     public SearchResponse<List<AlbumDto>> getAll(@DefaultValue("") @QueryParam("query") String query,
