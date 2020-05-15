@@ -1,4 +1,4 @@
-# albums-service
+# Albums Service
 
 ## Test in Local Environment
 
