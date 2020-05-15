@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class Song {
 
     @Id
-    public Long id;
+    private Long id;
 
     public Song() {}
 

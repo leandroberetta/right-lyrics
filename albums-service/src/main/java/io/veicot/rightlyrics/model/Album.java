@@ -11,12 +11,12 @@ public class Album {
 
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
-    public String title;
-    public String artist;
-    public String coverUrl;
-    public String year;
+    private String title;
+    private String artist;
+    private String coverUrl;
+    private String year;
 
     @OneToMany
     public Set<Song> songs;
