@@ -32,7 +32,7 @@ public class AlbumsResourceTest {
         .when()
             .post("/albums")
         .then()
-            .statusCode(200)
+            .statusCode(javax.ws.rs.core.Response.Status.OK.getStatusCode())
             .extract().as(new TypeRef<Response<AlbumDto>>() {});
 
         assertThat(response.getData().getTitle()).isEqualTo("Californication");

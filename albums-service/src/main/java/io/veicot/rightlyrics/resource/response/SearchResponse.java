@@ -4,7 +4,7 @@ import io.veicot.rightlyrics.resource.response.Response;
 
 public class SearchResponse<T> extends Response<T> {
 
-    public Integer length;
+    private Integer length;
 
     public Integer getLength() {
         return length;

@@ -2,8 +2,8 @@ package io.veicot.rightlyrics.resource.response;
 
 public class Response<T> {
 
-    public T data;
-    public Integer status;
+    private T data;
+    private Integer status;
 
     public T getData() {
         return data;

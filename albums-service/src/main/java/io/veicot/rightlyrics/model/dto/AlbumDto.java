@@ -2,11 +2,11 @@ package io.veicot.rightlyrics.model.dto;
 
 public class AlbumDto {
 
-    public Long id;
-    public String title;
-    public String artist;
-    public String coverUrl;
-    public String year;
+    private Long id;
+    private String title;
+    private String artist;
+    private String coverUrl;
+    private String year;
 
     public AlbumDto() {}
 

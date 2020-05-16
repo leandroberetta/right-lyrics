@@ -27,12 +27,19 @@ public class Album {
                  String artist,
                  String coverUrl,
                  String year) {
-
-        this.id = id;
+        
         this.title = title;
         this.artist = artist;
         this.coverUrl = coverUrl;
         this.year = year;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

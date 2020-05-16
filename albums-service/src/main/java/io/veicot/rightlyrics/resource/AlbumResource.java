@@ -11,7 +11,6 @@ import io.veicot.rightlyrics.resource.response.SearchResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,9 +25,13 @@ public class AlbumResource {
     @Inject
     AlbumRepository albumRepository;
 
+    @Inject
+    AlbumMapper albumMapper;
+
     public AlbumResource() {}
 
     @GET
+    @Path("/")
     public SearchResponse<List<AlbumDto>> getAll(@DefaultValue("") @QueryParam("query") String query,
                                                  @DefaultValue("0") @QueryParam("page") Integer page,
                                                  @DefaultValue("25") @QueryParam("pageSize") Integer pageSize) {
@@ -38,21 +41,21 @@ public class AlbumResource {
         SearchResponse<List<AlbumDto>> response = new SearchResponse<List<AlbumDto>>();
 
         response.setStatus(0);
-        response.setData(AlbumMapper.INSTANCE.albumsToAlbumsDto(panacheQuery.page(Page.of(page, pageSize)).list()));
+        response.setData(albumMapper.albumsToAlbumsDto(panacheQuery.page(Page.of(page, pageSize)).list()));
         response.setLength(response.getData().size());
 
         return response;
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response<AlbumDto> get(@PathParam("id") Long id) {
         Album album = albumRepository.findById(id);
 
         Response<AlbumDto> response = new Response<>();
 
         response.setStatus(0);
-        response.setData(AlbumMapper.INSTANCE.albumToAlbumDto(album));
+        response.setData(albumMapper.albumToAlbumDto(album));
 
         return response;
     }
@@ -65,18 +68,17 @@ public class AlbumResource {
         Response<AlbumDto> response = new Response<>();
 
         response.setStatus(0);
-        response.setData(AlbumMapper.INSTANCE.albumToAlbumDto(album));
+        response.setData(albumMapper.albumToAlbumDto(album));
 
         return response;
     }
 
     @PUT
+    @Path("/{id}")
     @Transactional
-    public Response<AlbumDto> update(Album album) {
-        PanacheQuery  panacheQuery = albumRepository.find("title = ?1 and artist = ?2", album.getTitle(), album.getArtist());
-
-        Album persistedAlbum = (Album) panacheQuery.singleResult();
-
+    public Response<AlbumDto> update(@PathParam("id") Long id, Album album) {
+        Album persistedAlbum = albumRepository.findById(id);
+       
         persistedAlbum.setTitle(album.getTitle());
         persistedAlbum.setArtist(album.getArtist());
         persistedAlbum.setCoverUrl(album.getCoverUrl());
@@ -87,7 +89,7 @@ public class AlbumResource {
         Response<AlbumDto> response = new Response<>();
 
         response.setStatus(0);
-        response.setData(AlbumMapper.INSTANCE.albumToAlbumDto(persistedAlbum));
+        response.setData(albumMapper.albumToAlbumDto(persistedAlbum));
 
         return response;
     }
@@ -134,7 +136,7 @@ public class AlbumResource {
         Response<List<AlbumDto>> response = new Response<>();
 
         response.setStatus(0);
-        response.setData(AlbumMapper.INSTANCE.albumsToAlbumsDto(albums));
+        response.setData(albumMapper.albumsToAlbumsDto(albums));
 
         return response;
     }
