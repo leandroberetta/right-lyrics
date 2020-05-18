@@ -47,8 +47,8 @@ public class AlbumResource {
     @GET
     @Path("/")
     public SearchResponse<List<AlbumDto>> getAll(@DefaultValue("") @QueryParam("query") String query,
-            @DefaultValue("0") @QueryParam("page") Integer page,
-            @DefaultValue("25") @QueryParam("pageSize") Integer pageSize) {
+                                                 @DefaultValue("0") @QueryParam("page") Integer page,
+                                                 @DefaultValue("25") @QueryParam("pageSize") Integer pageSize) {
 
         PanacheQuery<Album> panacheQuery = albumRepository.findAll();
 
@@ -127,14 +127,20 @@ public class AlbumResource {
     public Response<List<AlbumDto>> load() {
         List<Album> albums = new ArrayList<>();
 
-        albums.add(new Album("Californication", "Red Hot Chili Pepers",
-                "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg", "06/08/1999"));
+        albums.add(new Album("Californication",
+                             "Red Hot Chili Pepers",
+                             "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
+                             "06/08/1999"));
 
-        albums.add(new Album("Ten", "Pearl Jam", "https://upload.wikimedia.org/wikipedia/en/2/2d/PearlJam-Ten2.jpg",
-                "08/27/1999"));
+        albums.add(new Album("Ten",
+                             "Pearl Jam",
+                             "https://upload.wikimedia.org/wikipedia/en/2/2d/PearlJam-Ten2.jpg",
+                             "08/27/1999"));
 
-        albums.add(new Album("The Colour And The Shape", "Foo Fighters",
-                "https://upload.wikimedia.org/wikipedia/en/0/0d/FooFighters-TheColourAndTheShape.jpg", "05/20/1997"));
+        albums.add(new Album("The Colour And The Shape",
+                             "Foo Fighters",
+                             "https://upload.wikimedia.org/wikipedia/en/0/0d/FooFighters-TheColourAndTheShape.jpg",
+                             "05/20/1997"));
 
         albumRepository.persist(albums);
 
