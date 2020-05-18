@@ -21,19 +21,20 @@ public class AlbumsResourceTest {
     @Test
     public void createAlbumTest() {
         Album album = new Album(
-                "Californication",
-                "Red Hot Chili Peppers",
-                "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
-                "06/08/1999");
+                                "Californication",
+                                "Red Hot Chili Peppers",
+                                "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
+                                "06/08/1999");
 
         Response<AlbumDto> response = given()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(album)
-        .when()
-            .post("/albums")
-        .then()
-            .statusCode(javax.ws.rs.core.Response.Status.OK.getStatusCode())
-            .extract().as(new TypeRef<Response<AlbumDto>>() {});
+                                             .contentType(MediaType.APPLICATION_JSON)
+                                             .body(album)
+                                             .when()
+                                             .post("/albums")
+                                             .then()
+                                             .statusCode(javax.ws.rs.core.Response.Status.OK.getStatusCode())
+                                             .extract().as(new TypeRef<Response<AlbumDto>>() {
+                                             });
 
         assertThat(response.getData().getTitle()).isEqualTo("Californication");
         assertThat(response.getData().getArtist()).isEqualTo("Red Hot Chili Peppers");
