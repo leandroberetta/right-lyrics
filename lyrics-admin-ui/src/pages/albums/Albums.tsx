@@ -7,6 +7,7 @@ import Search from "../../common/Search";
 import SearchResponse from "../../model/SearchResponse";
 import { HeaderStore } from "../../store/HeaderStore";
 import Album from "./Album";
+import GridView from "../../common/GridView";
 
 interface AlbumsProps {
   headerStore?: HeaderStore;
@@ -36,11 +37,11 @@ class Albums extends React.Component<AlbumsProps> {
   buildAlbums = () => {
     if (this.state.albums.length > 0) {
       return (
-        <div className="albums__board">
+        <GridView itemsPerRow={4}>
           {this.state.albums.map((elem) => (
             <Album album={elem}></Album>
           ))}
-        </div>
+        </GridView>
       );
     } else {
       return <NoData content="No se encontraron albums"></NoData>;
