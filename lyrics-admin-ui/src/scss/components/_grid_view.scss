@@ -1,0 +1,11 @@
+.grid {
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: repeat(8, 1fr);
+
+  @for $var from 1 to 8 {
+    &__size--#{$var} {
+      grid-template-columns: repeat($var, 1fr);
+    }
+  }
+}
