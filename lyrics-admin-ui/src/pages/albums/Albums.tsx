@@ -4,10 +4,10 @@ import request from "superagent";
 import AlbumsService from "../../api/AlbumsService";
 import NoData from "../../common/NoData";
 import Search from "../../common/Search";
+import View, { ViewOption } from "../../common/View";
 import SearchResponse from "../../model/SearchResponse";
 import { HeaderStore } from "../../store/HeaderStore";
 import Album from "./Album";
-import GridView from "../../common/GridView";
 
 interface AlbumsProps {
   headerStore?: HeaderStore;
@@ -15,33 +15,44 @@ interface AlbumsProps {
 
 interface AlbumsState {
   albums: Album[];
+  busy: boolean;
 }
 
 class Albums extends React.Component<AlbumsProps> {
   state = {
     albums: [],
+    busy: false,
   };
+
+  service = new AlbumsService();
 
   componentDidMount() {
     this.props.headerStore?.setTitle("Albums");
-    const service = new AlbumsService();
-    service.getAll(0, 0, "").then(
+    this.refresh();
+  }
+
+  refresh = () => {
+    this.setState({ busy: true });
+    this.service.getAll(0, 0, "").then(
       (res: request.Response) => {
         const response: SearchResponse<Album> = res.body;
-        this.setState({ albums: response.data });
+        this.setState({ albums: response.data, busy: false });
       },
       (err) => {}
     );
-  }
+  };
 
   buildAlbums = () => {
+    if (this.state.busy) {
+      return <div></div>;
+    }
     if (this.state.albums.length > 0) {
       return (
-        <GridView itemsPerRow={4}>
+        <View option={ViewOption.GRID} itemsPerRow={6}>
           {this.state.albums.map((elem) => (
             <Album album={elem}></Album>
           ))}
-        </GridView>
+        </View>
       );
     } else {
       return <NoData content="No se encontraron albums"></NoData>;

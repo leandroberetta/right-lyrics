@@ -2,6 +2,7 @@
   display: grid;
   gap: 4rem;
   grid-template-columns: repeat(8, 1fr);
+  transition: all 0.2s;
 
   @for $var from 1 to 8 {
     &__size--#{$var} {

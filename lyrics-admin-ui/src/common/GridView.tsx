@@ -12,17 +12,13 @@ export default class GridView extends React.Component<
   GridViewProps,
   GridViewState
 > {
-  render() {
-    return (
-      <div className={`grid grid__size--${this.props.itemsPerRow}`}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+  state = { loaded: false };
 
-class GridItem extends React.Component<GridViewProps, GridViewState> {
+  buildCss = () => {
+    return `grid grid__size--${this.props.itemsPerRow} `;
+  };
+
   render() {
-    return <div className="grid__item"></div>;
+    return <div className={this.buildCss()}>{this.props.children}</div>;
   }
 }
