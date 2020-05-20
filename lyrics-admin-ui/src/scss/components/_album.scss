@@ -1,82 +1,77 @@
-$shadow-light:0.07;
-$shadow-dark:0.4;
+$shadow-light: 0.07;
+$shadow-dark: 0.4;
 
 @function shadow($multiplier, $opacity) {
-    @return $multiplier*1px $multiplier*1px $multiplier*2px rgba($color-gray-light-2, $opacity);
+  @return $multiplier * 1px $multiplier * 1px $multiplier * 2px
+    rgba($color-gray-light-2, $opacity);
 }
 
 .album {
+  background-color: $color-white;
+  border-radius: 2rem;
+  transition: all 0.2s;
+  box-shadow: shadow(1, $shadow-light), shadow(2, $shadow-light),
+    shadow(4, $shadow-light), shadow(6, $shadow-light),
+    shadow(16, $shadow-light), shadow(32, $shadow-light);
 
-    background-color: $color-white;
-    border-radius: 2rem;
-    transition: all .2s;
-    box-shadow: shadow(1, $shadow-light),
-        shadow(2, $shadow-light),
-        shadow(4, $shadow-light),
-        shadow(6, $shadow-light),
-        shadow(16, $shadow-light),
-        shadow(32, $shadow-light);
+  &:hover {
+    transform: scale(1.02) translateY(-0.5rem);
+    box-shadow: shadow(1, $shadow-dark), shadow(2, $shadow-dark),
+      shadow(4, $shadow-dark), shadow(6, $shadow-dark), shadow(16, $shadow-dark),
+      shadow(32, $shadow-dark);
+  }
 
-    &:hover {
-        transform: scale(1.02) translateY(-0.5rem);
-        box-shadow: shadow(1, $shadow-dark),
-            shadow(2, $shadow-dark),
-            shadow(4, $shadow-dark),
-            shadow(6, $shadow-dark),
-            shadow(16, $shadow-dark),
-            shadow(32, $shadow-dark);
+  &__actions {
+    display: none;
+    transition: all 0.2s;
+  }
+
+  &:hover &__actions {
+    display: flex;
+    justify-content: space-evenly;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    .btn:not(:last-child) {
+      margin-right: 1rem;
     }
+  }
 
+  &__description {
+    margin: 2rem;
+  }
 
-    &__actions {
-        display: none;
-        transition: all .2s;
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__artist {
+    font-size: 1.2rem;
+  }
+
+  &__cover {
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      border-radius: 2rem;
+      transition: all 0.2s;
     }
+  }
 
-    &:hover &__actions {
-        display: flex;
-        justify-content: space-evenly;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+  &:hover &__cover img {
+    filter: blur(1px) grayscale(100%) contrast(120%) brightness(75%);
+  }
+}
 
-        .btn:not(:last-child) {
-            margin-right: 1rem;
-        }
-    }
-
-    &__description {
-        margin: 2rem;
-
-    }
-
-    &__title {
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-
-    &__artist {
-        font-size: 1.2rem;
-    }
-
-    &__cover {
-        overflow: hidden;
-        position: relative;
-
-        img {
-            width: 100%;
-            border-radius: 2rem;
-            transition: all .2s;
-
-
-        }
-
-    }
-
-    &:hover &__cover img {
-
-        filter: blur(1px) grayscale(100%) contrast(120%) brightness(75%);
-    }
-
+.list > .album {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 150rem;
 }
