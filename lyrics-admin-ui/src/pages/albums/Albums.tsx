@@ -1,6 +1,6 @@
+import { AxiosResponse } from "axios";
 import { inject, observer } from "mobx-react";
 import React from "react";
-import request from "superagent";
 import AlbumsService from "../../api/AlbumsService";
 import NoData from "../../common/NoData";
 import Search from "../../common/Search";
@@ -34,8 +34,8 @@ class Albums extends React.Component<AlbumsProps> {
   refresh = () => {
     this.setState({ busy: true });
     this.service.getAll(0, 0, "").then(
-      (res: request.Response) => {
-        const response: SearchResponse<Album> = res.body;
+      (res: AxiosResponse) => {
+        const response: SearchResponse<Album> = res.data;
         this.setState({ albums: response.data, busy: false });
       },
       (err) => {}
