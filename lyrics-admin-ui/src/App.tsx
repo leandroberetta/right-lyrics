@@ -6,6 +6,7 @@ import SimpleLayout from "./layout/SimpleLayout";
 import menu, { MenuItem, MenuLayout } from "./Menu";
 import Albums from "./pages/albums/Albums";
 import { stores } from "./store";
+import "./api/AxiosConfiguration";
 
 const buildMenuItem = (item: MenuItem) => {
   if (item.layout === MenuLayout.FULL) {

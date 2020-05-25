@@ -1,8 +1,6 @@
-import request from "superagent";
-
-const baseUrl = "http://localhost:8080";
+import axios from "axios";
 
 export default class AlbumsService {
   getAll = async (page: number, pageSize: number, query: string) =>
-    await request.get(`${baseUrl}/albums`);
+    axios.get(`/albums`);
 }

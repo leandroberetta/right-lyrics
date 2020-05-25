@@ -13,7 +13,9 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/superagent": "^4.1.7",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "formik": "^2.1.4",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "node-sass": "^4.14.1",
@@ -22,7 +24,6 @@
     "react-loading-skeleton": "^2.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "superagent": "^5.2.2",
     "typescript": "~3.7.2"
   },
   "scripts": {
