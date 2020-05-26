@@ -19,7 +19,7 @@ For testing the services the following Postman library can be used:
     
     ./mvnw compile quarkus:dev    
 
-## Deploy in OpenShift
+## Deploy in OpenShift (Quarkus Native)
 
     oc new-app --template=mysql-persistent -n right-lyrics \
         -p DATABASE_SERVICE_NAME=rl-albums-mysql \
@@ -35,3 +35,17 @@ For testing the services the following Postman library can be used:
         -e QUARKUS_DATASOURCE_USERNAME=right-lyrics
         -e QUARKUS_DATASOURCE_PASSWORD=right-lyrics
         -n right-lyrics       
+
+## Deploy in Minikube (Quarkus on JVM) using Tekton Pipelines
+
+    minikube start
+
+    helm install rl-albums-mysql stable/mysql --set slave.replicas=0 -n right-lyrics
+
+    kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+    kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/v1beta1/buildah/buildah.yaml -n right-lyrics
+    kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/v1beta1/git/git-clone.yaml -n right-lyrics
+    kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/v1beta1/maven/maven.yaml -n right-lyrics
+
+    kubectl apply -f pipeline.yaml -n right-lyrics
