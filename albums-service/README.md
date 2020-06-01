@@ -19,7 +19,7 @@ For testing the services the following Postman library can be used:
     
     ./mvnw compile quarkus:dev    
 
-## Deploy in OpenShift
+## Deploy in OpenShift (Quarkus Native)
 
     oc new-app --template=mysql-persistent -n right-lyrics \
         -p DATABASE_SERVICE_NAME=rl-albums-mysql \

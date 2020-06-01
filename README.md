@@ -2,6 +2,12 @@
 
 A very simple microservice architecture to be deployed in OpenShift.
 
+The main focus is to test OpenShift/Kubernetes related technologies like:
+
+* Operators
+* Istio
+* Tekton
+
 ## Overview
 
 ![preview](./preview.png)
@@ -18,7 +24,10 @@ In OpenShift the application can be seen as follows with the Developer perspecti
 * Lyrics Service (Node.js + MongoDB)
 * Songs Service (Spring Boot + PostgreSQL)
 * Hits Service (Python + Redis)
-* Operator (Ansible)
+* Operator (Operator Framework using Ansible)
+* Importer (Quarkus - Coming Soon)
+* Lyrics Page Admin (React.js + NGINX - Coming Soon)
+* Albums Service (Quarkus + MySQL - Coming Soon)
 
 ## Deploy in OpenShift
 
@@ -65,26 +74,6 @@ oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyric
 
 Finally the Operator watches this CR and creates the application.
 
-## Service Mesh
-
-This section is a work in progress.
-
-### Prerequisites
-
-* A Service Mesh Control Plane
-* A Service Mesh Member Roll configured to watch the Right Lyrics namespace
-
-### Notes
-
-* Automatic Envoy sidecar injection is configured via annotations for all deployments
-* A basic configuration can be found in [this](istio.yaml) file
-
-### Service Graph in Kiali
-
-The following topology can be seen in Kiali when traffic arrives to the Service Mesh:
-
-![kiali](./kiali.png)
-
 ## Contributing
 
-To contribute please visit [this](CONTRIBUTING.md) section.
+Everyone is invited to contribute, if you are interested please visit the [contributing](CONTRIBUTING.md) section.
