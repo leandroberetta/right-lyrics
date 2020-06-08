@@ -17,10 +17,9 @@ class Sidebar extends React.Component<SidebarProps & RouteComponentProps> {
       <div className="sidebar list-group ">
         {items
           .filter((item) => item.visible !== false)
-          .map((item) => (
-            <div className="sidebar__item">
+          .map((item, i) => (
+            <div className="sidebar__item" key={i}>
               <NavLink
-                key={item.nombre}
                 className="list-group-item list-group-item-action"
                 isActive={(match, location): boolean =>
                   location.pathname.includes(item.route)

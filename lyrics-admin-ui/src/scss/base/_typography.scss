@@ -1,5 +1,5 @@
-$font-title: "Raleway";
-$font-body: "Montserrat";
+$font-title: "Lato";
+$font-body: "Roboto";
 
 
 h1,
@@ -8,8 +8,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: $font-title, sans-serif;
-    font-weight: 600 !important;
+    font-family: $font-title, sans-serif !important;
+    font-weight: 300 !important;
     color: $color-blue-dark;
 }
 
@@ -22,5 +22,6 @@ h2 {
 }
 
 body {
-    font-family: $font-body;
+    font-family: $font-body !important;
+    font-weight: 300 !important;
 }

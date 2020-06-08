@@ -1,5 +1,8 @@
 import React from "react";
 import Albums from "./pages/albums/Albums";
+import SongsPage from "./pages/songs/SongsPage";
+import LyricsPage from "./pages/lyrics/LyricsPage";
+import AlbumForm from "./pages/albums/AlbumForm";
 
 export enum MenuType {
   MAIN,
@@ -30,20 +33,40 @@ const menu: MenuItem[] = [
     layout: MenuLayout.FULL,
     route: "albums",
     component: <Albums></Albums>,
+    children: [
+      {
+        nombre: "Album Form",
+        type: MenuType.MAIN,
+        icon: "fas fa-form",
+        layout: MenuLayout.FULL,
+        route: "form",
+        component: <AlbumForm></AlbumForm>,
+      },
+      {
+        nombre: "Album Form",
+        type: MenuType.MAIN,
+        icon: "fas fa-form",
+        layout: MenuLayout.FULL,
+        route: "form/:id",
+        component: <AlbumForm></AlbumForm>,
+      },
+    ],
   },
   {
-    nombre: "Prueba 1",
+    nombre: "Songs",
     type: MenuType.MAIN,
+    icon: "fas fa-music",
     layout: MenuLayout.FULL,
-    route: "prueba1",
-    component: <Albums></Albums>,
+    route: "songs",
+    component: <SongsPage></SongsPage>,
   },
   {
-    nombre: "Prueba 2",
+    nombre: "Lyrics",
     type: MenuType.MAIN,
+    icon: "fas fa-file-alt",
     layout: MenuLayout.FULL,
-    route: "prueba2",
-    component: <Albums></Albums>,
+    route: "lyrics",
+    component: <LyricsPage></LyricsPage>,
   },
   //   {
   //     nombre: "Admin",
