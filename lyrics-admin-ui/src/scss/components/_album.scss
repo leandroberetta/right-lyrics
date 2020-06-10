@@ -8,7 +8,7 @@ $shadow-dark: 0.4;
 
 .album {
   background-color: $color-white;
-  border-radius: 2rem;
+  border-radius: 1rem;
   transition: all 0.2s;
   box-shadow: shadow(1, $shadow-light), shadow(2, $shadow-light),
     shadow(4, $shadow-light), shadow(6, $shadow-light),
@@ -58,7 +58,7 @@ $shadow-dark: 0.4;
 
     img {
       width: 100%;
-      border-radius: 2rem;
+      border-radius: 1rem;
       transition: all 0.2s;
     }
   }
@@ -74,4 +74,33 @@ $shadow-dark: 0.4;
   margin-top: 1rem;
   width: 100%;
   max-width: 150rem;
+}
+
+.album__form {
+  margin-top: 2rem;
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 30rem 1fr;
+
+  .album {
+    &:hover {
+      transform: none;
+      box-shadow: shadow(1, $shadow-light), shadow(2, $shadow-light),
+        shadow(4, $shadow-light), shadow(6, $shadow-light),
+        shadow(16, $shadow-light), shadow(32, $shadow-light);
+    }
+
+    &__actions {
+      display: none;
+      transition: all 0.2s;
+    }
+  }
+
+  & .album:hover .album__cover img {
+    filter: none;
+  }
+
+  & .album:hover .album__actions {
+    display: none;
+  }
 }

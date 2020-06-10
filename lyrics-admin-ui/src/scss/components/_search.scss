@@ -1,21 +1,31 @@
 .search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .input-group {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  }
 
-    .input-group {
-        width: 100%;
-    }
+  .input-group-text {
+    background-color: $color-white;
+    border-color: transparent;
+    color: $color-blue-dark;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5rem;
+    box-shadow: shadow(5, 1);
+  }
 
-    .input-group-text {
-        background-color: $color-blue-dark;
-        border-color: $color-blue-dark;
-        color: $color-white;
-        font-size: 1.2rem;
-    }
+  input {
+    font-size: 1.2rem;
+    border-radius: 5rem;
+    border: none;
+    box-shadow: shadow(5, 1);
 
-    input {
-        font-size: 1.2rem;
+    &:focus {
+      box-shadow: shadow(5, 1);
     }
+  }
 }

@@ -1,10 +1,10 @@
 .sidebar {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     transition: all .2s;
 
     &__item {
         &:not(:last-child) {
-            padding-bottom: 1rem;
+            padding-bottom: .7rem;
         }
 
 
