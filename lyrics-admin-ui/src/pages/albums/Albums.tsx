@@ -7,26 +7,28 @@ import Button from "../../common/Button";
 import NoData from "../../common/NoData";
 import Search from "../../common/Search";
 import View, { ViewOption } from "../../common/View";
+import AlbumModel from "../../model/Album";
 import SearchResponse from "../../model/SearchResponse";
 import Places from "../../router/Places";
 import { HeaderStore } from "../../store/HeaderStore";
 import { Store } from "../../store/Store";
 import Album from "./Album";
-import AlbumModel from "../../model/Album";
 
 interface AlbumsProps {
   headerStore?: HeaderStore;
 }
 
 interface AlbumsState {
-  albums: Album[];
+  albums: AlbumModel[];
   busy: boolean;
+  query: string;
 }
 
 class Albums extends React.Component<AlbumsProps, AlbumsState> {
   state = {
     albums: Array(12).fill({}),
     busy: false,
+    query: "",
   };
 
   service = AlbumsService;
@@ -38,9 +40,9 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 
   refresh = () => {
     this.setState({ busy: true, albums: Array(12).fill({}) });
-    this.service.getAll(0, 0, "").then(
+    this.service.getAll(0, 0, this.state.query).then(
       (res: AxiosResponse) => {
-        const response: SearchResponse<Album> = res.data;
+        const response: SearchResponse<AlbumModel> = res.data;
         this.setState({
           albums: response.data,
           busy: false,
@@ -52,6 +54,10 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 
   load = () => {
     this.service.load().then((res) => this.refresh());
+  };
+
+  search = (query: string) => {
+    this.setState({ query: query }, this.refresh);
   };
 
   buildAlbums = () => {
@@ -71,7 +77,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
   render() {
     return (
       <div className="container-fluid albums">
-        <Search></Search>
+        <Search setQuery={this.search}></Search>
         <div className="albums__section">
           <Actions>
             <Button icon="sync" onClick={this.refresh}>

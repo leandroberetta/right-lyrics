@@ -43,7 +43,7 @@ class LyricsPage extends React.Component<LyricsPageProps> {
     this.props.headerStore?.setTitle("LyricsPage");
     return (
       <div className="container-fluid LyricsPage">
-        <Search></Search>
+        {/* <Search></Search> */}
         <div className="LyricsPage__section">{this.buildLyricsPage()}</div>
       </div>
     );

@@ -18,8 +18,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.panache.common.Page;
 import io.veicot.rightlyrics.model.Album;
 import io.veicot.rightlyrics.model.dto.AlbumDto;
 import io.veicot.rightlyrics.model.mapper.AlbumMapper;
@@ -46,16 +44,16 @@ public class AlbumResource {
 
     @GET
     @Path("/")
-    public SearchResponse<List<AlbumDto>> getAll(@DefaultValue("") @QueryParam("query") String query,
+    public SearchResponse<List<AlbumDto>> getAll(@DefaultValue("") @QueryParam("q") String query,
             @DefaultValue("0") @QueryParam("page") Integer page,
             @DefaultValue("25") @QueryParam("pageSize") Integer pageSize) {
 
-        PanacheQuery<Album> panacheQuery = albumRepository.findAll();
+        List<Album> albums = albumRepository.search(query, page, pageSize);
 
         SearchResponse<List<AlbumDto>> response = new SearchResponse<List<AlbumDto>>();
 
         response.setStatus(0);
-        response.setData(albumMapper.albumsToAlbumsDto(panacheQuery.page(Page.of(page, pageSize)).list()));
+        response.setData(albumMapper.albumsToAlbumsDto(albums));
         response.setLength(response.getData().size());
 
         return response;

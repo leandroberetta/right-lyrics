@@ -3,7 +3,7 @@ import Album from "../model/Album";
 
 const AlbumsService = {
   getAll: async (page: number, pageSize: number, query: string) =>
-    axios.get(`/albums`),
+    axios.get(`/albums?q=${query}*`),
 
   get: async (id: number) => axios.get(`/albums/${id}`),
 

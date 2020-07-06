@@ -41,9 +41,7 @@ class SongsPage extends React.Component<SongsPageProps> {
 
   render() {
     return (
-      <div className="container-fluid SongsPage">
-        <Search></Search>
-      </div>
+      <div className="container-fluid SongsPage">{/* <Search></Search> */}</div>
     );
   }
 }

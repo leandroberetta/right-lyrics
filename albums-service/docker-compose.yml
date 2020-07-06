@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: right-lyrics
+      MYSQL_USER: right-lyrics
+      MYSQL_PASSWORD: right-lyrics
+      MYSQL_DATABASE: right-lyrics
+    ports:
+      - 3306:3306
+  elastic:
+    image: elasticsearch:7.8.0
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300

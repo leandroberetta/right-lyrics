@@ -1,0 +1,53 @@
+# docker run --name rl-albums-mysql \
+#         -e MYSQL_ROOT_PASSWORD=right-lyrics \
+#         -e MYSQL_USER=right-lyrics \
+#         -e MYSQL_PASSWORD=right-lyrics \
+#         -e MYSQL_DATABASE=right-lyrics \
+#         -p 3306:3306 -d mysql:latest
+
+## Ya se que esto no es lo optimo pero lo cree asi por cuestiones de desarrollo.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: album-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: album-service
+  template:
+    metadata:
+      labels:
+        app: album-service
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: right-lyrics
+            - name: MYSQL_USER
+              value: right-lyrics
+            - name: MYSQL_PASSWORD
+              value: right-lyrics
+            - name: MYSQL_DATABASE
+              value: right-lyrics
+          ports:
+            - containerPort: 3306
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 500m
+        - name: elasticsearch
+          image: elasticsearch:7.8.0
+          env:
+            - name: discovery.type
+              value: single-node
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: 1000m
