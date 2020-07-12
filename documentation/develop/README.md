@@ -1,0 +1,71 @@
+# Developing Right Lyrics
+
+Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
+
+* Tekton Pipelines
+* Karpenter tasks
+* Kustomize Manifests
+
+## Prerequisites
+
+* Minikube (and some addons) installed 
+* A namespace to deploy the services (**rigth-lyrics**)
+* Tekton pipelines installed
+* Karpenter tasks created in the **right-lyrics** namespace
+* A secret for pulling Red Hat images
+
+### Minikube
+
+```bash
+minikube start --memory=8g --insecure-registry "example.org"
+
+minikube addons enable registry
+minikube addons enable registry-aliases
+```
+
+### Tekton
+
+```bash
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
+```
+
+### Namespace
+
+```bash
+kubectl create namespace right-lyrics
+```
+
+### Karpenter
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
+```
+
+### Secret
+
+The following secret contains a **config.json** file with the token needed to authenticate to **registry.redhat.io** where the base images used by Right Lyris are stored.
+
+To generate this file, the recommended approach is as follows:
+
+```bash
+minikube ssh
+
+docker login registry.redhat.io
+```
+
+Complete the username and password and then get the content of the **config.json** file located in */home/docker/.docker/config.json* and create the file needed by the secret (in the example is called **auth.json**).
+
+```bash
+kubectl create secret generic redhat-credentials \
+    --from-file=.dockerconfigjson=auth.json \
+    --type=kubernetes.io/dockerconfigjson -n right-lyrics
+
+kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
+```
+
+## Building the Microservices
+
+* [Hits Service](../../hits-service/README.md)

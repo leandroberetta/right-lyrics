@@ -1,12 +1,10 @@
 # Hits Service
 
-## Kubernetes
+## Minikube (with pipelines)
 
 ### Prerequisites
 
-* A Minikube cluster running
-* Tekton pipelines installed
-* Karpenter tasks installed in right-lyrics namespace
+Follow [this](../documentation/develop/README.md) guide before proceed.
 
 ### Deploy
 
@@ -32,9 +30,9 @@ curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-ser
 curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-service:tcp-8080/proxy/api/popularity/1
 ```    
 
-## Local Enviroment
+## Local
 
-### Deploy
+### Deploy
 
 #### Redis
 
