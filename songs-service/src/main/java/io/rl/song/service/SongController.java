@@ -1,20 +1,24 @@
 package io.rl.song.service;
 
-import io.rl.song.api.*;
 import io.rl.song.model.Song;
-
 import io.rl.song.repository.SongRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,9 +30,6 @@ public class SongController {
 
     private static final String  HIT_SERVICE = System.getenv("HITS_SERVICE_URL") != null ?  System.getenv("HITS_SERVICE_URL") : "http://localhost:8080";
 
-
-
-
     Logger logger = LoggerFactory.getLogger(SongController.class);
 
     public SongController(SongRepository repository) {
@@ -39,53 +40,62 @@ public class SongController {
     RestTemplate restTemplate;
 
     @GetMapping("/{id}")
-    public Response get(@PathVariable("id") Long id) {
+    public ResponseEntity<Song> get(@PathVariable("id") Long id) {
         Optional<Song> song = repository.findById(id);
+        
         if (song.isPresent()) {
             this.hitSong(song.get());
 
-            return this.createSuccessResponse(this.mapSongToSongResponse(song.get()));
+            return ResponseEntity.ok(song.get());
         } else
-            return this.createErrorResponse("Error");
+            return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public Response getAll() {
-        List<Song> songs = repository.findAll();
+    public ResponseEntity<List<Song>> getAll(@RequestParam(defaultValue = "", required = false) String filter) {
+        List<Song> songs;
 
-        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs));
-    }
-
-    @PostMapping(path= "/search", consumes = "application/json", produces = "application/json")
-    public Response search(@RequestBody SearchTextRequest searchText) {
-        List<Song> songsByName = repository.findByNameIgnoreCaseContaining(searchText.getText());
-        List<Song> songsByArtist = repository.findByArtistIgnoreCaseContaining(searchText.getText());
-
-        Set<Song> songs = Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet());
-
-        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs.stream().collect(Collectors.toList())));
-    }
-
-    private List<SongResponse> mapSongsToSongResponseList(List<Song> songs) {
-        List<SongResponse> songResponses = new ArrayList<SongResponse>();
-
-        for (Song song: songs) {
-            songResponses.add(this.mapSongToSongResponse(song));
+        if (filter.isEmpty()) {
+            songs = repository.findAll();
+        } else {
+            List<Song> songsByName = repository.findByNameIgnoreCaseContaining(filter);
+            List<Song> songsByArtist = repository.findByArtistIgnoreCaseContaining(filter);
+    
+            songs = new ArrayList<Song>(Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet()));
         }
-
-        return songResponses;
+        
+        return ResponseEntity.ok(songs);
     }
 
-    private SongResponse mapSongToSongResponse(Song song) {
-        SongResponse songResponse = new SongResponse();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Song> delete(@PathVariable Long id) {
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
 
-        songResponse.setId(song.getId());
-        songResponse.setName(song.getName());
-        songResponse.setArtist(song.getArtist());
-        songResponse.setLyricId(song.getLyricId());
-        songResponse.setPopularity(this.getSongPopularity(song));
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.notFound().build();
+    }
 
-        return songResponse;
+    @PostMapping
+    public ResponseEntity<Song> create(@RequestBody Song song) {
+        return ResponseEntity.ok(repository.save(song));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Song> update(@PathVariable Long id, @RequestBody Song updatedSong) {
+        Optional<Song> song = repository.findById(id);
+
+        if (song.isPresent()) {
+            Song actualSong = song.get();
+
+            actualSong.setName(updatedSong.getName());
+            actualSong.setArtist(updatedSong.getArtist());
+            actualSong.setLyricId(updatedSong.getLyricId());
+
+            return ResponseEntity.ok(repository.save(actualSong));
+        } else 
+            return ResponseEntity.notFound().build();
     }
 
     private String hitSong(Song song) {
@@ -101,7 +111,6 @@ public class SongController {
         HttpEntity<HitRequest> entity = new HttpEntity<HitRequest>(hit,headers);
 
         try {
-
             hitResponse = restTemplate.exchange(String.format("%s/api/hits", HIT_SERVICE),
                     HttpMethod.POST,
                     entity,
@@ -134,24 +143,6 @@ public class SongController {
         }
 
         return popularity;
-    }
-
-    private Response createErrorResponse(String message) {
-        Response response = new Response();
-
-        response.setStatus(-1);
-        response.setMessage(message);
-
-        return response;
-    }
-
-    private Response createSuccessResponse(Object data) {
-        Response response = new Response();
-
-        response.setStatus(0);
-        response.setData(data);
-
-        return response;
     }
 }
 

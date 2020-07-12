@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: hits-redis
+  labels:
+    app: hits-service
+    app.openshift.io/runtime: python
+    app.kubernetes.io/part-of: right-lyrics
+  name: hits-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hits-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: hits-service
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/hits-service:1.1
+          imagePullPolicy: Always
+          name: hits-service
+          env:
+            - name: DB_HOST
+              value: hits-redis
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hits-redis
+                  key: password
+          ports:
+            - containerPort: 8080

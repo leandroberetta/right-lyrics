@@ -1,0 +1,77 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: hits-pipeline
+spec:
+  workspaces:
+    - name: source
+  tasks:
+    - name: clone
+      taskRef:
+        name: git
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: REPOSITORY
+          value: https://github.com/leandroberetta/right-lyrics
+        - name: REVISION
+          value: master    
+    - name: build
+      taskRef:
+        name: s2i
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: IMAGE
+          value: example.org/right-lyrics/hits-service:latest
+        - name: BASE_IMAGE
+          value: registry.access.redhat.com/rhscl/python-36-rhel7
+        - name: CONTEXT_PATH
+          value: hits-service
+        - name: TLS_VERIFY
+          value: "false"
+        - name: FORMAT
+          value: docker
+    - name: deploy
+      taskRef:
+        name: kubectl
+      runAfter:
+        - build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: apply -k $(workspaces.source.path)/hits-service/k8s/overlays/local
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hits-source
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: build-bot
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: build-bot-edit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+  - kind: ServiceAccount
+    name: build-bot
