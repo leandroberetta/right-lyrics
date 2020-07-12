@@ -16,7 +16,7 @@ spec:
         - name: REPOSITORY
           value: https://github.com/leandroberetta/right-lyrics
         - name: REVISION
-          value: master    
+          value: refactor    
     - name: build
       taskRef:
         name: s2i
