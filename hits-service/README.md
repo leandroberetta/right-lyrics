@@ -2,6 +2,12 @@
 
 ## Kubernetes
 
+### Prerequisites
+
+TBD
+
+### Deploy
+
 ```bash  
 kubectl apply -f hits-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 
@@ -21,7 +27,9 @@ spec:
 
 ## Local Enviroment
 
-### Redis
+### Deploy
+
+#### Redis
 
 ```bash
 PASSWORD=right-lyrics && \
@@ -31,7 +39,7 @@ docker run -d --name hits-redis \
     registry.redhat.io/rhel8/redis-5:latest
 ```
 
-#### Test
+#### Hits
 
 ```bash
 pip3 install -r requirements.txt

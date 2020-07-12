@@ -1,5 +1,4 @@
 resources:
-  - redis_secret.yaml
   - redis_deployment.yaml
   - redis_service.yaml
   - hits_deployment.yaml
