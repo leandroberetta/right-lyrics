@@ -2,9 +2,11 @@
 
 ## Kubernetes
 
-### Prerequisites
+### Prerequisites
 
-TBD
+* A Minikube cluster running
+* Tekton pipelines installed
+* Karpenter tasks installed in right-lyrics namespace
 
 ### Deploy
 
@@ -23,6 +25,11 @@ spec:
   - name: source
     persistentvolumeclaim:
       claimName: hits-source" | kubectl apply -f - -n right-lyrics
+
+kubectl proxy &
+
+curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-service:tcp-8080/proxy/api/hits1
+curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-service:tcp-8080/proxy/api/popularity/1
 ```    
 
 ## Local Enviroment

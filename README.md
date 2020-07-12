@@ -2,36 +2,27 @@
 
 A very simple microservice architecture to be deployed in OpenShift.
 
-The main focus is to test OpenShift/Kubernetes related technologies like:
-
-* Operators
-* Istio
-* Tekton
-
 ## Overview
 
-![preview](./preview.png)
+![preview](./documentation/images/preview.png)
 
 ## Topology
 
-In OpenShift the application can be seen as follows with the Developer perspective:
+![topology](./documentation/images/topology.png)
 
-![topology](./topology.png)
+### Components
 
-## Components
-
-* Lyrics Page (React.js + NGINX)
-* Lyrics Service (Node.js + MongoDB)
-* Songs Service (Spring Boot + PostgreSQL)
-* Hits Service (Python + Redis)
-* Operator (Operator Framework using Ansible)
-* Importer (Quarkus - Coming Soon)
-* Lyrics Page Admin (React.js + NGINX - Coming Soon)
-* Albums Service (Quarkus + MySQL - Coming Soon)
+* **Lyrics Page** (React.js + NGINX)
+* **Lyrics Service** (Node.js + MongoDB)
+* **Songs Service** (Spring Boot + PostgreSQL)
+* **Hits Service** (Python + Redis)
+* **Albums Service** (Quarkus + MySQL - Coming Soon)
+* **Lyrics Admin Page** (React.js + NGINX - Coming Soon)
+* **Operator** (Operator Framework using Ansible)
 
 ## Deploy in OpenShift
 
-Create the CRD so the Operator knows about the CR that will be watching (this requires cluster admin privileges):
+Create the CustomResourceDefinition (this requires cluster admin privileges):
 
 ```bash
 oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_crd.yaml
@@ -52,7 +43,7 @@ oc create -f ./operator/deploy/role_binding.yaml -n right-lyrics
 oc create -f ./operator/deploy/operator.yaml -n right-lyrics
 ```
 
-Deploy a CR:
+Deploy a CustomResource:
 
 ```yaml
 apiVersion: veicot.io/v1
@@ -66,14 +57,10 @@ spec:
   hitsServiceReplicas: 1
 ```
 
-The CR can be created as follows:
+The CustomResource can be created as follows:
 
 ```bash
 oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyrics
 ```
 
-Finally the Operator watches this CR and creates the application.
-
-## Contributing
-
-Everyone is invited to contribute, if you are interested please visit the [contributing](CONTRIBUTING.md) section.
+Finally, the Operator will create the application based on the CustomResource.

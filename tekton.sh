@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
-#kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
 
 kubectl create namespace right-lyrics
 
