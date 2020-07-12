@@ -21,7 +21,7 @@ spec:
         app: hits-redis
     spec:
       containers:
-        - image: registry.access.redhat.com/rhscl/redis-5-rhel7:latest
+        - image: registry.redhat.io/rhel8/redis-5:latest
           imagePullPolicy: Always
           name: hits-redis
           ports:
