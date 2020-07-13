@@ -18,7 +18,7 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 ### Minikube
 
 ```bash
-minikube start --memory=8g --insecure-registry "example.org"
+minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit
 
 minikube addons enable registry
 minikube addons enable registry-aliases
@@ -28,13 +28,6 @@ minikube addons enable registry-aliases
 
 ```bash
 kubectl create namespace right-lyrics
-```
-
-### Tekton
-
-```bash
-kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
-kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
 
 echo "apiVersion: v1
 kind: ServiceAccount
@@ -52,6 +45,13 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: build-bot" | kubectl apply -f - -n right-lyrics
+```
+
+### Tekton
+
+```bash
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
 ```
 
 ### Karpenter

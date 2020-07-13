@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: hits-service
+    app: hits-redis
     app.openshift.io/runtime: redis
     app.kubernetes.io/part-of: right-lyrics
   name: hits-redis
@@ -18,7 +18,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: hits-service
+        app: hits-redis
     spec:
       containers:
         - image: registry.redhat.io/rhel8/redis-5:latest
