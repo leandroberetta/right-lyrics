@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: songs-service
+    app: songs-postgresql
     app.openshift.io/runtime: postgresql
     app.kubernetes.io/part-of: right-lyrics
   name: songs-postgresql
@@ -18,7 +18,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: songs-service
+        app: songs-postgresql
     spec:
       containers:
         - image: registry.redhat.io/rhscl/postgresql-96-rhel7:latest
