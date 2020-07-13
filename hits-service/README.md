@@ -11,19 +11,12 @@ Follow [this](../documentation/develop/README.md) guide before proceed.
 ```bash  
 kubectl apply -f hits-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 
-echo "apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
-metadata:
-  name: hits-pipeline-run
-spec:
-  serviceAccountName: build-bot
-  pipelineRef:
-    name: hits-pipeline
-  workspaces:
-  - name: source
-    persistentvolumeclaim:
-      claimName: hits-source" | kubectl apply -f - -n right-lyrics
+tkn pipeline start hits-pipeline -s build-bot -w name=source,claimName=hits-source -n right-lyrics
+```
 
+Wait for the pipeline to complete and then check the service:
+
+```bash 
 kubectl proxy &
 
 curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-service:tcp-8080/proxy/api/hits1

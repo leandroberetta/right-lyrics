@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: hits-pipeline
+  name: songs-pipeline
 spec:
   workspaces:
     - name: source
@@ -27,11 +27,11 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/hits-service:latest
+          value: example.org/right-lyrics/songs-service:latest
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/rhscl/python-36-rhel7
+          value: registry.access.redhat.com/ubi8/openjdk-8 
         - name: CONTEXT_PATH
-          value: hits-service
+          value: songs-service
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
@@ -46,12 +46,12 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/hits-service/k8s/overlays/local
+          value: apply -k $(workspaces.source.path)/songs-service/k8s/overlays/local
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hits-source
+  name: songs-source
 spec:
   accessModes:
     - ReadWriteOnce

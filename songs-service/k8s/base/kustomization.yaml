@@ -1,0 +1,5 @@
+resources:
+  - postgresql_deployment.yaml
+  - postgresql_service.yaml
+  - songs_deployment.yaml
+  - songs_service.yaml

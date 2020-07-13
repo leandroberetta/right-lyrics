@@ -8,9 +8,10 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 
 ## Prerequisites
 
-* Minikube (and some addons) installed 
-* A namespace to deploy the services (**rigth-lyrics**)
+* Minikube (and some addons) installed
+* A namespace to deploy the services (**right-lyrics**)
 * Tekton pipelines installed
+* Tekton CLI (tkn) installed
 * Karpenter tasks created in the **right-lyrics** namespace
 * A secret for pulling Red Hat images
 
@@ -23,17 +24,34 @@ minikube addons enable registry
 minikube addons enable registry-aliases
 ```
 
+### Namespace
+
+```bash
+kubectl create namespace right-lyrics
+```
+
 ### Tekton
 
 ```bash
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
-```
 
-### Namespace
+echo "apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: build-bot" | kubectl apply -f - -n right-lyrics
 
-```bash
-kubectl create namespace right-lyrics
+echo "apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: build-bot-edit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+  - kind: ServiceAccount
+    name: build-bot" | kubectl apply -f - -n right-lyrics
 ```
 
 ### Karpenter
@@ -69,3 +87,4 @@ kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"
 ## Building the Microservices
 
 * [Hits Service](../../hits-service/README.md)
+* [Songs Service](../../songs-service/README.md)

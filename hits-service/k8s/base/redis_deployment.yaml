@@ -18,7 +18,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: hits-redis
+        app: hits-service
     spec:
       containers:
         - image: registry.redhat.io/rhel8/redis-5:latest
