@@ -30,7 +30,7 @@ curl http://localhost:8001/api/v1/namespaces/right-lyrics/services/http:hits-ser
 #### Redis
 
 ```bash
-PASSWORD=right-lyrics && \
+export PASSWORD=right-lyrics && \
 docker run -d --name hits-redis \
     -e REDIS_PASSWORD=${PASSWORD} \
     -p 6379:6379 -d \

@@ -29,7 +29,9 @@ spec:
         - name: IMAGE
           value: example.org/right-lyrics/songs-service:latest
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/ubi8/openjdk-8 
+          value: registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift
+        - name: BASE_IMAGE_S2I_SCRIPTS
+          value: /usr/local/s2i
         - name: CONTEXT_PATH
           value: songs-service
         - name: TLS_VERIFY
