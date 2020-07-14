@@ -4,6 +4,29 @@ For testing the services the following Postman library can be used:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c9b134cf391caba635d7)
 
+## Minikube (with pipelines)
+
+### Prerequisites
+
+Follow [this](../documentation/develop/README.md) guide before proceed.
+
+### Deploy
+
+```bash  
+kubectl apply -f albums-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
+
+tkn pipeline start albums-pipeline -s build-bot -w name=source,claimName=albums-source -n right-lyrics
+```
+
+Wait for the pipeline to complete and then check the service:
+
+```bash 
+kubectl proxy &
+
+curl ...
+```    
+
+
 ## Test in Local Environment
 
     docker run --name rl-albums-mysql \

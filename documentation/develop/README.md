@@ -59,6 +59,7 @@ kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/buildah/buildah.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 ```
 
@@ -89,3 +90,4 @@ kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"
 * [Hits Service](../../hits-service/README.md)
 * [Songs Service](../../songs-service/README.md)
 * [Lyrics Service](../../lyrics-service/README.md)
+* [Albums Service](../../albums-service/README.md)
