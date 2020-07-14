@@ -78,7 +78,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/songs-service/k8s/overlays/local
+          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/local
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
