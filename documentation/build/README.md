@@ -1,4 +1,6 @@
-# Developing Right Lyrics
+# Building Right Lyrics
+
+## Minikube
 
 Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
 
@@ -6,7 +8,7 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 * Karpenter tasks
 * Kustomize Manifests
 
-## Prerequisites
+### Prerequisites
 
 * Minikube (and some addons) installed
 * A namespace to deploy the services (**right-lyrics**)
@@ -15,7 +17,7 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 * Karpenter tasks created in the **right-lyrics** namespace
 * A secret for pulling Red Hat images
 
-### Minikube
+#### Minikube
 
 ```bash
 minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit
@@ -24,7 +26,7 @@ minikube addons enable registry
 minikube addons enable registry-aliases
 ```
 
-### Namespace
+#### Namespace
 
 ```bash
 kubectl create namespace right-lyrics
@@ -47,14 +49,14 @@ subjects:
     name: build-bot" | kubectl apply -f - -n right-lyrics
 ```
 
-### Tekton
+#### Tekton
 
 ```bash
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
 ```
 
-### Karpenter
+#### Karpenter
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
@@ -64,9 +66,11 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/mvn/mvn.yaml -n right-lyrics
 ```
 
-### Secret
+#### Pull Secret
 
-The following secret contains a **config.json** file with the token needed to authenticate to **registry.redhat.io** where the base images used by Right Lyris are stored.
+**Note**: For this step a free Red Hat Developer Subscription is needed.
+
+The secret contains a **config.json** file with the token needed to authenticate to **registry.redhat.io** where the base images used by Right Lyrics are stored.
 
 To generate this file, the recommended approach is as follows:
 
@@ -85,6 +89,10 @@ kubectl create secret generic redhat-credentials \
 
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 ```
+
+## OpenShift
+
+TBD
 
 ## Building the Microservices
 

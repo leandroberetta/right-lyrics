@@ -20,6 +20,8 @@ A very simple microservice architecture to be deployed in OpenShift.
 * **Lyrics Admin Page** (React.js + NGINX - Coming Soon)
 * **Operator** (Operator Framework using Ansible)
 
+For more information, read [this](documentation/README.md) documentation.
+
 ## Deploy in OpenShift
 
 Create the CustomResourceDefinition (this requires cluster admin privileges):
