@@ -31,7 +31,7 @@ spec:
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
-          value: hits-service
+          value: lyrics-service
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
