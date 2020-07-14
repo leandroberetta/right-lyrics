@@ -36,7 +36,7 @@ spec:
                   name: albums-mysql
                   key: user
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: jdbc:mysql://albums-mysql:3306/right-lyrics            
+              value: jdbc:mysql://albums-mysql:3306/rl
           imagePullPolicy: Always
           name: albums-service
           ports:

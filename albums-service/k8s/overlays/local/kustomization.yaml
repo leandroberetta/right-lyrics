@@ -6,6 +6,6 @@ patchesStrategicMerge:
 secretGenerator:
   - name: albums-mysql
     literals:
-      - user=right-lyrics
-      - password=right-lyrics     
-      - database=right-lyrics 
+      - user=rl
+      - password=rl
+      - database=rl

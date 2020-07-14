@@ -37,37 +37,7 @@ spec:
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
-          value: docker
-    # - name: package
-    #   taskRef:
-    #     name: mvn
-    #   runAfter:
-    #   - clone
-    #   workspaces:
-    #   - name: source
-    #     workspace: source
-    #   params:
-    #   - name: COMMAND
-    #     value: package
-    #   - name: CONTEXT_PATH
-    #     value: albums-service
-    # - name: build
-    #   taskRef:
-    #     name: buildah
-    #   runAfter:
-    #   - package
-    #   workspaces:
-    #   - name: source
-    #     workspace: source
-    #   params:
-    #   - name: IMAGE
-    #     value: example.org/right-lyrics/albums-service:latest
-    #   - name: CONTEXT_PATH
-    #     value: albums-service
-    #   - name: TLS_VERIFY
-    #     value: "false"
-    #   - name: FORMAT
-    #     value: docker              
+          value: docker               
     - name: deploy
       taskRef:
         name: kubectl
