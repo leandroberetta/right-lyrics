@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: lyrics-mongodb
+    app.openshift.io/runtime: mongodb
+    app.kubernetes.io/part-of: right-lyrics
+  name: lyrics-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lyrics-mongodb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: lyrics-mongodb
+    spec:
+      containers:
+        - image: registry.redhat.io/rhel8/redis-5:latest
+          imagePullPolicy: Always
+          name: lyrics-mongodb
+          ports:
+            - containerPort: 6379
+          env:
+            - name: MONGODB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: lyrics-mongodb
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: lyrics-mongodb
+            - name: MONGODB_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: lyrics-mongodb
+            - name: MONGODB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: lyrics-mongodb

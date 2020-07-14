@@ -1,60 +1,46 @@
 const express = require("express");
 const mongoose = require('mongoose');
-const cors = require('cors')
-
-
-const DB = process.env.DB_NAME ||"rl"
-const HOST_DB = process.env.DB_HOST || "localhost:27017"
-const USERNAME_DB= process.env.DB_USERNAME || "rl"
-const PASSWORD_DB= process.env.DB_PASSWORD || "rl"
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
+app.use(bodyParser.json());
 
+mongoose.connect("mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_HOST + "/" + process.env.DB_NAME, {useNewUrlParser: true, useUnifiedTopology: true});
 
-const mongoDB = "mongodb://" + USERNAME_DB + ":" + PASSWORD_DB +  "@" + HOST_DB + "/" + DB;
+const db = mongoose.connection;
 
-console.log(mongoDB)
+db.on('error', console.error.bind(console, 'connection error:'));
 
-var connectWithRetry = function() {
-    return mongoose.connect(mongoDB, function(err) {
-        if (err) {
-            console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
-            setTimeout(connectWithRetry, 5000);
-        }
-    });
-};
+const Schema = mongoose.Schema;
 
-connectWithRetry();
-
-var db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-var Schema = mongoose.Schema;
-
-var Lyric = new Schema({
+const LyricSchema = new Schema({
     name: String,
     lyric: String
 });
 
-var Lyric = mongoose.model('Lyric', Lyric);
+const Lyric = mongoose.model('Lyric', LyricSchema);
 
 app.get('/api/lyric/:lyricId', (req, res) => {
     Lyric.findOne({ '_id': req.params.lyricId }, 'name lyric', function (err, lyric) {
-        console.log(err)
-        if (err) return handleError(err);
-        
-        console.log(lyric)
+        if (err)
+            return handleError(err);
+
         return res.send(lyric);
-    })    
+    })
 });
 
-app.get('/health', (req, res) => {
-    res.send('ok')
-})
+app.post('/api/lyric', (req, res) => {
+    Lyric.create(req.body, function(err, lyric) {
+        if (err)
+            return handleError(err);
+        
+        return res.send(lyric)
+    });
+});
 
 app.listen("8080", () => {
-    console.log("Listening to requests...");
+    console.log("Listening on port 8080");
 });

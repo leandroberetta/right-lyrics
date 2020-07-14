@@ -88,3 +88,4 @@ kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"
 
 * [Hits Service](../../hits-service/README.md)
 * [Songs Service](../../songs-service/README.md)
+* [Lyrics Service](../../lyrics-service/README.md)
