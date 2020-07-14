@@ -14,7 +14,7 @@ class App extends React.Component {
         this.state = {
             songs: [],
             selectedSong: { song: null, lyrics: "" },
-            error: null            
+            error: null
         };
 
         console.log(this.state)
@@ -32,36 +32,36 @@ class App extends React.Component {
                         .then(
                             (result) => {
                                 console.log(result);
-                                
+
                                 if (result) {
                                     this.setState({
                                         selectedSong: { song: song, lyrics: result.lyric },
                                         error: null
                                     })
                                 }
-                                
+
                             },
                             (error) => {
                                 console.log(error);
 
                                 this.setState({
-                                    error: "Lyrics service not available.",                        
+                                    error: "Lyrics service not available.",
                                 });
                             }
                         )
                 },
                 (error) => {
-                    console.log(error);            
+                    console.log(error);
                 }
             )
     }
 
     onSearch = (event) => {
         fetch("/api/song/search", {
-                method: 'post',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({"text": event.target.value})
-            })
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "text": event.target.value })
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -78,7 +78,7 @@ class App extends React.Component {
                     console.log(error);
 
                     this.setState({
-                        error: "Songs service not available.",                        
+                        error: "Songs service not available.",
                     });
                 }
             )
@@ -93,7 +93,7 @@ class App extends React.Component {
 
                     this.setState({
                         isLoaded: true,
-                        songs: result.data,
+                        songs: result,
                         error: null
                     });
 
@@ -102,7 +102,7 @@ class App extends React.Component {
                     console.log(error);
 
                     this.setState({
-                        error: "Songs service not available.",                        
+                        error: "Songs service not available.",
                     });
                 }
             )
@@ -115,7 +115,7 @@ class App extends React.Component {
 
         if (this.state.selectedSong.song) {
             lyricsSection = (
-                <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>                
+                <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>
             );
 
             songList = "";
@@ -140,9 +140,9 @@ class App extends React.Component {
             <div>
                 <NavBar onSearch={this.onSearch}></NavBar>
                 <SearchBar onSearch={this.onSearch}></SearchBar>
-                { songList }
-                { errorSection }
-                { lyricsSection }
+                {songList}
+                {errorSection}
+                {lyricsSection}
             </div>
         );
     };
