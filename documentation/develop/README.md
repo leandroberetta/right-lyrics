@@ -61,6 +61,7 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/buildah/buildah.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/mvn/mvn.yaml -n right-lyrics
 ```
 
 ### Secret

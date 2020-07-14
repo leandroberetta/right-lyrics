@@ -17,11 +17,24 @@ spec:
           value: https://github.com/leandroberetta/right-lyrics
         - name: REVISION
           value: refactor
+    - name: package
+      taskRef:
+        name: mvn
+      runAfter:
+      - clone
+      workspaces:
+      - name: source
+        workspace: source
+      params:
+      - name: COMMAND
+        value: package
+      - name: CONTEXT_PATH
+        value: albums-service
     - name: build
       taskRef:
         name: buildah
       runAfter:
-      - clone
+      - package
       workspaces:
       - name: source
         workspace: source
