@@ -47,14 +47,3 @@ spec:
       params:
         - name: COMMAND
           value: apply -k $(workspaces.source.path)/lyrics-service/k8s/overlays/local
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: lyrics-source
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi

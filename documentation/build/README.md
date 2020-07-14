@@ -5,8 +5,12 @@
 Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
 
 * Tekton Pipelines
-* Karpenter tasks
+* Karpenter Tasks
 * Kustomize Manifests
+
+A Postman collection is available for testing (with Kubernetes proxy):
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c9b134cf391caba635d7)
 
 ### Prerequisites
 
@@ -15,6 +19,7 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 * Tekton pipelines installed
 * Tekton CLI (tkn) installed
 * Karpenter tasks created in the **right-lyrics** namespace
+* Some RBAC and PVC configuration needed by the pipelines
 * A secret for pulling Red Hat images
 
 #### Minikube
@@ -26,7 +31,7 @@ minikube addons enable registry
 minikube addons enable registry-aliases
 ```
 
-#### Namespace
+#### Namespace and Other Resources
 
 ```bash
 kubectl create namespace right-lyrics
@@ -47,6 +52,17 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: build-bot" | kubectl apply -f - -n right-lyrics
+
+echo "apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: source
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi" | kubectl apply -f - -n right-lyrics
 ```
 
 #### Tekton
@@ -61,9 +77,7 @@ kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/buildah/buildah.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/mvn/mvn.yaml -n right-lyrics
 ```
 
 #### Pull Secret
@@ -90,13 +104,18 @@ kubectl create secret generic redhat-credentials \
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 ```
 
-## OpenShift
+### Building and Deploying with Pipelines
 
-TBD
+```bash  
+kubectl apply -f hits-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
+kubectl apply -f songs-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
+kubectl apply -f lyrics-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
+kubectl apply -f albums-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 
-## Building the Microservices
+tkn pipeline start hits-pipeline -s build-bot -w name=source,claimName=source,subPath=hits -n right-lyrics
+tkn pipeline start songs-pipeline -s build-bot -w name=source,claimName=source,subPath=songs -n right-lyrics
+tkn pipeline start lyrics-pipeline -s build-bot -w name=source,claimName=source,subPath=lyrics -n right-lyrics
+tkn pipeline start albums-pipeline -s build-bot -w name=source,claimName=source,subPath=albums -n right-lyrics
 
-* [Hits Service](../../hits-service/README.md)
-* [Songs Service](../../songs-service/README.md)
-* [Lyrics Service](../../lyrics-service/README.md)
-* [Albums Service](../../albums-service/README.md)
+watch kubectl get pods --field-selector=status.phase=Running
+```

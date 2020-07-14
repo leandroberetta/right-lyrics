@@ -16,11 +16,10 @@ A very simple microservice architecture to be deployed in OpenShift.
 * **Lyrics Service** (Node.js + MongoDB)
 * **Songs Service** (Spring Boot + PostgreSQL)
 * **Hits Service** (Python + Redis)
-* **Albums Service** (Quarkus + MySQL - Coming Soon)
-* **Lyrics Admin Page** (React.js + NGINX - Coming Soon)
+* **Albums Service** (Quarkus + MySQL)
 * **Operator** (Operator Framework using Ansible)
 
-For more information, read [this](documentation/README.md) documentation.
+For more information, read the [documentation](documentation/README.md).
 
 ## Deploy in OpenShift
 
