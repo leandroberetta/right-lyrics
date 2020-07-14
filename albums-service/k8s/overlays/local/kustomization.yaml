@@ -7,4 +7,5 @@ secretGenerator:
   - name: albums-mysql
     literals:
       - user=right-lyrics
-      - password=right-lyrics      
+      - password=right-lyrics     
+      - database=right-lyrics 
