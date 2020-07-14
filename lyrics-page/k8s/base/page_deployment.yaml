@@ -31,7 +31,7 @@ spec:
           imagePullPolicy: Always
           name: lyrics-page
           volumeMounts:
-            - mountPath: /etc/opt/rh/rh-nginx112/nginx/nginx.conf
+            - mountPath: /etc/nginx/nginx.conf
               name: lyrics-page
               subPath: nginx.conf
           ports:

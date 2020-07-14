@@ -29,6 +29,7 @@ minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit
 
 minikube addons enable registry
 minikube addons enable registry-aliases
+minikube addons enable ingress
 ```
 
 #### Namespace and Other Resources
@@ -103,6 +104,14 @@ kubectl create secret generic redhat-credentials \
     --type=kubernetes.io/dockerconfigjson -n right-lyrics
 
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
+```
+
+#### /etc/hosts
+
+Execute the following command to add a new entry in the /etc/host file.
+
+```bash  
+echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
 ```
 
 ### Building and Deploying with Pipelines
