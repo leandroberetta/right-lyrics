@@ -1,3 +1,4 @@
 resources:
   - page_deployment.yaml
   - page_service.yaml
+  - page_configmap.yaml

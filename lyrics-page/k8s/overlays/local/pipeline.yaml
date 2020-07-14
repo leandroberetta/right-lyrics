@@ -53,7 +53,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/lyrics-service:latest
+          value: example.org/right-lyrics/lyrics-page:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/nginx-114-rhel7
         - name: CONTEXT_PATH
@@ -72,4 +72,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/lyrics-service/k8s/overlays/local
+          value: apply -k $(workspaces.source.path)/lyrics-page/k8s/overlays/local
