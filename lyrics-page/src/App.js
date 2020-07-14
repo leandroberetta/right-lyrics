@@ -27,7 +27,7 @@ class App extends React.Component {
                 (result) => {
                     console.log(result);
 
-                    fetch("/api/lyric/" + result.data.lyricId)
+                    fetch("/api/lyric/" + result.lyricId)
                         .then(result => result.json())
                         .then(
                             (result) => {
@@ -57,18 +57,14 @@ class App extends React.Component {
     }
 
     onSearch = (event) => {
-        fetch("/api/song/search", {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ "text": event.target.value })
-        })
+        fetch("/api/song?filter=" + event.target.value)
             .then(res => res.json())
             .then(
                 (result) => {
                     console.log(result)
 
                     this.setState({
-                        songs: result.data,
+                        songs: result,
                         selectedSong: { song: null, lyric: "" },
                         error: null
                     });
