@@ -16,12 +16,38 @@ spec:
         - name: REPOSITORY
           value: https://github.com/leandroberetta/right-lyrics
         - name: REVISION
-          value: refactor  
+          value: refactor
+    - name: install
+      taskRef:
+        name: npm
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: install
+        - name: CONTEXT_PATH
+          value: lyrics-page
+    - name: generate
+      taskRef:
+        name: npm
+      runAfter:
+        - install
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: run-script build
+        - name: CONTEXT_PATH
+          value: lyrics-page  
     - name: build
       taskRef:
         name: s2i
       runAfter:
-        - clone
+        - generate
       workspaces:
         - name: source
           workspace: source
@@ -29,9 +55,9 @@ spec:
         - name: IMAGE
           value: example.org/right-lyrics/lyrics-page:latest
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
+          value: registry.access.redhat.com/rhscl/nginx-114-rhel7
         - name: CONTEXT_PATH
-          value: lyrics-page
+          value: lyrics-page/build
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT

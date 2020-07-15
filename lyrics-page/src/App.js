@@ -17,11 +17,14 @@ class App extends React.Component {
             error: null
         };
 
+        this.lyricEndpoint = (process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" : "/api/lyric/";
+        this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song/" : "/api/song/";
+
         console.log(this.state)
     }
 
     onSelectSong = (song) => {
-        fetch(process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" + song.lyricId)
+        fetch(this.lyricEndpoint + song.lyricId)
             .then(result => result.json())
             .then(
                 (result) => {
@@ -44,7 +47,7 @@ class App extends React.Component {
     }
 
     onSearch = (event) => {
-        fetch(process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song?filter=" + event.target.value)
+        fetch(this.songEndpoint + "?filter=" + event.target.value)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -68,7 +71,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song")
+        fetch(this.songEndpoint)
             .then(res => res.json())
             .then(
                 (result) => {

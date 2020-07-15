@@ -2,3 +2,4 @@ resources:
   - page_deployment.yaml
   - page_service.yaml
   - page_ingress.yaml
+  - page_configmap.yaml
