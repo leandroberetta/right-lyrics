@@ -21,43 +21,30 @@ class App extends React.Component {
     }
 
     onSelectSong = (song) => {
-        fetch("/api/song/" + song.id)
+        fetch(process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" + song.lyricId)
             .then(result => result.json())
             .then(
                 (result) => {
                     console.log(result);
 
-                    fetch("/api/lyric/" + result.lyricId)
-                        .then(result => result.json())
-                        .then(
-                            (result) => {
-                                console.log(result);
+                    if (result) {
+                        this.setState({
+                            selectedSong: { song: song, lyrics: result.lyric },
+                            error: null
+                        })
+                    }
 
-                                if (result) {
-                                    this.setState({
-                                        selectedSong: { song: song, lyrics: result.lyric },
-                                        error: null
-                                    })
-                                }
-
-                            },
-                            (error) => {
-                                console.log(error);
-
-                                this.setState({
-                                    error: "Lyrics service not available.",
-                                });
-                            }
-                        )
                 },
                 (error) => {
-                    console.log(error);
+                    this.setState({
+                        error: "Lyrics service not available.",
+                    });
                 }
             )
     }
 
     onSearch = (event) => {
-        fetch("/api/song?filter=" + event.target.value)
+        fetch(process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song?filter=" + event.target.value)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -81,7 +68,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch("/api/song")
+        fetch(process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -95,8 +82,6 @@ class App extends React.Component {
 
                 },
                 (error) => {
-                    console.log(error);
-
                     this.setState({
                         error: "Songs service not available.",
                     });

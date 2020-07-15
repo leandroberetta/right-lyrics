@@ -1,13 +1,14 @@
+
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: page  
+  name: albums
 spec:
   rules:
     - host: right.lyrics
       http:
         paths:
-          - path: /
+          - path: /api/hit
             backend:
-              serviceName: lyrics-page
+              serviceName: htis-service
               servicePort: 8080

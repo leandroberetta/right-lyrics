@@ -1,7 +1,7 @@
 {
-  "name": "rl-lyric-service",
+  "name": "lyrics-service",
   "version": "1.0.0",
-  "description": "Right Lyrics - Lyric Service",
+  "description": "Right Lyrics - Lyrics Service",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./app.js",

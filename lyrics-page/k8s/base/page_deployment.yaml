@@ -30,6 +30,9 @@ spec:
         - image: quay.io/right-lyrics/lyrics-page:1.1
           imagePullPolicy: Always
           name: lyrics-page
+          env:
+            - name: NPM_RUN
+              value: serve
           volumeMounts:
             - mountPath: /etc/nginx/nginx.conf
               name: lyrics-page

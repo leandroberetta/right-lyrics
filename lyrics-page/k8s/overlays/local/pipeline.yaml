@@ -55,9 +55,9 @@ spec:
         - name: IMAGE
           value: example.org/right-lyrics/lyrics-page:latest
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/rhscl/nginx-114-rhel7
+          value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
-          value: lyrics-page/build
+          value: lyrics-page
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
