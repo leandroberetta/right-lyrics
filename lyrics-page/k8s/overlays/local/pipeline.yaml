@@ -16,38 +16,12 @@ spec:
         - name: REPOSITORY
           value: https://github.com/leandroberetta/right-lyrics
         - name: REVISION
-          value: refactor
-    - name: install
-      taskRef:
-        name: npm
-      runAfter:
-        - clone
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: COMMAND
-          value: install
-        - name: CONTEXT_PATH
-          value: lyrics-page
-    - name: generate
-      taskRef:
-        name: npm
-      runAfter:
-        - install
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: COMMAND
-          value: run-script build
-        - name: CONTEXT_PATH
-          value: lyrics-page  
+          value: refactor  
     - name: build
       taskRef:
         name: s2i
       runAfter:
-        - generate
+        - clone
       workspaces:
         - name: source
           workspace: source
