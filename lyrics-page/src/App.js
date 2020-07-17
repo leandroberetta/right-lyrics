@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
-import SongList from './SongList.js'
-import Brand from './Brand.js'
-import SongLyrics from './SongLyrics.js'
-import SearchBar from './SearchBar.js'
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
+import Brand from './Brand.js'
+import SongList from './SongList.js'
+import SongLyrics from './SongLyrics.js'
+import SearchBar from './SearchBar.js'
 
 class App extends React.Component {
     constructor(props) {

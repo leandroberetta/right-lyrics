@@ -5,11 +5,6 @@ import { faStar as regularFaStar } from '@fortawesome/free-regular-svg-icons'
 
 
 class SongPopularity extends React.Component {
-
-    constructor(props) {
-        super(props);        
-    }    
-
     render() {
         var blackStars = [];
         var whiteStars = [];
@@ -17,7 +12,7 @@ class SongPopularity extends React.Component {
         for (var i=0; i<this.props.popularity; i++)
             blackStars.push(i);
 
-        for (var i=0; i<(5-this.props.popularity); i++)
+        for (i=0; i<(5-this.props.popularity); i++)
             whiteStars.push(i);
         
         return (

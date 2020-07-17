@@ -76,8 +76,8 @@ class SongItem extends React.Component {
                     <Media.Body>
                         <Row>
                             <Col>
-                                <h5 className="mt-0 mb-1"><a onClick={this.onSelectSong.bind(this, this.props.song)} className="text-dark" href="#">{this.props.song.name}</a></h5>
-                                <p>{this.props.song.artist}</p>
+                                <h5 className="mt-0 mb-1"><button type="button" className="link-button" onClick={this.onSelectSong.bind(this, this.props.song)}>{this.props.song.name}</button></h5>
+                                <p>{this.props.song.artist}</p>                                
                             </Col>
                             <Col>
                                 <SongPopularity popularity={this.props.song.popularity}/>

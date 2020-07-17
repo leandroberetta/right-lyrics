@@ -1,7 +1,6 @@
 import React from 'react';
 import MDReactComponent from 'markdown-react-js';
 import Container from 'react-bootstrap/Container';
-import Media from 'react-bootstrap/Media';
 
 class SongLyrics extends React.Component {
     render() {

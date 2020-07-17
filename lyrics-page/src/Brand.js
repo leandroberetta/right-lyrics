@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'react-bootstrap/Image'
 import Container from 'react-bootstrap/Container'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'

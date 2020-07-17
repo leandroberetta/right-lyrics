@@ -2,11 +2,6 @@ import React from 'react';
 import Image from 'react-bootstrap/Image'
 
 class AlbumCover extends React.Component {
-
-    constructor(props) {
-        super(props);        
-    }    
-
     render() {        
         if (this.props.error || !this.props.isLoaded)
             return "";
