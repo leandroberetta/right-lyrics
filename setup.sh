@@ -65,3 +65,9 @@ tkn pipeline start albums-pipeline -s build-bot -w name=source,claimName=source,
 tkn pipeline start page-pipeline -s build-bot -w name=source,claimName=source,subPath=page -n right-lyrics
 
 watch kubectl get pods --field-selector=status.phase=Running -n right-lyrics
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data @even_flow.lyric \
+  http://right.lyrics/api/lyric
+

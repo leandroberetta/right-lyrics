@@ -8,7 +8,7 @@ class Brand extends React.Component {
     render() {
         return (
             <Container className="padding text-center">
-                <h1><FontAwesomeIcon icon={faPlayCircle} /> Right Lyrics</h1>                
+                <h1 className="main-color"><FontAwesomeIcon icon={faPlayCircle} /> Right Lyrics</h1>                
             </Container>
         );
     }

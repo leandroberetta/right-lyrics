@@ -17,28 +17,7 @@ class App extends React.Component {
             error: null
         };
 
-        this.lyricEndpoint = (process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" : "/api/lyric/";
         this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song/" : "/api/song/";
-    }
-
-    onSelectSong = (song) => {
-        fetch(this.lyricEndpoint + song.lyricId)
-            .then(result => result.json())
-            .then(
-                (result) => {
-                    if (result) {
-                        this.setState({
-                            selectedSong: { song: song, lyrics: result.lyric },
-                            error: null
-                        })
-                    }
-                },
-                (error) => {
-                    this.setState({
-                        error: "Lyrics service not available.",
-                    });
-                }
-            )
     }
 
     onSearch = (event) => {
@@ -54,6 +33,7 @@ class App extends React.Component {
 
                 },
                 (error) => {
+                    console.log(error);
                     this.setState({
                         error: "Songs service not available.",
                     });
@@ -67,13 +47,13 @@ class App extends React.Component {
             .then(
                 (result) => {
                     this.setState({
-                        isLoaded: true,
                         songs: result,
                         error: null
                     });
 
                 },
                 (error) => {
+                    console.log(error);
                     this.setState({
                         error: "Songs service not available.",
                     });
@@ -94,7 +74,7 @@ class App extends React.Component {
             songList = "";
         } else {
             songList = (
-                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs}></SongList>
+                <SongList songs={this.state.songs}></SongList>
             );
         }
 
