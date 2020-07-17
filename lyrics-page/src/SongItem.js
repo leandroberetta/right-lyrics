@@ -8,6 +8,11 @@ import { faStar as regularFaStar } from '@fortawesome/free-regular-svg-icons'
 
 
 class SongItem extends React.Component {
+
+    componentDidMount() {
+        console.log("llamar al album service");
+    }
+
     render() {
         var blackStars = [];
         var whiteStars = [];

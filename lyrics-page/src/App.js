@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import SongList from './SongList.js'
-import NavBar from './NavBar.js'
+import Brand from './Brand.js'
 import SongLyrics from './SongLyrics.js'
 import SearchBar from './SearchBar.js'
 import Alert from 'react-bootstrap/Alert'
@@ -19,8 +19,6 @@ class App extends React.Component {
 
         this.lyricEndpoint = (process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" : "/api/lyric/";
         this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song/" : "/api/song/";
-
-        console.log(this.state)
     }
 
     onSelectSong = (song) => {
@@ -28,15 +26,12 @@ class App extends React.Component {
             .then(result => result.json())
             .then(
                 (result) => {
-                    console.log(result);
-
                     if (result) {
                         this.setState({
                             selectedSong: { song: song, lyrics: result.lyric },
                             error: null
                         })
                     }
-
                 },
                 (error) => {
                     this.setState({
@@ -51,8 +46,6 @@ class App extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result)
-
                     this.setState({
                         songs: result,
                         selectedSong: { song: null, lyric: "" },
@@ -61,8 +54,6 @@ class App extends React.Component {
 
                 },
                 (error) => {
-                    console.log(error);
-
                     this.setState({
                         error: "Songs service not available.",
                     });
@@ -75,8 +66,6 @@ class App extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result)
-
                     this.setState({
                         isLoaded: true,
                         songs: result,
@@ -122,8 +111,8 @@ class App extends React.Component {
 
         return (
             <div>
-                <NavBar onSearch={this.onSearch}></NavBar>
-                <SearchBar onSearch={this.onSearch}></SearchBar>
+                <Brand/>                
+                <SearchBar onSearch={this.onSearch}></SearchBar>                
                 {songList}
                 {errorSection}
                 {lyricsSection}

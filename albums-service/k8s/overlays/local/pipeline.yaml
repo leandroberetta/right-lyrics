@@ -37,7 +37,9 @@ spec:
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
-          value: docker               
+          value: docker
+        - name: INCREMENTAL
+          value: "false"      
     - name: deploy
       taskRef:
         name: kubectl

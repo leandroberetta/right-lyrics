@@ -38,6 +38,8 @@ spec:
           value: "false"
         - name: FORMAT
           value: docker
+        - name: INCREMENTAL
+          value: "false"
     - name: deploy
       taskRef:
         name: kubectl
