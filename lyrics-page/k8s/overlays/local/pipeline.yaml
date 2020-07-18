@@ -8,7 +8,7 @@ spec:
   tasks:
     - name: clone
       taskRef:
-        name: git
+        name: git        
       workspaces:
         - name: source
           workspace: source
@@ -40,7 +40,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: run-script build
+          value: run build
         - name: CONTEXT_PATH
           value: lyrics-page  
     - name: build
