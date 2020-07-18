@@ -25,7 +25,6 @@ public abstract class JacksonImporter implements Importer {
     public <T> T doImport(TypeReference<T> typeReference,
                           String content) {
         try {
-
             return this.mapper.readValue(content, convertTypeReference(typeReference));
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Can't read " + this.type().name() + " content", e);
