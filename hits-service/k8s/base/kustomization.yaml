@@ -1,0 +1,6 @@
+resources:
+  - redis_deployment.yaml
+  - redis_service.yaml
+  - hits_deployment.yaml
+  - hits_service.yaml
+  - hits_ingress.yaml

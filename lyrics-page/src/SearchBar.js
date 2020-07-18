@@ -17,7 +17,7 @@ class SearchBar extends React.Component {
         return (
             <Container className="padding">
                 <Form>
-                    <FormControl type="text" placeholder="Search for songs" className="mr-sm-2" onChange={this.props.onSearch}/>              
+                    <FormControl type="text" placeholder="Search for songs" className="mr-sm-2 form-control-lg" onChange={this.props.onSearch}/>              
                 </Form>
             </Container>
         );

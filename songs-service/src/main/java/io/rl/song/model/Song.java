@@ -7,22 +7,26 @@ public class Song {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
     private String name;
-
-    @Column(name = "ARTIST")
     private String artist;
-
-    @Column(name = "LYRIC_ID")
     private String lyricId;
+    private Long albumId;
 
     @Transient
     private String popularity;
 
-    public Song() {}
+    public Song() {
+    }
+
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
+    }
 
     public Long getId() {
         return id;

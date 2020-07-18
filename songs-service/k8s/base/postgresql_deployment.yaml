@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: songs-postgresql
+    app.openshift.io/runtime: postgresql
+    app.kubernetes.io/part-of: right-lyrics
+  name: songs-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: songs-postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: songs-postgresql
+    spec:
+      containers:
+        - image: registry.redhat.io/rhscl/postgresql-96-rhel7:latest
+          imagePullPolicy: Always
+          name: songs-postgresql
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: songs-postgresql
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: songs-postgresql
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: songs-postgresql

@@ -1,0 +1,11 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - resources_patch.yaml
+  - image_patch.yaml
+secretGenerator:
+  - name: lyrics-mongodb
+    literals:
+      - user=right-lyrics
+      - password=right-lyrics
+      - database=right-lyrics

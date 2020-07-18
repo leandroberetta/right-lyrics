@@ -1,0 +1,14 @@
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: albums
+spec:
+  rules:
+    - host: right.lyrics
+      http:
+        paths:
+          - path: /albums
+            backend:
+              serviceName: albums-service
+              servicePort: 8080

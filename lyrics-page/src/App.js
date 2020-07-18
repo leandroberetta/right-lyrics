@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
-import SongList from './SongList.js'
-import NavBar from './NavBar.js'
-import SongLyrics from './SongLyrics.js'
-import SearchBar from './SearchBar.js'
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
+import Brand from './Brand.js'
+import SongList from './SongList.js'
+import SongLyrics from './SongLyrics.js'
+import SearchBar from './SearchBar.js'
 
 class App extends React.Component {
     constructor(props) {
@@ -14,61 +13,19 @@ class App extends React.Component {
         this.state = {
             songs: [],
             selectedSong: { song: null, lyrics: "" },
-            error: null            
+            error: null
         };
 
-        console.log(this.state)
-    }
-
-    onSelectSong = (song) => {
-        fetch("/api/song/" + song.id)
-            .then(result => result.json())
-            .then(
-                (result) => {
-                    console.log(result);
-
-                    fetch("/api/lyric/" + result.data.lyricId)
-                        .then(result => result.json())
-                        .then(
-                            (result) => {
-                                console.log(result);
-                                
-                                if (result) {
-                                    this.setState({
-                                        selectedSong: { song: song, lyrics: result.lyric },
-                                        error: null
-                                    })
-                                }
-                                
-                            },
-                            (error) => {
-                                console.log(error);
-
-                                this.setState({
-                                    error: "Lyrics service not available.",                        
-                                });
-                            }
-                        )
-                },
-                (error) => {
-                    console.log(error);            
-                }
-            )
+        this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL + "/api/song/" : "/api/song/";
     }
 
     onSearch = (event) => {
-        fetch("/api/song/search", {
-                method: 'post',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({"text": event.target.value})
-            })
+        fetch(this.songEndpoint + "?filter=" + event.target.value)
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result)
-
                     this.setState({
-                        songs: result.data,
+                        songs: result,
                         selectedSong: { song: null, lyric: "" },
                         error: null
                     });
@@ -76,33 +33,28 @@ class App extends React.Component {
                 },
                 (error) => {
                     console.log(error);
-
                     this.setState({
-                        error: "Songs service not available.",                        
+                        error: "Songs service not available.",
                     });
                 }
             )
     }
 
     componentDidMount() {
-        fetch("/api/song")
+        fetch(this.songEndpoint)
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result)
-
                     this.setState({
-                        isLoaded: true,
-                        songs: result.data,
+                        songs: result,
                         error: null
                     });
 
                 },
                 (error) => {
                     console.log(error);
-
                     this.setState({
-                        error: "Songs service not available.",                        
+                        error: "Songs service not available.",
                     });
                 }
             )
@@ -115,13 +67,13 @@ class App extends React.Component {
 
         if (this.state.selectedSong.song) {
             lyricsSection = (
-                <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>                
+                <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>
             );
 
             songList = "";
         } else {
             songList = (
-                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs}></SongList>
+                <SongList songs={this.state.songs}></SongList>
             );
         }
 
@@ -138,11 +90,11 @@ class App extends React.Component {
 
         return (
             <div>
-                <NavBar onSearch={this.onSearch}></NavBar>
-                <SearchBar onSearch={this.onSearch}></SearchBar>
-                { songList }
-                { errorSection }
-                { lyricsSection }
+                <Brand/>                
+                <SearchBar onSearch={this.onSearch}></SearchBar>                
+                {songList}
+                {errorSection}
+                {lyricsSection}
             </div>
         );
     };

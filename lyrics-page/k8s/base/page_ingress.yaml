@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: page  
+spec:
+  rules:
+    - host: right.lyrics
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: lyrics-page
+              servicePort: 8080

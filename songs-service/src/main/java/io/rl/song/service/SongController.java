@@ -1,20 +1,28 @@
 package io.rl.song.service;
 
-import io.rl.song.api.*;
 import io.rl.song.model.Song;
-
 import io.rl.song.repository.SongRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,10 +32,8 @@ public class SongController {
 
     private final SongRepository repository;
 
-    private static final String  HIT_SERVICE = System.getenv("HITS_SERVICE_URL") != null ?  System.getenv("HITS_SERVICE_URL") : "http://localhost:8080";
-
-
-
+    @Value("${hits.service.url}")
+    private String hitsService;
 
     Logger logger = LoggerFactory.getLogger(SongController.class);
 
@@ -39,75 +45,76 @@ public class SongController {
     RestTemplate restTemplate;
 
     @GetMapping("/{id}")
-    public Response get(@PathVariable("id") Long id) {
-        Optional<Song> song = repository.findById(id);
-        if (song.isPresent()) {
-            this.hitSong(song.get());
+    public ResponseEntity<Song> get(@PathVariable("id") Long id) {
+        Optional<Song> songOptional = repository.findById(id);
+        
+        if (songOptional.isPresent()) {
+            Song song = songOptional.get();
 
-            return this.createSuccessResponse(this.mapSongToSongResponse(song.get()));
+            song.setPopularity(this.hitSong(song.getId()));
+
+            return ResponseEntity.ok(song);
         } else
-            return this.createErrorResponse("Error");
+            return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public Response getAll() {
-        List<Song> songs = repository.findAll();
+    public ResponseEntity<List<Song>> getAll(@RequestParam(defaultValue = "", required = false) String filter) {
+        List<Song> songs;
 
-        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs));
-    }
-
-    @PostMapping(path= "/search", consumes = "application/json", produces = "application/json")
-    public Response search(@RequestBody SearchTextRequest searchText) {
-        List<Song> songsByName = repository.findByNameIgnoreCaseContaining(searchText.getText());
-        List<Song> songsByArtist = repository.findByArtistIgnoreCaseContaining(searchText.getText());
-
-        Set<Song> songs = Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet());
-
-        return this.createSuccessResponse(this.mapSongsToSongResponseList(songs.stream().collect(Collectors.toList())));
-    }
-
-    private List<SongResponse> mapSongsToSongResponseList(List<Song> songs) {
-        List<SongResponse> songResponses = new ArrayList<SongResponse>();
+        if (filter.isEmpty()) {
+            songs = repository.findAll();
+        } else {
+            List<Song> songsByName = repository.findByNameIgnoreCaseContaining(filter);
+            List<Song> songsByArtist = repository.findByArtistIgnoreCaseContaining(filter);
+    
+            songs = new ArrayList<Song>(Stream.concat(songsByName.stream(), songsByArtist.stream()).collect(Collectors.toSet()));
+        }
 
         for (Song song: songs) {
-            songResponses.add(this.mapSongToSongResponse(song));
+            song.setPopularity(this.getSongPopularity(song.getId()));
         }
-
-        return songResponses;
+        
+        return ResponseEntity.ok(songs);
     }
 
-    private SongResponse mapSongToSongResponse(Song song) {
-        SongResponse songResponse = new SongResponse();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Song> delete(@PathVariable Long id) {
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
 
-        songResponse.setId(song.getId());
-        songResponse.setName(song.getName());
-        songResponse.setArtist(song.getArtist());
-        songResponse.setLyricId(song.getLyricId());
-        songResponse.setPopularity(this.getSongPopularity(song));
-
-        return songResponse;
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.notFound().build();
     }
 
-    private String hitSong(Song song) {
-        String popularity = null;
+    @PostMapping
+    public ResponseEntity<Song> create(@RequestBody Song song) {
+        return ResponseEntity.ok(repository.save(song));
+    }
 
-        HitRequest hit = new HitRequest();
-        HitResponse hitResponse;
+    @PutMapping("/{id}")
+    public ResponseEntity<Song> update(@PathVariable Long id, @RequestBody Song updatedSong) {
+        Optional<Song> song = repository.findById(id);
 
-        hit.setId(song.getId());
+        if (song.isPresent()) {
+            Song actualSong = song.get();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<HitRequest> entity = new HttpEntity<HitRequest>(hit,headers);
+            actualSong.setName(updatedSong.getName());
+            actualSong.setArtist(updatedSong.getArtist());
+            actualSong.setLyricId(updatedSong.getLyricId());
+            actualSong.setAlbumId(updatedSong.getAlbumId());
+
+            return ResponseEntity.ok(repository.save(actualSong));
+        } else 
+            return ResponseEntity.notFound().build();
+    }
+
+    private String hitSong(Long songId) {
+        String popularity = null;                
 
         try {
-
-            hitResponse = restTemplate.exchange(String.format("%s/api/hits", HIT_SERVICE),
-                    HttpMethod.POST,
-                    entity,
-                    HitResponse.class).getBody();
-
-            popularity =  hitResponse.getPopularity();
+           popularity = restTemplate.getForEntity(String.format("%s/api/hit/%d", hitsService, songId), String.class).getBody();
         } catch(Exception e) {
             logger.error(e.getMessage());
         }
@@ -115,43 +122,16 @@ public class SongController {
         return popularity;
     }
 
-    private String getSongPopularity(Song song) {
+    private String getSongPopularity(Long songId) {
         String popularity = null;
 
-        HitResponse hitResponse;
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
         try {
-            hitResponse = restTemplate.getForEntity(
-                    String.format("%s/api/popularity/%d",HIT_SERVICE, song.getId()),
-                    HitResponse.class).getBody();
-
-            popularity =  hitResponse.getPopularity();
+            popularity = restTemplate.getForEntity(String.format("%s/api/popularity/%d", hitsService, songId), String.class).getBody();            
         } catch(Exception e) {
             logger.error(e.getMessage());
         }
 
         return popularity;
-    }
-
-    private Response createErrorResponse(String message) {
-        Response response = new Response();
-
-        response.setStatus(-1);
-        response.setMessage(message);
-
-        return response;
-    }
-
-    private Response createSuccessResponse(Object data) {
-        Response response = new Response();
-
-        response.setStatus(0);
-        response.setData(data);
-
-        return response;
     }
 }
 
