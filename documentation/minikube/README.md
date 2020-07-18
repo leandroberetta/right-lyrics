@@ -1,6 +1,4 @@
-# Building Right Lyrics
-
-## Minikube
+# Build and Deploy in Minikube
 
 Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
 
@@ -8,21 +6,16 @@ Right Lyrics can be developed locally on Minikube deploying the services (and it
 * Karpenter Tasks
 * Kustomize Manifests
 
-A Postman collection is available for testing (with Kubernetes proxy):
+A Postman collection is available for testing the services:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c9b134cf391caba635d7)
 
 ### Prerequisites
 
-* Minikube (and some addons) installed
-* A namespace to deploy the services (**right-lyrics**)
-* Tekton pipelines installed
-* Tekton CLI (tkn) installed
-* Karpenter tasks created in the **right-lyrics** namespace
-* Some RBAC and PVC configuration needed by the pipelines
-* A secret for pulling Red Hat images
+* Minikube
+* Tekton CLI
 
-#### Minikube
+#### Creating a Minikube Instance
 
 ```bash
 minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit
@@ -32,7 +25,7 @@ minikube addons enable registry-aliases
 minikube addons enable ingress
 ```
 
-#### Namespace and Other Resources
+#### Creating the Namespace and other Resources (RBAC, PVC and Secret)
 
 ```bash
 kubectl create namespace right-lyrics
@@ -65,24 +58,7 @@ spec:
     requests:
       storage: 1Gi" | kubectl apply -f - -n right-lyrics
 ```
-
-#### Tekton
-
-```bash
-kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
-kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
-```
-
-#### Karpenter
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/npm/npm.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
-```
-
-#### Pull Secret
+##### Pull Secret
 
 **Note**: For this step a free Red Hat Developer Subscription is needed.
 
@@ -106,7 +82,23 @@ kubectl create secret generic redhat-credentials \
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 ```
 
-#### /etc/hosts
+#### Installing Tekton
+
+```bash
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
+```
+
+#### Installing Karpenter Tasks
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/npm/npm.yaml -n right-lyrics
+kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
+```
+
+#### Add Entry to /etc/hosts File
 
 Execute the following command to add a new entry in the /etc/host file.
 
