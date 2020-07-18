@@ -2,17 +2,17 @@
 
 A very simple microservice architecture to be deployed in OpenShift.
 
+## Overview
+
+![preview](./documentation/images/preview.png)
+
 ## Documentation
 
 * [Build and deploy in Minikube with Tekton pipelines](./documentation/minikube/README.md)
 * Build and deploy in OpenShift with Tekton pipelines
 * [Deploy in OpenShift with a Kubernetes Operator](./documentation/openshift/operator/README.md)
 
-## Overview
-
-![preview](./documentation/images/preview.png)
-
-### Components
+## Components
 
 * **Lyrics Page** (React.js + NGINX)
 * **Lyrics Service** (Node.js + MongoDB)
