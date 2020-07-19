@@ -27,7 +27,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/albums-service:latest
+          value: image-registry.openshift-image-registry.svc:5000/right-lyrics/albums-service:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/ubi8/openjdk-11:latest
         - name: BASE_IMAGE_S2I_SCRIPTS
@@ -50,4 +50,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/local
+          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/dev

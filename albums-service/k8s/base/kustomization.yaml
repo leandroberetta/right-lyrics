@@ -3,3 +3,4 @@ resources:
   - mysql_service.yaml
   - albums_deployment.yaml
   - albums_service.yaml
+  - albums_ingress.yaml
