@@ -9,7 +9,7 @@ spec:
     - name: GIT_REVISION
       default: master
     - name: IMAGE
-      default: example.org/right-lyrics/page-service:latest
+      default: example.org/right-lyrics/lyrics-page:latest
   workspaces:
     - name: source
   tasks:
@@ -79,7 +79,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/page-service/k8s
+          value: apply -k $(workspaces.source.path)/lyrics-page/k8s
     - name: pause-rollout
       taskRef:
         name: kubectl
@@ -90,7 +90,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout pause deployment page-service
+          value: rollout pause deployment lyrics-page
     - name: set-image
       taskRef:
         name: kubectl
@@ -101,7 +101,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: set image deployment page-service page-service=$(params.IMAGE)
+          value: set image deployment lyrics-page lyrics-page=$(params.IMAGE)
     - name: set-last-restart
       taskRef:
         name: kubectl
@@ -112,7 +112,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: patch deployment/page-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
+          value: patch deployment/lyrics-page --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
     - name: resume-rollout
       taskRef:
         name: kubectl
@@ -123,4 +123,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout resume deployment page-service
+          value: rollout resume deployment lyrics-page
