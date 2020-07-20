@@ -27,8 +27,9 @@ oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/ta
 
 oc apply -f albums-service/k8s/albums-pipeline.yaml -n right-lyrics
 oc apply -f hits-service/k8s/hits-pipeline.yaml -n right-lyrics
-oc apply -f lyrics-page/k8s/page-pipeline.yaml -n right-lyrics
+oc apply -f songs-service/k8s/songs-pipeline.yaml -n right-lyrics
 oc apply -f lyrics-service/k8s/lyrics-pipeline.yaml -n right-lyrics
+oc apply -f lyrics-page/k8s/page-pipeline.yaml -n right-lyrics
 
 tkn pipeline start albums-pipeline -n right-lyrics \
   -w name=source,claimName=source,subPath=albums \
@@ -53,3 +54,9 @@ tkn pipeline start lyrics-pipeline -n right-lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/lyrics-service:latest
+
+tkn pipeline start songs-pipeline -n right-lyrics \
+  -w name=source,claimName=source,subPath=lyrics \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/songs-service:latest
