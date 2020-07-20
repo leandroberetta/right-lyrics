@@ -5,7 +5,7 @@ metadata:
     app.openshift.io/connects-to: albums-mariadb
   labels:
     app: albums-service
-    app.openshift.io/runtime: java
+    app.openshift.io/runtime: quarkus
     app.kubernetes.io/part-of: right-lyrics
   name: albums-service
 spec:
