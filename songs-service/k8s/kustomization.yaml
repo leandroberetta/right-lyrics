@@ -1,7 +1,9 @@
-bases:
-  - ../../base
-patchesStrategicMerge:
-  - resources_patch.yaml
+resources:
+  - postgresql-deployment.yaml
+  - postgresql-service.yaml
+  - songs-deployment.yaml
+  - songs-service.yaml
+  - songs-ingress.yaml
 secretGenerator:
   - name: songs-postgresql
     literals:

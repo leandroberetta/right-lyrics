@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.openshift.io/connects-to: songs-postgresql
+    app.openshift.io/connects-to: songs-postgresql,hits-service
   labels:
     app: songs-service
     app.openshift.io/runtime: java
