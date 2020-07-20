@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: hits-pipeline
+  name: page-pipeline
 spec:
   params:
     - name: GIT_REPOSITORY
@@ -9,7 +9,7 @@ spec:
     - name: GIT_REVISION
       default: master
     - name: IMAGE
-      default: example.org/right-lyrics/hits-service:latest
+      default: example.org/right-lyrics/page-service:latest
   workspaces:
     - name: source
   tasks:
@@ -79,7 +79,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/hits-service/k8s
+          value: apply -k $(workspaces.source.path)/page-service/k8s
     - name: pause-rollout
       taskRef:
         name: kubectl
@@ -90,18 +90,18 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout pause deployment hits-service
+          value: rollout pause deployment page-service
     - name: set-image
       taskRef:
         name: kubectl
       runAfter:
-        - apply-manifests
+        - pause-rollout
       workspaces:
         - name: source
           workspace: source
       params:
         - name: COMMAND
-          value: set image deployment hits-service hits-service=$(params.IMAGE)
+          value: set image deployment page-service page-service=$(params.IMAGE)
     - name: set-last-restart
       taskRef:
         name: kubectl
@@ -112,7 +112,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: patch deployment/hits-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
+          value: patch deployment/page-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
     - name: resume-rollout
       taskRef:
         name: kubectl
@@ -123,4 +123,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout resume deployment hits-service
+          value: rollout resume deployment page-service

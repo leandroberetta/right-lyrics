@@ -71,7 +71,7 @@ spec:
       taskRef:
         name: kubectl
       runAfter:
-        - apply-manifests
+        - pause-rollout
       workspaces:
         - name: source
           workspace: source
