@@ -42,8 +42,8 @@ spec:
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
-          value: docker
-    - name: pause-rollout
+          value: docker    
+    - name: apply-manifests
       taskRef:
         name: kubectl
       runAfter:
@@ -53,18 +53,18 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout pause deployment hits-service
-    - name: apply-manifests
+          value: apply -k $(workspaces.source.path)/hits-service/k8s
+    - name: pause-rollout
       taskRef:
         name: kubectl
       runAfter:
-        - pause-rollout
+        - apply-manifests
       workspaces:
         - name: source
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/hits-service/k8s
+          value: rollout pause deployment hits-service
     - name: set-image
       taskRef:
         name: kubectl

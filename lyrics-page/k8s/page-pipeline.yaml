@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: albums-pipeline
+  name: hits-pipeline
 spec:
   params:
     - name: GIT_REPOSITORY
@@ -9,7 +9,7 @@ spec:
     - name: GIT_REVISION
       default: master
     - name: IMAGE
-      default: example.org/right-lyrics/albums-service:latest
+      default: example.org/right-lyrics/hits-service:latest
   workspaces:
     - name: source
   tasks:
@@ -24,11 +24,37 @@ spec:
           value: $(params.GIT_REPOSITORY)
         - name: REVISION
           value: $(params.GIT_REVISION)
+    - name: install
+      taskRef:
+        name: npm
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: install
+        - name: CONTEXT_PATH
+          value: lyrics-page
+    - name: generate
+      taskRef:
+        name: npm
+      runAfter:
+        - install
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: run build
+        - name: CONTEXT_PATH
+          value: lyrics-page  
     - name: build
       taskRef:
         name: s2i
       runAfter:
-        - clone
+        - generate
       workspaces:
         - name: source
           workspace: source
@@ -36,15 +62,13 @@ spec:
         - name: IMAGE
           value: $(params.IMAGE)
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/ubi8/openjdk-11:latest
-        - name: BASE_IMAGE_S2I_SCRIPTS
-          value: /usr/local/s2i
+          value: registry.access.redhat.com/rhscl/nginx-114-rhel7
         - name: CONTEXT_PATH
-          value: albums-service
+          value: lyrics-page/build
         - name: TLS_VERIFY
           value: "false"
         - name: FORMAT
-          value: docker
+          value: docker    
     - name: apply-manifests
       taskRef:
         name: kubectl
@@ -55,7 +79,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s
+          value: apply -k $(workspaces.source.path)/hits-service/k8s
     - name: pause-rollout
       taskRef:
         name: kubectl
@@ -66,7 +90,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout pause deployment albums-service
+          value: rollout pause deployment hits-service
     - name: set-image
       taskRef:
         name: kubectl
@@ -77,7 +101,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: set image deployment albums-service albums-service=$(params.IMAGE)
+          value: set image deployment hits-service hits-service=$(params.IMAGE)
     - name: set-last-restart
       taskRef:
         name: kubectl
@@ -88,7 +112,7 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: patch deployment/albums-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
+          value: patch deployment/hits-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
     - name: resume-rollout
       taskRef:
         name: kubectl
@@ -99,4 +123,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: rollout resume deployment albums-service
+          value: rollout resume deployment hits-service

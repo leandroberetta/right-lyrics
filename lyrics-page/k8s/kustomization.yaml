@@ -1,0 +1,5 @@
+resources:
+  - page-deployment.yaml
+  - page-service.yaml
+  - page-ingress.yaml
+  - page-configmap.yaml
