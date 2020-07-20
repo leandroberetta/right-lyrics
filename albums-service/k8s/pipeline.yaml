@@ -9,7 +9,9 @@ spec:
     - name: GIT_REVISION
       default: master
     - name: OVERLAY
-      default: dev
+      default: dev    
+    - name: IMAGE
+      default: example.org/right-lyrics/albums-service:latest
   workspaces:
     - name: source
   tasks:
@@ -34,7 +36,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/albums-service:latest
+          value: $(params.IMAGE)
         - name: BASE_IMAGE
           value: registry.access.redhat.com/ubi8/openjdk-11:latest
         - name: BASE_IMAGE_S2I_SCRIPTS
@@ -45,7 +47,7 @@ spec:
           value: "false"
         - name: FORMAT
           value: docker
-    - name: deploy
+    - name: apply-manifests
       taskRef:
         name: kubectl
       runAfter:
@@ -55,4 +57,26 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/$(param.OVERLAY)
+          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/$(params.OVERLAY)
+    - name: set-image
+      taskRef:
+        name: kubectl
+      runAfter:
+        - apply-manifests
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: set image deployment albums-service albums-service=$(params.IMAGE)
+    - name: rollout
+      taskRef:
+        name: kubectl
+      runAfter:
+        - set-image
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: patch deployment/album-service--patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"

@@ -1,7 +1,5 @@
 bases:
   - ../../base
-patchesStrategicMerge:
-  - image_patch.yaml
 secretGenerator:
   - name: albums-mariadb
     literals:
