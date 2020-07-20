@@ -6,7 +6,7 @@ A very simple microservice architecture to be deployed in OpenShift.
 
 ![preview](./documentation/images/preview.png)
 
-## Topology
+## Topology
 
 ![topology](./documentation/images/topology.png)
 
