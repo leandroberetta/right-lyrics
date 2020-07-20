@@ -36,7 +36,7 @@ spec:
                   name: albums-mariadb
                   key: user
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: jdbc:mysql://albums-mysql:3306/rl
+              value: jdbc:mysql://albums-mariadb:3306/rl
           imagePullPolicy: Always
           name: albums-service
           ports:
