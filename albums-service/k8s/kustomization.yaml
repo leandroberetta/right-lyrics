@@ -1,0 +1,12 @@
+resources:
+  - mariadb-deployment.yaml
+  - mariadb-service.yaml
+  - albums-deployment.yaml
+  - albums-service.yaml
+  - albums-ingress.yaml
+secretGenerator:
+  - name: albums-mariadb
+    literals:
+      - user=rl
+      - password=rl
+      - database=rl

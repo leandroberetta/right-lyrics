@@ -1,8 +1,0 @@
-bases:
-  - ../../base
-secretGenerator:
-  - name: albums-mariadb
-    literals:
-      - user=rl
-      - password=rl
-      - database=rl

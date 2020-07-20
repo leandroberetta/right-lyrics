@@ -7,9 +7,7 @@ spec:
     - name: GIT_REPOSITORY
       default: https://github.com/leandroberetta/right-lyrics
     - name: GIT_REVISION
-      default: master
-    - name: OVERLAY
-      default: dev    
+      default: develop
     - name: IMAGE
       default: example.org/right-lyrics/albums-service:latest
   workspaces:
@@ -47,7 +45,7 @@ spec:
           value: "false"
         - name: FORMAT
           value: docker
-    - name: apply-manifests
+    - name: pause-rollout
       taskRef:
         name: kubectl
       runAfter:
@@ -57,7 +55,18 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/$(params.OVERLAY)
+          value: rollout pause deployment albums-service
+    - name: apply-manifests
+      taskRef:
+        name: kubectl
+      runAfter:
+        - pause-rollout
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: apply -k $(workspaces.source.path)/albums-service/k8s
     - name: set-image
       taskRef:
         name: kubectl
@@ -69,7 +78,7 @@ spec:
       params:
         - name: COMMAND
           value: set image deployment albums-service albums-service=$(params.IMAGE)
-    - name: rollout
+    - name: set-last-restart
       taskRef:
         name: kubectl
       runAfter:
@@ -79,4 +88,15 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: patch deployment/album-service--patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
+          value: patch deployment/albums-service --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}"
+    - name: resume-rollout
+      taskRef:
+        name: kubectl
+      runAfter:
+        - set-last-restart
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: rollout resume deployment albums-service

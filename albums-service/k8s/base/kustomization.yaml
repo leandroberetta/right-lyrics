@@ -1,6 +1,0 @@
-resources:
-  - mariadb_deployment.yaml
-  - mariadb_service.yaml
-  - albums_deployment.yaml
-  - albums_service.yaml
-  - albums_ingress.yaml
