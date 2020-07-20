@@ -7,4 +7,6 @@ resources:
 secretGenerator:
   - name: lyrics-mongodb
     literals:
+      - user=right-lyrics
       - password=right-lyrics
+      - database=right-lyrics
