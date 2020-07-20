@@ -10,5 +10,5 @@ spec:
         paths:
           - path: /api/hit
             backend:
-              serviceName: htis-service
+              serviceName: hits-service
               servicePort: 8080
