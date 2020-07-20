@@ -1,0 +1,10 @@
+resources:
+  - redis-deployment.yaml
+  - redis-service.yaml
+  - hits-deployment.yaml
+  - hits-service.yaml
+  - hits-ingress.yaml
+secretGenerator:
+  - name: hits-redis
+    literals:
+      - password=right-lyrics
