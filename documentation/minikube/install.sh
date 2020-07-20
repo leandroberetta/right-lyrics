@@ -53,7 +53,6 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
 
 kubectl apply -f albums-service/k8s/pipeline.yaml -n right-lyrics
-
 kubectl apply -f hits-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 kubectl apply -f songs-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 kubectl apply -f lyrics-service/k8s/overlays/local/pipeline.yaml -n right-lyrics

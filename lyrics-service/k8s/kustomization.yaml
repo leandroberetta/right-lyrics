@@ -1,0 +1,10 @@
+resources:
+  - mongo-deployment.yaml
+  - mongo-service.yaml
+  - lyrics-deployment.yaml
+  - lyrics-service.yaml
+  - lyrics-ingress.yaml
+secretGenerator:
+  - name: lyrics-redis
+    literals:
+      - password=right-lyrics
