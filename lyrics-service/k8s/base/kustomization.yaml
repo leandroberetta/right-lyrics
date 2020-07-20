@@ -1,6 +1,0 @@
-resources:
-  - mongo_deployment.yaml
-  - mongo_service.yaml
-  - lyrics_deployment.yaml
-  - lyrics_service.yaml
-  - lyrics_ingress.yaml
