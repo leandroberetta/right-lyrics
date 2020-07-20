@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.openshift.io/connects-to: albums-mysql
+    app.openshift.io/connects-to: albums-mariadb
   labels:
     app: albums-service
     app.openshift.io/runtime: java
@@ -28,12 +28,12 @@ spec:
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: albums-mysql
+                  name: albums-mariadb
                   key: password
             - name: QUARKUS_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: albums-mysql
+                  name: albums-mariadb
                   key: user
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: jdbc:mysql://albums-mysql:3306/rl
