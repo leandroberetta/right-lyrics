@@ -7,7 +7,9 @@ spec:
     - name: GIT_REPOSITORY
       default: https://github.com/leandroberetta/right-lyrics
     - name: GIT_REVISION
-      default: develop
+      default: master
+    - name: OVERLAY
+      default: dev
   workspaces:
     - name: source
   tasks:
@@ -53,4 +55,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/dev
+          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/$(param.OVERLAY)
