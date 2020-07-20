@@ -43,12 +43,6 @@ tkn pipeline start hits-pipeline -n right-lyrics \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/hits-service:latest
 
-tkn pipeline start page-pipeline -n right-lyrics \
-  -w name=source,claimName=source,subPath=page \
-  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/lyrics-page:latest
-
 tkn pipeline start lyrics-pipeline -n right-lyrics \
   -w name=source,claimName=source,subPath=lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
@@ -60,3 +54,9 @@ tkn pipeline start songs-pipeline -n right-lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/songs-service:latest
+
+tkn pipeline start page-pipeline -n right-lyrics \
+  -w name=source,claimName=source,subPath=page \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc:5000/right-lyrics/lyrics-page:latest

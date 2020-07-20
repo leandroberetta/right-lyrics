@@ -6,6 +6,10 @@ A very simple microservice architecture to be deployed in OpenShift.
 
 ![preview](./documentation/images/preview.png)
 
+## Topology
+
+![topology](./documentation/images/topology.png)
+
 ## Documentation
 
 * [Deploy in Minikube with Tekton Pipelines](./documentation/minikube/pipelines.md)
