@@ -7,4 +7,5 @@ spec:
     spec:
       containers:
         - name: albums-service
-          image: example.org/right-lyrics/albums-service:latest
+          image: image-registry.openshift-image-registry.svc:5000/right-lyrics/albums-service:latest
+ 

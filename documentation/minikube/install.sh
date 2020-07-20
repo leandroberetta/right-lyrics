@@ -52,11 +52,19 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
 
+kubectl apply -f albums-service/k8s/overlays/dev/pipeline.yaml -n right-lyrics
+
 kubectl apply -f hits-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 kubectl apply -f songs-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 kubectl apply -f lyrics-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
-kubectl apply -f albums-service/k8s/overlays/local/pipeline.yaml -n right-lyrics
 kubectl apply -f lyrics-page/k8s/overlays/local/pipeline.yaml -n right-lyrics
+
+tkn pipeline start albums-pipeline \
+  -n right-lyrics \ 
+  -s build-bot \
+  -w name=source,claimName=source,subPath=albums \
+  -p GIT_REPOSITORY=http://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master 
 
 tkn pipeline start hits-pipeline -s build-bot -w name=source,claimName=source,subPath=hits -n right-lyrics
 tkn pipeline start songs-pipeline -s build-bot -w name=source,claimName=source,subPath=songs -n right-lyrics

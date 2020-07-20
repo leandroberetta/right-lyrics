@@ -3,6 +3,11 @@ kind: Pipeline
 metadata:
   name: albums-pipeline
 spec:
+  params:
+    - name: GIT_REPOSITORY
+      default: https://github.com/leandroberetta/right-lyrics
+    - name: GIT_REVISION
+      default: develop
   workspaces:
     - name: source
   tasks:
@@ -14,9 +19,9 @@ spec:
           workspace: source
       params:
         - name: REPOSITORY
-          value: https://github.com/leandroberetta/right-lyrics
+          value: $(params.GIT_REPOSITORY)
         - name: REVISION
-          value: master
+          value: $(params.GIT_REVISION)
     - name: build
       taskRef:
         name: s2i
@@ -27,7 +32,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/right-lyrics/albums-service:latest
+          value: example.org/right-lyrics/albums-service:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/ubi8/openjdk-11:latest
         - name: BASE_IMAGE_S2I_SCRIPTS
@@ -38,8 +43,6 @@ spec:
           value: "false"
         - name: FORMAT
           value: docker
-        - name: INCREMENTAL
-          value: "false"      
     - name: deploy
       taskRef:
         name: kubectl

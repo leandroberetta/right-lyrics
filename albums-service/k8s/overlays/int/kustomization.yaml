@@ -4,7 +4,7 @@ patchesStrategicMerge:
   - resources_patch.yaml
   - image_patch.yaml
 secretGenerator:
-  - name: albums-mysql
+  - name: albums-mariadb
     literals:
       - user=rl
       - password=rl

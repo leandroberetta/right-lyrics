@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: albums-mysql
-  name: albums-mysql
+    app: albums-mariadb
+  name: albums-mariadb
 spec:
   ports:
     - name: tcp-3306
@@ -11,4 +11,4 @@ spec:
       protocol: TCP
       targetPort: 3306
   selector:
-    app: albums-mysql
+    app: albums-mariadb
