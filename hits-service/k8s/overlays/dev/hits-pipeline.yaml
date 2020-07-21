@@ -35,8 +35,6 @@ spec:
           value: example.org/right-lyrics/hits-service:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/python-36-rhel7
-        - name: BASE_IMAGE_S2I_SCRIPTS
-          value: /usr/local/s2i
         - name: CONTEXT_PATH
           value: hits-service
         - name: TLS_VERIFY

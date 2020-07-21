@@ -1,16 +1,13 @@
 #!/user/bin/env bash
 
-# Minikube
 minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit --container-runtime=cri-o
 
 minikube addons enable registry
 minikube addons enable registry-aliases
 minikube addons enable ingress
 
-# Tekton
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.notags.yaml
 
-# Right Lyrics
 kubectl create namespace right-lyrics
 
 echo "apiVersion: v1
@@ -42,18 +39,16 @@ spec:
       storage: 1Gi" | kubectl apply -f - -n right-lyrics
 
 kubectl create secret generic redhat-credentials \
-    --from-file=.dockerconfigjson=$HOME/dev/auth.json \
+    --from-file=.dockerconfigjson=auth.json \
     --type=kubernetes.io/dockerconfigjson -n right-lyrics
 
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 
-# Karpenter
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/npm/npm.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 
-# Pipelines
 kubectl apply -f albums-service/k8s/overlays/dev/albums-pipeline.yaml -n right-lyrics
 
 tkn pipeline start albums-pipeline \
@@ -64,3 +59,12 @@ tkn pipeline start albums-pipeline \
   -n right-lyrics \
   --showlog 
 
+kubectl apply -f hits-service/k8s/overlays/dev/hits-pipeline.yaml -n right-lyrics
+
+tkn pipeline start hits-pipeline \
+  -s pipeline \
+  -w name=source,claimName=source,subPath=hits \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -n right-lyrics \
+  --showlog 
