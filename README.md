@@ -12,8 +12,8 @@ A very simple microservice architecture to be deployed in OpenShift.
 
 ## Usage
 
-* [Deploy in a development environment on Minikube with Tekton Pipelines](./documentation/minikube/dev/README.md)
-* [Deploy in a CI environment on OpenShift with OpenShift Pipelines](./documentation/openshift/int/README.md)
+* [Build and deploy in a development environment on Minikube with Tekton Pipelines](./documentation/minikube/dev/README.md)
+* [Build and deploy in a CI environment on OpenShift with OpenShift Pipelines](./documentation/openshift/int/README.md)
 * [Deploy in production on OpenShift using a Kubernetes Operator](./documentation/openshift/prod/README.md)
 
 ## Components
