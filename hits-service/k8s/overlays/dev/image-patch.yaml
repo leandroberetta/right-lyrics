@@ -1,0 +1,11 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hits-service
+spec:
+  template:
+    spec:
+      containers:
+        - name: hits-service
+          image: example.org/right-lyrics/hits-service:latest

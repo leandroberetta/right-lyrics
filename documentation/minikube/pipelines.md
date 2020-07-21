@@ -1,4 +1,4 @@
-# Deploy in Minikube with Tekton Pipelines
+# Deploy in a development environment on Minikube with Tekton Pipelines
 
 Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
 

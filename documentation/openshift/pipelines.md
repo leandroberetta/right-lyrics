@@ -1,1 +1,1 @@
-# Deploy in OpenShift with OpenShift Pipelines
+# Deploy in a CI environment on OpenShift with OpenShift Pipelines

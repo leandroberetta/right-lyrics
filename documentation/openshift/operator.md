@@ -1,4 +1,4 @@
-# Deploy in OpenShift with a Kubernetes Operator
+# Deploy in production on OpenShift using a Kubernetes Operator
 
 Create the CustomResourceDefinition (this requires cluster admin privileges):
 

@@ -1,0 +1,8 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - image-patch.yaml
+secretGenerator:
+  - name: hits-redis
+    literals:
+      - password=right-lyrics
