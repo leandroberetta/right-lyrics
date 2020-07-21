@@ -4,9 +4,3 @@ resources:
   - lyrics-deployment.yaml
   - lyrics-service.yaml
   - lyrics-ingress.yaml
-secretGenerator:
-  - name: lyrics-mongodb
-    literals:
-      - user=right-lyrics
-      - password=right-lyrics
-      - database=right-lyrics

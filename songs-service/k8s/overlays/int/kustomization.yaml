@@ -1,0 +1,11 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - resources-patch.yaml
+  - image-patch.yaml
+secretGenerator:
+  - name: songs-postgresql
+    literals:
+      - user=right-lyrics
+      - password=right-lyrics
+      - database=right-lyrics

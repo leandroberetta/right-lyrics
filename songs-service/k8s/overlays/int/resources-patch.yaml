@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: songs-service
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: songs-service
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 300m
+            requests:
+              memory: 256Mi
+              cpu: 300m
