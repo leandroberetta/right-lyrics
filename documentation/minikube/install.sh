@@ -61,5 +61,6 @@ tkn pipeline start albums-pipeline \
   -w name=source,claimName=source,subPath=albums \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -n right-lyrics 
+  -n right-lyrics \
+  --showlog 
 

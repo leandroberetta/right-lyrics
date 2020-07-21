@@ -22,9 +22,6 @@ public class Album {
     private String coverUrl;
     private String year;
 
-    @OneToMany
-    private Set<Song> songs;
-
     public Album() {
     }
 
