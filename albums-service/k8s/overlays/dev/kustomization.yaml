@@ -1,0 +1,10 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - image-patch.yaml
+secretGenerator:
+  - name: albums-mariadb
+    literals:
+      - user=rl
+      - password=rl
+      - database=rl
