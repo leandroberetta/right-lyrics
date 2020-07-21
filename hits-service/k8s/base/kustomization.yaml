@@ -4,7 +4,3 @@ resources:
   - hits-deployment.yaml
   - hits-service.yaml
   - hits-ingress.yaml
-secretGenerator:
-  - name: hits-redis
-    literals:
-      - password=right-lyrics
