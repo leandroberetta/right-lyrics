@@ -1,0 +1,21 @@
+- title: Californication
+  artist: Red Hot Chili Peppers
+  coverUrl: https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg
+  year: 1999
+  songs:
+    - name: Californication
+      lyricFile: importer/lyrics/californication.txt
+- title: Ten
+  artist: Pearl Jam
+  coverUrl: https://upload.wikimedia.org/wikipedia/en/2/2d/PearlJam-Ten2.jpg
+  year: 1991
+  songs:
+    - name: Even Flow
+      lyricFile: importer/lyrics/even_flow.txt
+- title: The Colour And The Shape
+  artist: Foo Fighters
+  coverUrl: https://upload.wikimedia.org/wikipedia/en/0/0d/FooFighters-TheColourAndTheShape.jpg
+  year: 1997
+  songs:
+    - name: Everlong
+      lyricFile: importer/lyrics/everlong.txt
