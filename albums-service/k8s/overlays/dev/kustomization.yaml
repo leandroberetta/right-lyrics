@@ -1,9 +1,10 @@
 bases:
   - ../../base
 patchesStrategicMerge:
-  - resources_patch.yaml
+  - image-patch.yaml
 secretGenerator:
-  - name: albums-mysql
+  - name: albums-mariadb
     literals:
-      - user=right-lyrics
-      - password=right-lyrics
+      - user=rl
+      - password=rl
+      - database=rl

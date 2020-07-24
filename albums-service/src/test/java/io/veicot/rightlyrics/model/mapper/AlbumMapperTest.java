@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import io.veicot.rightlyrics.model.Album;
-import io.veicot.rightlyrics.model.Song;
 import io.veicot.rightlyrics.model.dto.AlbumDto;
 
 public class AlbumMapperTest {
@@ -29,14 +28,6 @@ public class AlbumMapperTest {
                                 "Red Hot Chili Peppers",
                                 "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
                                 "06/08/1999");
-
-        Set<Song> songs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
-
-        songs.add(new Song(1L));
-        songs.add(new Song(2L));
-        songs.add(new Song(3L));
-
-        album.setSongs(songs);
 
         AlbumDto albumDto = albumMapper.albumToAlbumDto(album);
 

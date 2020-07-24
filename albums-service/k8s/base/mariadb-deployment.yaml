@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: albums-mariadb
+    app.openshift.io/runtime: mariadb
+    app.kubernetes.io/part-of: right-lyrics
+  name: albums-mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: albums-mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: albums-mariadb
+    spec:
+      containers:
+        - image: registry.redhat.io/rhscl/mariadb-102-rhel7:latest
+          imagePullPolicy: Always
+          name: albums-mariadb
+          ports:
+            - containerPort: 3306
+          env:
+            - name: DATABASE_SERVICE_NAME
+              value: albums-mariadb
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: albums-mariadb
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: albums-mariadb
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: albums-mariadb
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: albums-mariadb

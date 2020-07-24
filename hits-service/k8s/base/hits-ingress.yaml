@@ -1,0 +1,14 @@
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hits
+spec:
+  rules:
+    - host: right.lyrics
+      http:
+        paths:
+          - path: /api/hit
+            backend:
+              serviceName: hits-service
+              servicePort: 8080

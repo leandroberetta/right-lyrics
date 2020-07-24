@@ -1,4 +1,4 @@
 bases:
   - ../../base
 patchesStrategicMerge:
-  - resources_patch.yaml
+  - image-patch.yaml

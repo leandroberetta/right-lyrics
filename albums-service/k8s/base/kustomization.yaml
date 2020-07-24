@@ -1,5 +1,6 @@
 resources:
-  - mysql_deployment.yaml
-  - mysql_service.yaml
-  - albums_deployment.yaml
-  - albums_service.yaml
+  - mariadb-deployment.yaml
+  - mariadb-service.yaml
+  - albums-deployment.yaml
+  - albums-service.yaml
+  - albums-ingress.yaml

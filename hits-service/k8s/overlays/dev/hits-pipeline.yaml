@@ -1,0 +1,52 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: hits-pipeline
+spec:
+  params:
+    - name: GIT_REPOSITORY
+      default: https://github.com/leandroberetta/right-lyrics
+    - name: GIT_REVISION
+      default: master
+  workspaces:
+    - name: source
+  tasks:
+    - name: clone
+      taskRef:
+        name: git
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: REPOSITORY
+          value: $(params.GIT_REPOSITORY)
+        - name: REVISION
+          value: $(params.GIT_REVISION)
+    - name: build
+      taskRef:
+        name: s2i
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: IMAGE
+          value: example.org/right-lyrics/hits-service:latest
+        - name: BASE_IMAGE
+          value: registry.access.redhat.com/rhscl/python-36-rhel7
+        - name: CONTEXT_PATH
+          value: hits-service
+        - name: TLS_VERIFY
+          value: "false"
+    - name: deploy
+      taskRef:
+        name: kubectl
+      runAfter:
+        - build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: apply -k $(workspaces.source.path)/hits-service/k8s/overlays/dev
