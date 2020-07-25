@@ -57,7 +57,7 @@ public class ImportData implements Step {
                 logger.info("Creating {} lyric", song.getName());
                 LyricDTO lyricDTO = new LyricDTO();
                 lyricDTO.setName(song.getName());
-                lyricDTO.setLyric(readFile(song.getLyricFile()));
+                lyricDTO.setLyric(song.getLyric());
                 LyricDTO createdLyric = lyricsService.create(lyricDTO);
                 logger.info("Lyric {} created with ID {}", createdLyric.getName(), createdLyric.get_id());
                 
@@ -77,10 +77,10 @@ public class ImportData implements Step {
     public String readFile(String name) {
         try {
             File file = new File(getClass().getClassLoader().getResource(name).getFile());
-            return String.join("\n", Files.readAllLines(file.toPath()));
+            return new String(Files.readAllBytes(file.toPath()));
+            //return String.join("\n", Files.readAllLines(file.toPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

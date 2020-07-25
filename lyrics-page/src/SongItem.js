@@ -2,6 +2,9 @@ import React from 'react';
 import Media from 'react-bootstrap/Media';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import SongPopularity from './SongPopularity.js'
 import AlbumCover from './AlbumCover.js'
 import SongLyrics from './SongLyrics.js'
@@ -10,17 +13,21 @@ class SongItem extends React.Component {
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             lyrics: "",
             isLoaded: false,
-            album: null,            
+            album: null,
             error: null
         };
 
         this.albumEndpoint = (process.env.REACT_APP_ALBUMS_SERVICE_URL) ? process.env.REACT_APP_ALBUMS_SERVICE_URL + "/albums/" : "/albums/";
         this.lyricEndpoint = (process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL + "/api/lyric/" : "/api/lyric/";
 
+    }
+
+    onClose = () => {
+        this.setState({lyrics: ""});
     }
 
     onSelectSong = (song) => {
@@ -37,7 +44,7 @@ class SongItem extends React.Component {
                 },
                 (error) => {
                     console.log(error);
-                    this.setState({                        
+                    this.setState({
                         error: "Lyrics service not available.",
                     });
                 }
@@ -66,26 +73,39 @@ class SongItem extends React.Component {
             )
     }
 
-    render() {        
+    render() {
         const { lyrics, error, isLoaded, album } = this.state;
+
+        var close = "";
+
+        if (lyrics !== "") {
+            close = (
+                <Row>
+                    <Col style={{paddingTop: "10px"}} >
+                        <Button onClick={this.onClose} className="float-right"><FontAwesomeIcon icon={faTimesCircle} /></Button>
+                    </Col>
+                </Row>
+            );
+        }
 
         return (
             <div>
                 <Media key={this.props.song.id} className="my-4" as="li">
-                    <AlbumCover error={error} isLoaded={isLoaded} album={album}/>
+                    <AlbumCover error={error} isLoaded={isLoaded} album={album} />
                     <Media.Body>
                         <Row>
-                            <Col>
+                            <Col className="col-12 col-md-8">
                                 <h5 className="mt-0 mb-1"><button type="button" className="link-button" onClick={this.onSelectSong.bind(this, this.props.song)}>{this.props.song.name}</button></h5>
-                                <p>{this.props.song.artist}</p>                                
+                                <p>{this.props.song.artist}</p>
                             </Col>
-                            <Col>
-                                <SongPopularity popularity={this.props.song.popularity}/>
+                            <Col className="col-12 col-md-4">
+                                <SongPopularity popularity={this.props.song.popularity} />
                             </Col>
                         </Row>
-                    </Media.Body>                
+                        {close}
+                    </Media.Body>
                 </Media>
-                <SongLyrics lyrics={lyrics}/>
+                <SongLyrics lyrics={lyrics} />
             </div>
         );
     }

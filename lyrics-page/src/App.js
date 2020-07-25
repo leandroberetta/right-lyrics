@@ -1,10 +1,8 @@
 import React from 'react';
 import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
-import Brand from './Brand.js'
 import SongList from './SongList.js'
-import SongLyrics from './SongLyrics.js'
-import SearchBar from './SearchBar.js'
+import NavBar from './NavBar.js'
 
 class App extends React.Component {
     constructor(props) {
@@ -60,42 +58,24 @@ class App extends React.Component {
             )
     }
 
-    render() {
-        var lyricsSection = "";
+    render() {        
         var errorSection = "";
-        var songList = "";
-
-        if (this.state.selectedSong.song) {
-            lyricsSection = (
-                <SongLyrics selectedSong={this.state.selectedSong}></SongLyrics>
-            );
-
-            songList = "";
-        } else {
-            songList = (
-                <SongList songs={this.state.songs}></SongList>
-            );
-        }
 
         if (this.state.error) {
             errorSection = (
-                <Container>
-                    <Alert variant="danger">
-                        <Alert.Heading>Error!</Alert.Heading>
-                        <p>{this.state.error}</p>
-                    </Alert>
-                </Container>
+                <Alert variant="danger">
+                    <Alert.Heading>Error!</Alert.Heading>
+                    <p>{this.state.error}</p>
+                </Alert>
             );
         }
 
         return (
-            <div>
-                <Brand/>                
-                <SearchBar onSearch={this.onSearch}></SearchBar>                
-                {songList}
-                {errorSection}
-                {lyricsSection}
-            </div>
+            <Container className="padding">                
+                <NavBar onSearch={this.onSearch}/>
+                <SongList songs={this.state.songs}></SongList>
+                {errorSection}                
+            </Container>
         );
     };
 

@@ -1,15 +1,20 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container'
+import Brand from './Brand';
+import SearchBar from './SearchBar'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class NavBar extends React.Component {
     render() {
         return (
-            <Navbar bg="dark" variant="dark">
-                <Container>
-                    <Navbar.Brand href="#">Right Lyrics</Navbar.Brand>                    
-                </Container>
-            </Navbar>
+            <Row>
+                <Col className="col-12 col-sm-8 center">
+                    <Brand/>
+                </Col>
+                <Col className="col-12 col-sm-4 center">
+                    <SearchBar onSearch={this.props.onSearch}></SearchBar>
+                </Col>
+            </Row>
         );
     }
 }
