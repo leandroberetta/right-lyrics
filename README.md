@@ -2,6 +2,12 @@
 
 A very simple microservice architecture to be deployed in OpenShift.
 
+## Usage
+
+* [Build and deploy in Minikube with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
+* [Build and deploy in OpenShift with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
+* [Deploy in OpenShift with Operators](./documentation/openshift/operators/README.md)
+
 ## Overview
 
 ![overview](./documentation/images/overview.png)
@@ -10,13 +16,7 @@ A very simple microservice architecture to be deployed in OpenShift.
 
 ![topology](./documentation/images/topology.png)
 
-## Usage
-
-* [Build and deploy in Minikube with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
-* [Build and deploy in OpenShift with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
-* [Deploy in OpenShift with Operators](./documentation/openshift/operators/README.md)
-
-## Components
+### Components
 
 * **Lyrics UI** (React.js + NGINX)
 * **Lyrics Admin UI** (React.js + NGINX)
