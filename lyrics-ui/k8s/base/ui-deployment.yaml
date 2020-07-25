@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: songs-service,lyrics-service,albums-service
+  labels:
+    app: lyrics-ui
+    app.openshift.io/runtime: nginx
+    app.kubernetes.io/part-of: right-lyrics
+  name: lyrics-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lyrics-ui
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: lyrics-ui
+    spec:
+      volumes:
+        - configMap:
+            name: lyrics-ui
+          name: lyrics-ui
+      containers:
+        - image: quay.io/right-lyrics/lyrics-ui:1.1
+          imagePullPolicy: Always
+          name: lyrics-ui
+          env:
+            - name: NPM_RUN
+              value: serve
+          volumeMounts:
+            - mountPath: /etc/nginx/nginx.conf
+              name: lyrics-ui
+              subPath: nginx.conf
+          ports:
+            - containerPort: 8080

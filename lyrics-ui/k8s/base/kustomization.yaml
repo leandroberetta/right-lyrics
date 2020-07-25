@@ -1,0 +1,5 @@
+resources:
+  - ui-deployment.yaml
+  - ui-service.yaml
+  - ui-ingress.yaml
+  - ui-configmap.yaml

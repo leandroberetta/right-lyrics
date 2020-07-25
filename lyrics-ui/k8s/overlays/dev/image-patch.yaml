@@ -1,0 +1,11 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lyrics-ui
+spec:
+  template:
+    spec:
+      containers:
+        - name: lyrics-ui
+          image: example.org/right-lyrics/lyrics-ui:latest

@@ -73,7 +73,7 @@ kubectl apply -f albums-service/k8s/overlays/dev/albums-pipeline.yaml -n right-l
 kubectl apply -f hits-service/k8s/overlays/dev/hits-pipeline.yaml -n right-lyrics
 kubectl apply -f lyrics-service/k8s/overlays/dev/lyrics-pipeline.yaml -n right-lyrics
 kubectl apply -f songs-service/k8s/overlays/dev/songs-pipeline.yaml -n right-lyrics
-kubectl apply -f lyrics-page/k8s/overlays/dev/page-pipeline.yaml -n right-lyrics
+kubectl apply -f lyrics-ui/k8s/overlays/dev/ui-pipeline.yaml -n right-lyrics
 
 tkn pipeline start albums-pipeline \
   -s pipeline \
@@ -103,9 +103,9 @@ tkn pipeline start songs-pipeline \
   -p GIT_REVISION=master \
   -n right-lyrics
 
-tkn pipeline start page-pipeline \
+tkn pipeline start ui-pipeline \
   -s pipeline \
-  -w name=source,claimName=source,subPath=page \
+  -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -n right-lyrics
