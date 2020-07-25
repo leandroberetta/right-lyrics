@@ -2,15 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: importer-service
+    app: import-service
     app.openshift.io/runtime: quarkus
     app.kubernetes.io/part-of: right-lyrics
-  name: importer-service
+  name: import-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: importer-service
+      app: import-service
   strategy:
     type: RollingUpdate
   template:
@@ -18,10 +18,10 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: importer-service
+        app: import-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/importer-service:1.0
+        - image: quay.io/right-lyrics/import-service:1.0
           env:
             - name: ALBUMS_SERVICE_BASE_URL
               value: http://albums-service:8080
@@ -30,6 +30,6 @@ spec:
             - name: LYRICS_SERVICE_BASE_URL
               value: http://lyrics-service:8080
           imagePullPolicy: Always
-          name: importer-service
+          name: import-service
           ports:
             - containerPort: 8080

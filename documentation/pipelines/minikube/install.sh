@@ -66,7 +66,7 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 
 #
-# Pipelines
+# Pipelines (DEV)
 #
 
 kubectl apply -f albums-service/k8s/overlays/dev/albums-pipeline.yaml -n right-lyrics
