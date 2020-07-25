@@ -1,4 +1,4 @@
-# Build and Deploy in Minikube with Tekton Pipelines
+# Build and deploy in Minikube with Tekton Pipelines
 
 Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
 
@@ -24,7 +24,7 @@ Every step needed is in [this](install.sh) script.
 sh install.sh
 ```
 
-#### Notes
+#### Notes
 
 ##### Pull Secret
 
@@ -54,7 +54,7 @@ kubectl create secret generic redhat-credentials \
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 ```
 
-##### Add an Entry to the /etc/hosts File
+##### Add an Entry to the /etc/hosts File
 
 The ingress addon is used to provide easy ways to use the application. The only requirement is to add an entry to the */etc/hosts* file mapping a name with the minikube ip.
 
