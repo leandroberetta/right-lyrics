@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lyrics-page
+  name: lyrics-ui
 spec:
   template:
     spec:
       containers:
-        - name: lyrics-page
-          image: image-registry.openshift-image-registry:5000/right-lyrics/lyrics-page:latest
+        - name: lyrics-ui
+          image: image-registry.openshift-image-registry:5000/right-lyrics/lyrics-ui:latest
