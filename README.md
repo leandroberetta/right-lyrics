@@ -16,7 +16,7 @@ A very simple microservice architecture to be deployed in OpenShift.
 
 ![topology](./documentation/images/topology.png)
 
-### Components
+## Components
 
 * **Lyrics UI** (React.js + NGINX)
 * **Lyrics Admin UI** (React.js + NGINX)
