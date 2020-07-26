@@ -8,7 +8,7 @@ spec:
     - host: right.lyrics
       http:
         paths:
-          - path: /albums
+          - path: /api/albums
             backend:
               serviceName: albums-service
               servicePort: 8080

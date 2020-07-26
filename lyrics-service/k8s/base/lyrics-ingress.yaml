@@ -7,7 +7,7 @@ spec:
     - host: right.lyrics
       http:
         paths:
-          - path: /api/lyric
+          - path: /api/lyrics
             backend:
               serviceName: lyrics-service
               servicePort: 8080

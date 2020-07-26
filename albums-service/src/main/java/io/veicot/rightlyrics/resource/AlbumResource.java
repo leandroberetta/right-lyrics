@@ -28,7 +28,7 @@ import io.veicot.rightlyrics.resource.response.Response;
 import io.veicot.rightlyrics.resource.response.SearchResponse;
 
 @ApplicationScoped
-@Path("/albums")
+@Path("/api/albums")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AlbumResource {

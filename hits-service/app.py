@@ -26,7 +26,7 @@ def get_popularity(id=0):
         return 'Error', 500
 
 
-@app.route("/api/hit/<id>")
+@app.route("/api/hits/<id>")
 def hit(id):
     try:
         r.setnx(id, 0)

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping(value = "/api/song")
+@RequestMapping(value = "/api/songs")
 public class SongController {
 
     private final SongRepository repository;
@@ -114,7 +114,7 @@ public class SongController {
         String popularity = null;                
 
         try {
-           popularity = restTemplate.getForEntity(String.format("%s/api/hit/%d", hitsService, songId), String.class).getBody();
+           popularity = restTemplate.getForEntity(String.format("%s/api/hits/%d", hitsService, songId), String.class).getBody();
         } catch(Exception e) {
             logger.error(e.getMessage());
         }

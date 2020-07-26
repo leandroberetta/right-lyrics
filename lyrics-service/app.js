@@ -16,28 +16,28 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 const Schema = mongoose.Schema;
 
-const LyricSchema = new Schema({
+const LyricsSchema = new Schema({
     name: String,
-    lyric: String
+    lyrics: String
 });
 
-const Lyric = mongoose.model('Lyric', LyricSchema);
+const Lyrics = mongoose.model('Lyrics', LyricSchema);
 
-app.get('/api/lyric/:lyricId', (req, res) => {
-    Lyric.findOne({ '_id': req.params.lyricId }, 'name lyric', function (err, lyric) {
+app.get('/api/lyrics/:lyricsId', (req, res) => {
+    Lyrics.findOne({ '_id': req.params.lyricId }, 'name lyrics', function (err, lyrics) {
         if (err)
             return handleError(err);
 
-        return res.send(lyric);
+        return res.send(lyrics);
     })
 });
 
-app.post('/api/lyric', (req, res) => {
-    Lyric.create(req.body, function(err, lyric) {
+app.post('/api/lyrics', (req, res) => {
+    Lyrics.create(req.body, function(err, lyrics) {
         if (err)
             return handleError(err);
         
-        return res.send(lyric)
+        return res.send(lyrics)
     });
 });
 

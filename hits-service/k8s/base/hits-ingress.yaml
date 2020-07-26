@@ -8,7 +8,7 @@ spec:
     - host: right.lyrics
       http:
         paths:
-          - path: /api/hit
+          - path: /api/hits
             backend:
               serviceName: hits-service
               servicePort: 8080

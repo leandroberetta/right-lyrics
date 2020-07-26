@@ -62,15 +62,15 @@ data:
                 }
 
                 location /api/song {
-                    proxy_pass http://songs-service:8080/api/song;
+                    proxy_pass http://songs-service:8080/api/songs;
                 }
 
                 location /api/lyric {
-                    proxy_pass http://lyrics-service:8080/api/lyric;
+                    proxy_pass http://lyrics-service:8080/api/lyrics;
                 }
 
                 location /albums {
-                    proxy_pass http://albums-service:8080/albums;
+                    proxy_pass http://albums-service:8080/api/albums;
                 }
 
                 # proxy the PHP scripts to Apache listening on 127.0.0.1:8080
