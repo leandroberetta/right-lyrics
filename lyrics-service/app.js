@@ -21,7 +21,7 @@ const LyricsSchema = new Schema({
     lyrics: String
 });
 
-const Lyrics = mongoose.model('Lyrics', LyricSchema);
+const Lyrics = mongoose.model('Lyrics', LyricsSchema);
 
 app.get('/api/lyrics/:lyricsId', (req, res) => {
     Lyrics.findOne({ '_id': req.params.lyricId }, 'name lyrics', function (err, lyrics) {

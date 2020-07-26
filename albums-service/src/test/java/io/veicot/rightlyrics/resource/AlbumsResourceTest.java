@@ -29,7 +29,7 @@ public class AlbumsResourceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .body(album)
             .when()
-            .post("/albums")
+            .post("/api/albums")
             .then()
             .statusCode(javax.ws.rs.core.Response.Status.OK.getStatusCode())
             .extract().as(new TypeRef<Response<AlbumDto>>() {});
