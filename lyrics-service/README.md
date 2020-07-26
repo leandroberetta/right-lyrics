@@ -3,11 +3,12 @@
 ## Local
 
 ```bash
-export DB_USERNAME=rl && \
-export DB_PASSWORD=rl && \
-export DB_NAME=rl && \
-export DB_HOST=rl && \
-docker run --name mongodb-rl -d\
+export DB_USERNAME=rl 
+export DB_PASSWORD=rl 
+export DB_NAME=rl 
+export DB_HOST=localhost
+
+docker run --name lyrics-mongodb -d \
     -p 27017:27017 \
     -e MONGODB_ADMIN_PASSWORD=${DB_PASSWORD} \
     -e MONGODB_USER=${DB_USERNAME} \

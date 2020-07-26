@@ -24,18 +24,20 @@ const LyricsSchema = new Schema({
 const Lyrics = mongoose.model('Lyrics', LyricsSchema);
 
 app.get('/api/lyrics/:lyricsId', (req, res) => {
-    Lyrics.findOne({ '_id': req.params.lyricId }, 'name lyrics', function (err, lyrics) {
+    console.log("get")
+    Lyrics.findOne({ '_id': req.params.lyricsId }, 'name lyrics', function (err, lyric) {
         if (err)
-            return handleError(err);
+            return console.log(err);
 
-        return res.send(lyrics);
+        console.log(lyric)
+        return res.send(lyric);
     })
 });
 
 app.post('/api/lyrics', (req, res) => {
     Lyrics.create(req.body, function(err, lyrics) {
         if (err)
-            return handleError(err);
+            return console.log(err);
         
         return res.send(lyrics)
     });
