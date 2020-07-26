@@ -9,7 +9,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.veicot.rightlyrics.dto.SongDTO;
 
-@Path("/api/song")
+@Path("/api/songs")
 @RegisterRestClient
 public interface SongsService {
  

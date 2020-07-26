@@ -10,7 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import io.veicot.rightlyrics.dto.AlbumDTO;
 import io.veicot.rightlyrics.dto.ResponseDTO;
 
-@Path("/albums")
+@Path("/api/albums")
 @RegisterRestClient
 public interface AlbumsService {
  
