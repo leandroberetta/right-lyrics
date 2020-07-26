@@ -50,8 +50,8 @@ class SongItem extends React.Component {
         
         var lyrics = "";
 
-        if (this.props.song.lyric) {
-            lyrics = this.props.song.lyric;
+        if (this.props.song.lyrics) {
+            lyrics = this.props.song.lyrics;
         }
 
         var close = "";

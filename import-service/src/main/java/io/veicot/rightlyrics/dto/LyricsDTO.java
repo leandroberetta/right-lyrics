@@ -5,11 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class LyricDTO {
+public class LyricsDTO {
 
-    @JsonProperty("_id")
     private String _id;
-    
     private String name;
-    private String lyric;
+    private String lyrics;
 }

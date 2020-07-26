@@ -32,18 +32,20 @@ class App extends React.Component {
     }
 
     onSelectSong = (songId) => {
+        console.log("onSelectSong");
         fetch(this.songEndpoint + songId)
             .then(song => song.json())
             .then(
                 (song) => {
+                    console.log("lyric")
                     if (song) {    
                         fetch(this.lyricEndpoint + song.lyricsId)
-                            .then(lyric => console.log(lyric))
-                            .then(lyric => lyric.json())
+                            .then(result => result.json())
                             .then(
-                                (lyric) => {
-                                    if (lyric) {                                        
-                                        song.lyric = lyric.lyric;
+                                (result) => {
+                                    console.log(result.lyrics);
+                                    if (result) {                                        
+                                        song.lyrics = result.lyrics;
                                         this.setState({                                            
                                             selectedSong: song
                                         })

@@ -6,8 +6,8 @@ import lombok.Data;
 public class SongDTO {
     private Long id;
     private String name;
-    private String lyric;    
+    private String lyrics;
     private Long albumId;
-    private String lyricId;
+    private String lyricsId;
     private String artist;
 }

@@ -17,7 +17,7 @@ import io.veicot.rightlyrics.client.SongsService;
 import io.veicot.rightlyrics.initialization.importer.TypeReference;
 
 import io.veicot.rightlyrics.dto.AlbumDTO;
-import io.veicot.rightlyrics.dto.LyricDTO;
+import io.veicot.rightlyrics.dto.LyricsDTO;
 import io.veicot.rightlyrics.dto.ResponseDTO;
 import io.veicot.rightlyrics.dto.SongDTO;
 
@@ -50,14 +50,14 @@ public class LyricsLoader {
 
             for (SongDTO song: album.getSongs()) {                            
                 logger.info("Creating {} lyric", song.getName());
-                LyricDTO lyricDTO = new LyricDTO();
-                lyricDTO.setName(song.getName());
-                lyricDTO.setLyric(song.getLyric());
-                LyricDTO createdLyric = lyricsService.create(lyricDTO);
+                LyricsDTO lyricsDTO = new LyricsDTO();
+                lyricsDTO.setName(song.getName());
+                lyricsDTO.setLyrics(song.getLyrics());
+                LyricsDTO createdLyric = lyricsService.create(lyricsDTO);
                 logger.info("Lyric {} created with ID {}", createdLyric.getName(), createdLyric.get_id());
                 
                 song.setAlbumId(createdAlbum.getData().getId());
-                song.setLyricId(createdLyric.get_id());
+                song.setLyricsId(createdLyric.get_id());
                 song.setArtist(album.getArtist());
 
                 logger.info("Creating {} song", song.getName());

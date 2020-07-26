@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import io.veicot.rightlyrics.dto.LyricDTO;
+import io.veicot.rightlyrics.dto.LyricsDTO;
 
 @Path("/api/lyrics")
 @RegisterRestClient
@@ -16,5 +16,5 @@ public interface LyricsService {
     @POST
     @Produces("application/json")
     @Consumes("application/json")
-    public LyricDTO create(LyricDTO lyricDTO); 
+    public LyricsDTO create(LyricsDTO lyricsDTO);
 }
