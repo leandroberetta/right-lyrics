@@ -37,7 +37,7 @@ class App extends React.Component {
             .then(
                 (song) => {
                     if (song) {    
-                        fetch(this.lyricEndpoint + song.lyricId)
+                        fetch(this.lyricEndpoint + song.lyricsId)
                             .then(lyric => console.log(lyric))
                             .then(lyric => lyric.json())
                             .then(
