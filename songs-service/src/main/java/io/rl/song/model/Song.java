@@ -11,7 +11,7 @@ public class Song {
 
     private String name;
     private String artist;
-    private String lyricId;
+    private String lyricsId;
     private Long albumId;
 
     @Transient
@@ -52,12 +52,12 @@ public class Song {
         this.artist = artist;
     }
 
-    public String getLyricId() {
-        return lyricId;
+    public String getLyricsId() {
+        return lyricsId;
     }
 
-    public void setLyricId(String lyricId) {
-        this.lyricId = lyricId;
+    public void setLyricsId(String lyricId) {
+        this.lyricsId = lyricId;
     }
 
     public String getPopularity() {
