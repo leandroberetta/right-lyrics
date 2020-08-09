@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    app.openshift.io/connects-to: songs-service,albums-service,lyrics-service
   labels:
     app: import-service
     app.openshift.io/runtime: quarkus
