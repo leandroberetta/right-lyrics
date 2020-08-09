@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import SongPopularity from './SongPopularity.js'
 import AlbumCover from './AlbumCover.js'
-import SongLyrics from './SongLyrics.js'
 
 class SongItem extends React.Component {
 
@@ -38,6 +37,7 @@ class SongItem extends React.Component {
                     }
                 },
                 (error) => {
+                    console.log(error);
                     this.setState({
                         error: "Albums service not available.",
                     });
@@ -47,19 +47,12 @@ class SongItem extends React.Component {
 
     render() {
         const { error, isLoaded, album } = this.state;
-        
-        var lyrics = "";
-
-        if (this.props.song.lyrics) {
-            lyrics = this.props.song.lyrics;
-        }
 
         var close = "";
-        console.log(this.props.song);
-        if (lyrics !== "") {
+        if (this.props.song.lyrics) {
             close = (
                 <Row>
-                    <Col style={{paddingTop: "10px"}} >
+                    <Col style={{ paddingTop: "10px" }} >
                         <Button onClick={this.props.onDeselectSong} className="float-left"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
                     </Col>
                 </Row>
@@ -83,7 +76,7 @@ class SongItem extends React.Component {
                         {close}
                     </Media.Body>
                 </Media>
-                <SongLyrics lyrics={lyrics} />
+
             </div>
         );
     }

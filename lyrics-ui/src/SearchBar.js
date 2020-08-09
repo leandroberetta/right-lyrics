@@ -3,15 +3,6 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 
 class SearchBar extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            query: "",
-            results: []
-		};
-
-    }
     render() {
         return (
             <Form>

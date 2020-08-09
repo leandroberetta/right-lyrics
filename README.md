@@ -22,5 +22,5 @@ A very simple microservice architecture to be deployed in OpenShift.
 * **Lyrics Service** (Node.js + MongoDB)
 * **Songs Service** (Spring Boot + PostgreSQL)
 * **Hits Service** (Python + Redis)
-* **Albums Service** (Quarkus + MySQL)
-* **Importer Service** (Quarkus)
+* **Albums Service** (Quarkus + MariaDB)
+* **Import Service** (Quarkus)

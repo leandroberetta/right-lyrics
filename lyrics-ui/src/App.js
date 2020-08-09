@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import SongList from './SongList.js'
 import NavBar from './NavBar.js'
 import SongItem from './SongItem.js'
+import SongLyrics from './SongLyrics.js'
 
 class App extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class App extends React.Component {
         this.state = {
             songs: [],
             selectedSong: null,
+            searchValue: null,
             error: null
         };
 
@@ -23,12 +25,13 @@ class App extends React.Component {
         this.getSongs();
     }
 
-    onSearch = (event) => {        
+    onSearch = (event) => {
+        this.setState({searchValue: event.target.value});
         this.getSongs(event.target.value);
     }
 
     onDeselectSong = () => {
-        this.getSongs();
+        this.getSongs(this.state.searchValue);
     }
 
     onSelectSong = (songId) => {
@@ -38,15 +41,15 @@ class App extends React.Component {
             .then(
                 (song) => {
                     console.log("lyric")
-                    if (song) {    
+                    if (song) {
                         fetch(this.lyricEndpoint + song.lyricsId)
                             .then(result => result.json())
                             .then(
                                 (result) => {
                                     console.log(result.lyrics);
-                                    if (result) {                                        
+                                    if (result) {
                                         song.lyrics = result.lyrics;
-                                        this.setState({                                            
+                                        this.setState({
                                             selectedSong: song
                                         })
                                     }
@@ -57,13 +60,13 @@ class App extends React.Component {
                                         error: "Lyrics service not available.",
                                     });
                                 }
-                            )                      
+                            )
                     }
                 }
             )
     }
 
-    getSongs = (filter) => { 
+    getSongs = (filter) => {
         var query = "";
         if (filter) {
             query = "?filter=" + filter;
@@ -89,21 +92,23 @@ class App extends React.Component {
             )
     }
 
-    render() {        
+    render() {
         var errorSection = "";
         var mainSection = "";
 
         if (this.state.selectedSong) {
             mainSection = (
-                <SongItem onDeselectSong={this.onDeselectSong} 
-                          onSelectSong={this.onSelectSong} 
-                          songEndpoint={this.songEndpoint} 
-                          key={this.state.selectedSong.id} 
-                          song={this.state.selectedSong}></SongItem>
+                <div>
+                    <SongItem onDeselectSong={this.onDeselectSong}
+                        onSelectSong={this.onSelectSong}
+                        key={this.state.selectedSong.id}
+                        song={this.state.selectedSong} />
+                    <SongLyrics lyrics={this.state.selectedSong.lyrics} />
+                </div>
             );
         } else {
             mainSection = (
-                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs}></SongList>
+                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs} />
             );
         }
 
@@ -117,10 +122,10 @@ class App extends React.Component {
         }
 
         return (
-            <Container className="padding">                
-                <NavBar onSearch={this.onSearch}/>
+            <Container className="padding">
+                <NavBar onSearch={this.onSearch} />
                 {mainSection}
-                {errorSection}                
+                {errorSection}
             </Container>
         );
     };

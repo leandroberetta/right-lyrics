@@ -54,7 +54,7 @@ public class LyricsLoader {
                 lyricsDTO.setName(song.getName());
                 lyricsDTO.setLyrics(song.getLyrics());
                 LyricsDTO createdLyric = lyricsService.create(lyricsDTO);
-                logger.info("Lyric {} created with ID {}", createdLyric.getName(), createdLyric.get_id());
+                logger.info("Lyrics {} created with ID {}", createdLyric.getName(), createdLyric.get_id());
                 
                 song.setAlbumId(createdAlbum.getData().getId());
                 song.setLyricsId(createdLyric.get_id());
