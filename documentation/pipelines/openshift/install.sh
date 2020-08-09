@@ -50,35 +50,30 @@ tkn pipeline start albums-pipeline \
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=hits \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -n right-lyrics
 
 tkn pipeline start lyrics-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -n right-lyrics
 
 tkn pipeline start songs-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=songs \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -n right-lyrics
 
 tkn pipeline start import-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=import \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -n right-lyrics
 
 tkn pipeline start ui-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \

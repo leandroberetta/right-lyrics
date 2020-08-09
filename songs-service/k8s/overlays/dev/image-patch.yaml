@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
         - name: songs-service
-          image: example.org/right-songs/songs-service:latest
+          image: example.org/right-lyrics/songs-service:latest
