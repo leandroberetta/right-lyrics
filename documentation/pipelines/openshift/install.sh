@@ -44,7 +44,6 @@ oc apply -f import-service/k8s/overlays/test/import-pipeline.yaml -n right-lyric
 oc apply -f lyrics-ui/k8s/overlays/test/ui-pipeline.yaml -n right-lyrics
 
 tkn pipeline start albums-pipeline \
-  -s pipeline \
   -w name=source,claimName=source,subPath=albums \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
