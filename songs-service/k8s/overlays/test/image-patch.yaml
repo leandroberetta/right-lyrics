@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
         - name: songs-service
-          image: image-registry.openshift-image-registry:5000/right-songs/songs-service:latest
+          image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-songs/songs-service:latest

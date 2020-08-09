@@ -32,7 +32,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-songs/songs-service:latest
+          value: image-registry.openshift-image-registry.svc.cluster.local:5000/right-songs/songs-service:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift
         - name: BASE_IMAGE_S2I_SCRIPTS
