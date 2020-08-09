@@ -32,7 +32,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/hits-service:latest
+          value: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:latest
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/python-36-rhel7
         - name: CONTEXT_PATH
