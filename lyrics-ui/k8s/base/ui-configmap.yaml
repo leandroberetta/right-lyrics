@@ -61,15 +61,15 @@ data:
                 location = /50x.html {
                 }
 
-                location /api/song {
+                location /api/songs {
                     proxy_pass http://songs-service:8080/api/songs;
                 }
 
-                location /api/lyric {
+                location /api/lyrics {
                     proxy_pass http://lyrics-service:8080/api/lyrics;
                 }
 
-                location /albums {
+                location /api/albums {
                     proxy_pass http://albums-service:8080/api/albums;
                 }
 
