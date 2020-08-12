@@ -1,8 +1,0 @@
-{
-    "realm": "right-lyrics",
-    "auth-server-url": "/auth/",
-    "ssl-required": "external",
-    "resource": "lyrics-ui",
-    "public-client": true,
-    "confidential-port": 0
-}

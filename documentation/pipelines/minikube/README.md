@@ -54,10 +54,11 @@ kubectl create secret generic redhat-credentials \
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
 ```
 
-##### Add an Entry to the /etc/hosts File
+##### Add entries to the /etc/hosts File
 
 The ingress addon is used to provide easy ways to use the application. The only requirement is to add an entry to the */etc/hosts* file mapping a name with the minikube ip.
 
 ```bash  
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
+echo "$(minikube ip) keycloak.right.lyrics" | sudo tee -a /etc/hosts
 ```
