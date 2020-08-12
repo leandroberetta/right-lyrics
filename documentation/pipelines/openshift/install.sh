@@ -76,5 +76,5 @@ tkn pipeline start import-pipeline \
 tkn pipeline start ui-pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=master \
+  -p GIT_REVISION=keycloak \
   -n right-lyrics
