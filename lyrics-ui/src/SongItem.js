@@ -53,7 +53,7 @@ class SongItem extends React.Component {
             close = (
                 <Row>
                     <Col style={{ paddingTop: "10px" }} >
-                        <Button onClick={this.props.onDeselectSong} className="float-left back-button" variant="link"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
+                        <Button onClick={this.props.onDeselectSong} className="float-left main-color" variant="link"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
                     </Col>
                 </Row>
             );

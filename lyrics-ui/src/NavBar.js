@@ -16,10 +16,10 @@ class NavBar extends React.Component {
 
         if (this.props.keycloak) {
             if (this.props.authenticated) { 
-                loginSection = <Button onClick={() => this.props.keycloak.logout()} className="float-right" variant="link">Logout</Button>;
+                loginSection = <Button onClick={() => this.props.keycloak.logout()} className="float-right main-color" variant="link">Logout</Button>;
                 userSection = <UserInfo keycloak={this.props.keycloak} />;
             } else {
-                loginSection = <Button onClick={() => this.props.keycloak.login()} className="float-right" variant="link">Login</Button>;
+                loginSection = <Button onClick={() => this.props.keycloak.login()} className="float-right main-color" variant="link">Login</Button>;
             }
         }
 
