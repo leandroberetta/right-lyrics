@@ -61,6 +61,10 @@ data:
                 location = /50x.html {
                 }
 
+                location /auth/ {
+                    proxy_pass http://keycloak:8080/auth/;
+                }
+
                 location /api/songs {
                     proxy_pass http://songs-service:8080/api/songs;
                 }

@@ -68,7 +68,7 @@ class SongItem extends React.Component {
                             <Col className="col-12 col-md-8">
                                 <h5 className="mt-0 mb-1">                                    
                                     <button type="button" className="link-button" disabled={!this.props.authenticated} onClick={this.props.onSelectSong.bind(this, this.props.song.id)}>{this.props.song.name}</button>
-                                    </h5>
+                                </h5>
                                 <p>{this.props.song.artist}</p>
                             </Col>
                             <Col className="col-12 col-md-4">
