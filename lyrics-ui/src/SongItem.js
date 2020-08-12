@@ -53,7 +53,7 @@ class SongItem extends React.Component {
             close = (
                 <Row>
                     <Col style={{ paddingTop: "10px" }} >
-                        <Button onClick={this.props.onDeselectSong} className="float-left"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
+                        <Button onClick={this.props.onDeselectSong} className="float-left back-button" variant="link"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
                     </Col>
                 </Row>
             );
@@ -66,11 +66,13 @@ class SongItem extends React.Component {
                     <Media.Body>
                         <Row>
                             <Col className="col-12 col-md-8">
-                                <h5 className="mt-0 mb-1"><button type="button" className="link-button" onClick={this.props.onSelectSong.bind(this, this.props.song.id)}>{this.props.song.name}</button></h5>
+                                <h5 className="mt-0 mb-1">                                    
+                                    <button type="button" className="link-button" disabled={!this.props.authenticated} onClick={this.props.onSelectSong.bind(this, this.props.song.id)}>{this.props.song.name}</button>
+                                    </h5>
                                 <p>{this.props.song.artist}</p>
                             </Col>
                             <Col className="col-12 col-md-4">
-                                <SongPopularity popularity={this.props.song.popularity} />
+                                { this.props.song.popularity && <SongPopularity popularity={this.props.song.popularity} /> }                                
                             </Col>
                         </Row>
                         {close}

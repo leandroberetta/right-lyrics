@@ -16,6 +16,27 @@
     color: #5E548E;
 }
 
+.login-button:hover,
+.login-button:focus {
+    text-decoration: underline;
+}
+
+.login-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: #5E548E !important;
+}
+
+.link-button:hover,
+.link-button:focus {
+    text-decoration: underline;
+}
+
 .link-button {
     background-color: transparent;
     border: none;
@@ -25,14 +46,31 @@
     margin: 0;
     padding: 0;
 }
-  
-.link-button:hover,
-.link-button:focus {
-  text-decoration: underline;
- }
 
- .btn-primary {
-     color: #FFFFFF !important;
-     background-color: #5E548E !important;
-     border-color: #5E548E !important;
- }
+.link-button:disabled {
+    color: #000 !important;
+    cursor: auto;
+    text-decoration: none !important;
+}
+
+.back-button:hover,
+.back-button:focus {
+    text-decoration: underline;
+}
+
+.back-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: #5E548E !important;
+}
+
+.btn-primary {
+    color: #FFFFFF !important;
+    background-color: #5E548E !important;
+    border-color: #5E548E !important;
+}

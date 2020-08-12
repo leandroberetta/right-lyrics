@@ -1,0 +1,8 @@
+{
+  "realm": "right-lyrics",
+  "auth-server-url": "https://sso-right-lyrics-sso.apps.cluster-3f4e.3f4e.sandbox506.opentlc.com/auth/",
+  "ssl-required": "external",
+  "resource": "fbf64b73",
+  "public-client": true,
+  "confidential-port": 0
+}
