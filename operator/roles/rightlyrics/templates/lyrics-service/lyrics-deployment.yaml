@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: lyrics-mongodb
+  labels:
+    app: lyrics-service
+    app.openshift.io/runtime: nodejs
+    app.kubernetes.io/part-of: right-lyrics
+  name: lyrics-service
+  namespace: {{ meta.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lyrics-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: lyrics-service
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/lyrics-service:1.1
+          imagePullPolicy: Always
+          name: lyrics-service
+          env:
+            - name: DB_HOST
+              value: lyrics-mongodb
+            - name: DB_NAME
+              value: right-lyrics
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lyrics-mongodb
+                  key: password
+            - name: DB_USERNAME
+              value: right-lyrics
+          ports:
+            - containerPort: 8080

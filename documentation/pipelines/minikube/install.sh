@@ -50,12 +50,6 @@ spec:
     requests:
       storage: 1Gi" | kubectl apply -f - -n right-lyrics
 
-kubectl create secret generic redhat-credentials \
-    --from-file=.dockerconfigjson=auth.json \
-    --type=kubernetes.io/dockerconfigjson -n right-lyrics
-
-kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
-
 #
 # Keycloak
 #

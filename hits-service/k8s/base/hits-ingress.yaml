@@ -12,3 +12,7 @@ spec:
             backend:
               serviceName: hits-service
               servicePort: 8080
+          - path: /api/popularity
+            backend:
+              serviceName: hits-service
+              servicePort: 8080

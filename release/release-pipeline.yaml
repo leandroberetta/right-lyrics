@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: release-pipeline
+spec:
+  params:
+    - name: GIT_REPOSITORY
+      default: https://github.com/leandroberetta/right-lyrics
+    - name: GIT_REVISION
+      default: master
+    - name: CONTEXT_PATH
+    - name: IMAGE
+    - name: BASE_IMAGE
+    - name: BASE_IMAGE_S2I_SCRIPTS  
+  workspaces:
+    - name: source
+  tasks:
+    - name: clone
+      taskRef:
+        name: git
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: REPOSITORY
+          value: $(params.GIT_REPOSITORY)
+        - name: REVISION
+          value: $(params.GIT_REVISION)
+    - name: build
+      taskRef:
+        name: s2i
+      runAfter:
+        - clone
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: IMAGE
+          value: $(params.IMAGE)
+        - name: BASE_IMAGE
+          value: $(params.BASE_IMAGE)
+        - name: BASE_IMAGE_S2I_SCRIPTS
+          value: $(params.BASE_IMAGE_S2I_SCRIPTS)
+        - name: CONTEXT_PATH
+          value: $(params.CONTEXT_PATH)
+        - name: TLS_VERIFY
+          value: "false"    

@@ -6,10 +6,6 @@ import UserInfo from './UserInfo';
 
 class NavBar extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         var loginSection = null;
         var userSection = null;

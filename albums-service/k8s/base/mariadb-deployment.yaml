@@ -21,7 +21,7 @@ spec:
         app: albums-mariadb
     spec:
       containers:
-        - image: registry.redhat.io/rhscl/mariadb-102-rhel7:latest
+        - image: registry.access.redhat.com/rhscl/mariadb-102-rhel7
           imagePullPolicy: Always
           name: albums-mariadb
           ports:
