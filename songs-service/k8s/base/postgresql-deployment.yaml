@@ -21,7 +21,7 @@ spec:
         app: songs-postgresql
     spec:
       containers:
-        - image: registry.redhat.io/rhscl/postgresql-96-rhel7:latest
+        - image: registry.access.redhat.com/rhscl/postgresql-96-rhel7
           imagePullPolicy: Always
           name: songs-postgresql
           ports:

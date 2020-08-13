@@ -15,7 +15,7 @@ docker run --name lyrics-mongodb -d \
     -e MONGODB_PASSWORD=${DB_PASSWORD} \
     -e MONGODB_DATABASE=${DB_NAME} \
     -v lyrics.json:/tmp/lyrics.json \
-    registry.redhat.io/rhscl/mongodb-36-rhel7:latest
+    registry.access.redhat.com/rhscl/mongodb-36-rhel7
 
 npm install
 node app.js

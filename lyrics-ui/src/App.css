@@ -9,11 +9,16 @@
 }
 
 .main-color {
-    color: #5E548E;
+    color: #5E548E !important;
 }
 
 .secondary-color {
     color: #5E548E;
+}
+
+.link-button:hover,
+.link-button:focus {
+    text-decoration: underline;
 }
 
 .link-button {
@@ -25,14 +30,9 @@
     margin: 0;
     padding: 0;
 }
-  
-.link-button:hover,
-.link-button:focus {
-  text-decoration: underline;
- }
 
- .btn-primary {
-     color: #FFFFFF !important;
-     background-color: #5E548E !important;
-     border-color: #5E548E !important;
- }
+.link-button:disabled {
+    color: #000 !important;
+    cursor: auto;
+    text-decoration: none !important;
+}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: albums-mariadb
+  name: albums-mariadb
+  namespace: {{ meta.namespace }}
+spec:
+  ports:
+    - name: tcp-3306
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+  selector:
+    app: albums-mariadb

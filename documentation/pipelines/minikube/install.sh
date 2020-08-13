@@ -50,11 +50,11 @@ spec:
     requests:
       storage: 1Gi" | kubectl apply -f - -n right-lyrics
 
-kubectl create secret generic redhat-credentials \
-    --from-file=.dockerconfigjson=$HOME/dev/auth.json \
-    --type=kubernetes.io/dockerconfigjson -n right-lyrics
+#
+# Keycloak
+#
 
-kubectl patch sa default -p '{"imagePullSecrets": [{"name": "redhat-credentials"}]}' -n right-lyrics
+kubectl apply -k ./keycloak/k8s/base -n right-lyrics
 
 #
 # Karpenter
@@ -115,5 +115,5 @@ tkn pipeline start ui-pipeline \
   -s pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=master \
+  -p GIT_REVISION=keycloak \
   -n right-lyrics

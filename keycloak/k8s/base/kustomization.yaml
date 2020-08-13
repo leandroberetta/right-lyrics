@@ -1,0 +1,5 @@
+resources:
+- keycloak-deployment.yaml
+- keycloak-service.yaml
+- keycloak-ingress.yaml
+- keycloak-configmap.yaml

@@ -3,7 +3,7 @@
 Create the CustomResourceDefinition (this requires cluster admin privileges):
 
 ```bash
-oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_crd.yaml
+oc apply -f ./operator/deploy/crds/veicot.io_rightlyrics_crd.yaml
 ```
 
 Create the Right Lyrics project:
@@ -15,10 +15,10 @@ oc new-project right-lyrics
 Deploy the Operator:
 
 ```bash
-oc create -f ./operator/deploy/service_account.yaml -n right-lyrics
-oc create -f ./operator/deploy/role.yaml -n right-lyrics
-oc create -f ./operator/deploy/role_binding.yaml -n right-lyrics
-oc create -f ./operator/deploy/operator.yaml -n right-lyrics
+oc apply -f ./operator/deploy/service_account.yaml -n right-lyrics
+oc apply -f ./operator/deploy/role.yaml -n right-lyrics
+oc apply -f ./operator/deploy/role_binding.yaml -n right-lyrics
+oc apply -f ./operator/deploy/operator.yaml -n right-lyrics
 ```
 
 Deploy a CustomResource:
@@ -38,7 +38,7 @@ spec:
 The CustomResource can be created as follows:
 
 ```bash
-oc create -f ./operator/deploy/crds/veicot_v1_rightlyrics_cr.yaml -n right-lyrics
+oc apply -f ./operator/deploy/crds/veicot.io_v1_rightlyrics_cr.yaml -n right-lyrics
 ```
 
 Finally, the Operator will create the application based on the CustomResource.

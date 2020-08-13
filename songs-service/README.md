@@ -15,7 +15,7 @@ docker run --name songs-postgresql -d \
     -e POSTGRESQL_USER=${USER} \
     -e POSTGRESQL_PASSWORD=${PASS} \
     -e POSTGRESQL_DATABASE=${DB} \
-    registry.redhat.io/rhscl/postgresql-96-rhel7:latest
+    registry.access.redhat.com/rhscl/postgresql-96-rhel7
 
 mvn clean install 
 

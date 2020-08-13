@@ -1,6 +1,6 @@
 import React from 'react';
-import Alert from 'react-bootstrap/Alert'
-import Container from 'react-bootstrap/Container'
+import { Alert, Container } from 'react-bootstrap'
+import Keycloak from 'keycloak-js';
 import SongList from './SongList.js'
 import NavBar from './NavBar.js'
 import SongItem from './SongItem.js'
@@ -14,7 +14,9 @@ class App extends React.Component {
             songs: [],
             selectedSong: null,
             searchValue: null,
-            error: null
+            error: null,
+            keycloak: null,
+            authenticated: false
         };
 
         this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL : "/api/songs/";
@@ -22,11 +24,24 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        var keycloak = new Keycloak({
+            url: (process.env.REACT_APP_KEYCLOAK_URL) ? process.env.REACT_APP_KEYCLOAK_URL : "/auth/",
+            realm: 'right-lyrics',
+            clientId: 'lyrics-ui'
+        });
+
+        keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
+            console.log(authenticated);
+            this.setState({ keycloak: keycloak, authenticated: authenticated })
+        }).catch(() => {
+            console.log("Error");
+        })
+
         this.getSongs();
     }
 
     onSearch = (event) => {
-        this.setState({searchValue: event.target.value});
+        this.setState({ searchValue: event.target.value });
         this.getSongs(event.target.value);
     }
 
@@ -35,18 +50,15 @@ class App extends React.Component {
     }
 
     onSelectSong = (songId) => {
-        console.log("onSelectSong");
         fetch(this.songEndpoint + songId)
             .then(song => song.json())
             .then(
                 (song) => {
-                    console.log("lyric")
                     if (song) {
-                        fetch(this.lyricEndpoint + song.lyricsId)
+                        fetch(this.lyricEndpoint + song.lyricsId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
                             .then(result => result.json())
                             .then(
                                 (result) => {
-                                    console.log(result.lyrics);
                                     if (result) {
                                         song.lyrics = result.lyrics;
                                         this.setState({
@@ -97,36 +109,46 @@ class App extends React.Component {
         var mainSection = "";
 
         if (this.state.selectedSong) {
-            mainSection = (
-                <div>
-                    <SongItem onDeselectSong={this.onDeselectSong}
-                        onSelectSong={this.onSelectSong}
-                        key={this.state.selectedSong.id}
-                        song={this.state.selectedSong} />
-                    <SongLyrics lyrics={this.state.selectedSong.lyrics} />
-                </div>
+            mainSection = ( <
+                div >
+                <
+                SongItem onDeselectSong = { this.onDeselectSong }
+                onSelectSong = { this.onSelectSong }
+                authenticated = { this.state.authenticated }
+                key = { this.state.selectedSong.id }
+                song = { this.state.selectedSong }
+                /> <
+                SongLyrics lyrics = { this.state.selectedSong.lyrics }
+                /> < /
+                div >
             );
         } else {
-            mainSection = (
-                <SongList onSelectSong={this.onSelectSong} songs={this.state.songs} />
+            mainSection = ( <
+                SongList authenticated = { this.state.authenticated }
+                onSelectSong = { this.onSelectSong }
+                songs = { this.state.songs }
+                />
             );
         }
 
         if (this.state.error) {
-            errorSection = (
-                <Alert variant="danger">
-                    <Alert.Heading>Error!</Alert.Heading>
-                    <p>{this.state.error}</p>
-                </Alert>
+            errorSection = ( <
+                Alert variant = "danger" >
+                <
+                Alert.Heading > Error! < /Alert.Heading> <
+                p > { this.state.error } < /p> < /
+                Alert >
             );
         }
 
-        return (
-            <Container className="padding">
-                <NavBar onSearch={this.onSearch} />
-                {mainSection}
-                {errorSection}
-            </Container>
+        return ( <
+            Container className = "padding" >
+            <
+            NavBar authenticated = { this.state.authenticated }
+            keycloak = { this.state.keycloak }
+            onSearch = { this.onSearch }
+            /> { mainSection } { errorSection } < /
+            Container >
         );
     };
 

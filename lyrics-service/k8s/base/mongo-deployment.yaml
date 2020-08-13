@@ -21,7 +21,7 @@ spec:
         app: lyrics-mongodb
     spec:
       containers:
-        - image: registry.redhat.io/rhscl/mongodb-36-rhel7
+        - image: registry.access.redhat.com/rhscl/mongodb-36-rhel7
           imagePullPolicy: Always
           name: lyrics-mongodb
           ports:
