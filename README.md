@@ -1,12 +1,12 @@
 # Right Lyrics
 
-A very simple microservice architecture to be deployed in OpenShift.
+A very simple microservice architecture to deploy in OpenShift.
 
 ## Usage
 
-To deploy the application an operator needs to be installed following [this instructions](./documentation/operators/README.md).
+The application is deployed by an operator, follow [this instructions](./documentation/operators/README.md) to install it.
 
-With the operator running, create the following resource:
+With the operator running, create the following resource (in the same namespace where the operator is running):
 
 ```yaml
 apiVersion: veicot.io/v1
@@ -25,10 +25,6 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}') -n right-lyric
 
 ![overview](./documentation/images/overview.png)
 
-## Topology
-
-![topology](./documentation/images/topology.png)
-
 ## Components
 
 * **Lyrics UI** (React.js + NGINX)
@@ -38,7 +34,7 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}') -n right-lyric
 * **Albums Service** (Quarkus + MariaDB)
 * **Import Service** (Quarkus)
 
-## Bonus
+## Bonus
 
 * [Build and deploy in Minikube with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
 * [Build and deploy in OpenShift with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
