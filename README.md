@@ -18,7 +18,7 @@ metadata:
 The application will be available and ready to use at:
 
 ```bash
-echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}') -n right-lyrics"
+echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
 ```
 
 ## Overview
@@ -33,6 +33,8 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}') -n right-lyric
 * **Hits Service** (Python + Redis)
 * **Albums Service** (Quarkus + MariaDB)
 * **Import Service** (Quarkus)
+* **Operator** (Ansible)
+* **Keycloak**
 
 ## Bonuses
 
