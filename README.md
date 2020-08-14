@@ -34,7 +34,7 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}') -n right-lyric
 * **Albums Service** (Quarkus + MariaDB)
 * **Import Service** (Quarkus)
 
-## Bonus
+## Bonuses
 
 * [Build and deploy in Minikube with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
 * [Build and deploy in OpenShift with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)

@@ -1,3 +1,3 @@
 # Release Right Lyrics
 
-WIP.
+Work in progress.

@@ -12,25 +12,23 @@ A Postman collection is available for testing the services:
 
 ### Prerequisites
 
-* Minikube installed
-* Tekton CLI installed
-* A free Red Hat Developer subscription
+* Minikube
+* Tekton CLI (tkn)
 
 ### Usage
 
-Every step needed is in [this](install.sh) script.
+Every step needed is in the [install.sh](install.sh) script.
 
 ```bash
 sh install.sh
 ```
 
-#### Notes
+#### Accessing the application outside Minikube
 
-##### Add entries to /etc/hosts File
+The ingress addon is used to provide an easy way to use the application. 
 
-The ingress addon is used to provide easy ways to use the application. The only requirement is to add an entry to the */etc/hosts* file mapping a name with the minikube ip.
+Add an entry to the */etc/hosts* file to map a name with the minikube ip.
 
 ```bash  
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
-echo "$(minikube ip) keycloak.right.lyrics" | sudo tee -a /etc/hosts
 ```
