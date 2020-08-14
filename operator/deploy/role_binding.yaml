@@ -3,8 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: lyrics-operator
 subjects:
-- kind: ServiceAccount
-  name: lyrics-operator
+  - kind: ServiceAccount
+    name: lyrics-operator
 roleRef:
   kind: Role
   name: lyrics-operator

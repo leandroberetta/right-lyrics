@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: import-data
+  namespace: {{ meta.namespace }}
+spec:
+  template:
+    spec:
+      volumes:
+        - configMap:
+            name: right-lyrics-data
+          name: right-lyrics-data
+      containers:
+        - name: import
+          image: registry.access.redhat.com/ubi8
+          command: ["/bin/sh"]
+          args: ["-c", "sleep 60; curl -v -F uploadedFile=@/tmp/data.yaml http://import-service:8080/api/import/upload"]
+          volumeMounts:
+            - mountPath: /tmp/data.yaml
+              name: right-lyrics-data
+              subPath: data.yaml
+      restartPolicy: Never
+

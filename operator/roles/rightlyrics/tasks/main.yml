@@ -99,26 +99,6 @@
     state: present
     definition: "{{ lookup('template', 'lyrics-ui/ui-deployment.yaml') }}"
     merge_type: merge
-- name: Lyrics UI - Service
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-service.yaml') }}"
-    merge_type: merge
-- name: Lyrics UI - Route
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-route.yaml') }}"
-    merge_type: merge
-- name: Lyrics UI - Register Route
-  k8s_info:
-    api_version: v1
-    kind: Route
-    name: lyrics-ui
-    namespace: "{{ meta.namespace }}"
-  register: lyrics_route
-- name: Lyrics UI -  Log Route Host
-  debug: 
-    msg: "{{ lyrics_route | json_query('resources[0].spec.host') }}"
 - name: Songs - PostgreSQL - Secret
   k8s:
     state: present
@@ -144,6 +124,23 @@
     state: present
     definition: "{{ lookup('template', 'songs-service/songs-service.yaml') }}"
     merge_type: merge
+- name: Lyrics UI - Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-ui/ui-service.yaml') }}"
+    merge_type: merge
+- name: Lyrics UI - Route
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'lyrics-ui/ui-route.yaml') }}"
+    merge_type: merge
+- name: Lyrics UI - Register Route
+  k8s_info:
+    api_version: v1
+    kind: Route
+    name: lyrics-ui
+    namespace: "{{ meta.namespace }}"
+  register: lyrics_route
 - name: Keycloak - ConfigMap
   k8s:
     state: present
@@ -158,4 +155,9 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'keycloak/keycloak-service.yaml') }}"
+    merge_type: merge    
+- name: Import - Import Data
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'import-service/import-job.yaml') }}"
     merge_type: merge    

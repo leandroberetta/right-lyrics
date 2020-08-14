@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: lyrics-operator
   labels:
-    app.openshift.io/runtime: ansible 
+    app.openshift.io/runtime: ansible
     app.kubernetes.io/part-of: right-lyrics
 spec:
   replicas: 1
@@ -18,12 +18,12 @@ spec:
     spec:
       serviceAccountName: lyrics-operator
       containers:
-        - name: lyrics-operator          
+        - name: lyrics-operator
           image: quay.io/right-lyrics/operator:1.3
           imagePullPolicy: Always
           volumeMounts:
-          - mountPath: /tmp/ansible-operator/runner
-            name: runner
+            - mountPath: /tmp/ansible-operator/runner
+              name: runner
           env:
             - name: WATCH_NAMESPACE
               valueFrom:

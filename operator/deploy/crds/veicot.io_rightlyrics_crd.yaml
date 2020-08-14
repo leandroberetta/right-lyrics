@@ -10,15 +10,15 @@ spec:
     plural: rightlyrics
     singular: rightlyrics
     shortNames:
-    - rl
+      - rl
   scope: Namespaced
   versions:
-  - name: v1
-    schema:
-      openAPIV3Schema:
-        type: object
-        x-kubernetes-preserve-unknown-fields: true
-    served: true
-    storage: true
-    subresources:
-      status: {}
+    - name: v1
+      schema:
+        openAPIV3Schema:
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+      served: true
+      storage: true
+      subresources:
+        status: {}
