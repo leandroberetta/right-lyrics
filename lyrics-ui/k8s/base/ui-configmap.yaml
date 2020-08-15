@@ -62,7 +62,8 @@ data:
                 }
 
                 location /auth/ {
-                    proxy_pass http://keycloak:8080/auth/;
+                    set $keycloak "http://keycloak:8080/auth/";
+                    proxy_pass $keycloak;
 
                     proxy_buffer_size          128k;
                     proxy_buffers              4 256k;
@@ -70,15 +71,18 @@ data:
                 }
 
                 location /api/songs {
-                    proxy_pass http://songs-service:8080/api/songs;
+                    set $songs "http://songs-service:8080/api/songs";
+                    proxy_pass $songs;
                 }
 
                 location /api/lyrics {
-                    proxy_pass http://lyrics-service:8080/api/lyrics;
+                    set $lyrics "http://lyrics-service:8080/api/lyrics"; 
+                    proxy_pass $lyrics;
                 }
 
                 location /api/albums {
-                    proxy_pass http://albums-service:8080/api/albums;
+                    set $albums "http://albums-service:8080/api/albums";
+                    proxy_pass $albums;
                 }
 
                 # proxy the PHP scripts to Apache listening on 127.0.0.1:8080

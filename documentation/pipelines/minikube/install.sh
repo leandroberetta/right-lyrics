@@ -115,5 +115,5 @@ tkn pipeline start ui-pipeline \
   -s pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=keycloak \
+  -p GIT_REVISION=master \
   -n right-lyrics

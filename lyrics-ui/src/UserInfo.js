@@ -22,13 +22,13 @@ class UserInfo extends Component {
     }
 
     render() {
-        return ( <
-            div >
-            <
-            Button className = "float-right main-color"
-            variant = "link"
-            disabled > { this.state.name } < /Button> <
-            /div>
+        return (
+            <div>
+                <Button className="float-right main-color"
+                    variant="link"
+                    disabled > {this.state.name} 
+                </Button> 
+            </div>
         );
     }
 }

@@ -5,8 +5,10 @@ metadata:
 spec:
   params:
     - name: GIT_REPOSITORY
+      type: string
       default: https://github.com/leandroberetta/right-lyrics
     - name: GIT_REVISION
+      type: string
       default: master
   workspaces:
     - name: source
