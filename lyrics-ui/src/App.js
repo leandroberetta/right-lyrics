@@ -30,7 +30,7 @@ class App extends React.Component {
             clientId: 'lyrics-ui'
         });
 
-        keycloak.init({ onLoad: 'check-sso' }).then(authenticated => {
+        keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
             console.log(authenticated);
             this.setState({ keycloak: keycloak, authenticated: authenticated })
         }).catch(() => {
