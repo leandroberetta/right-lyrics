@@ -29,7 +29,7 @@ data:
       "actionTokenGeneratedByAdminLifespan": 43200,
       "actionTokenGeneratedByUserLifespan": 300,
       "enabled": true,
-      "sslRequired": "external",
+      "sslRequired": "none",
       "registrationAllowed": true,
       "registrationEmailAsUsername": false,
       "rememberMe": false,

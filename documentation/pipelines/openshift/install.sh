@@ -18,6 +18,12 @@ spec:
       storage: 1Gi" | oc apply -f - -n right-lyrics
 
 #
+# Keycloak
+#
+
+oc apply -k ./keycloak/k8s/base -n right-lyrics
+
+#
 # Karpenter
 #
 
@@ -42,35 +48,61 @@ tkn pipeline start albums-pipeline \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest \
-  -p OVERLAY=prod
+  -p OVERLAY=prod \
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \
   -w name=source,claimName=source,subPath=hits \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:latest \
+  -p OVERLAY=prod \
   -n right-lyrics
 
 tkn pipeline start lyrics-pipeline \
   -w name=source,claimName=source,subPath=lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:latest \
+  -p OVERLAY=prod \
   -n right-lyrics
 
 tkn pipeline start songs-pipeline \
   -w name=source,claimName=source,subPath=songs \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:latest \
+  -p OVERLAY=prod \
   -n right-lyrics
 
 tkn pipeline start import-pipeline \
   -w name=source,claimName=source,subPath=import \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:latest \
+  -p OVERLAY=prod \
   -n right-lyrics
 
 tkn pipeline start ui-pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=keycloak \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-ui:latest \
+  -p OVERLAY=prod \
   -n right-lyrics
+
+#
+# UI Route
+#
+
+oc expose svc lyrics-ui -n right-lyrics
+
+echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
+
+#
+# Import 
+#
+
+oc expose svc import-service -n right-lyrics
+
+curl -F uploadedFile=@import-service/src/main/resources/import/data.yaml "http://$(oc get route import-service -o jsonpath='{.spec.host}' -n right-lyrics)/api/import/upload"

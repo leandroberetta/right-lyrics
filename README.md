@@ -4,7 +4,7 @@ A very simple microservice architecture to deploy in OpenShift.
 
 ## Usage
 
-The fastest way to deploy Right Lyrics is with the operator, follow [this instructions](./documentation/operators/README.md) to install it.
+The fastest way to deploy Right Lyrics is with the operator, follow [this instructions](./documentation/operator/README.md) to install it.
 
 With the operator running, create the following custom resource (in the same namespace where the operator is running):
 
