@@ -27,20 +27,22 @@ oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/ta
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 
 #
-# Pipelines (TEST) 
+# Pipelines (PROD) 
 #
 
-oc apply -f albums-service/k8s/overlays/test/albums-pipeline.yaml -n right-lyrics
-oc apply -f hits-service/k8s/overlays/test/hits-pipeline.yaml -n right-lyrics
-oc apply -f lyrics-service/k8s/overlays/test/lyrics-pipeline.yaml -n right-lyrics
-oc apply -f songs-service/k8s/overlays/test/songs-pipeline.yaml -n right-lyrics
-oc apply -f import-service/k8s/overlays/test/import-pipeline.yaml -n right-lyrics
-oc apply -f lyrics-ui/k8s/overlays/test/ui-pipeline.yaml -n right-lyrics
+oc apply -f albums-service/k8s/base/albums-pipeline.yaml -n right-lyrics
+oc apply -f hits-service/k8s/base/hits-pipeline.yaml -n right-lyrics
+oc apply -f lyrics-service/k8s/base/lyrics-pipeline.yaml -n right-lyrics
+oc apply -f songs-service/k8s/base/songs-pipeline.yaml -n right-lyrics
+oc apply -f import-service/k8s/base/import-pipeline.yaml -n right-lyrics
+oc apply -f lyrics-ui/k8s/base/ui-pipeline.yaml -n right-lyrics
 
 tkn pipeline start albums-pipeline \
   -w name=source,claimName=source,subPath=albums \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest \
+  -p OVERLAY=prod
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \

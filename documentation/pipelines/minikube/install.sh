@@ -82,7 +82,7 @@ tkn pipeline start albums-pipeline \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/albums-service:latest \
-  -p OVERLAY=dev
+  -p OVERLAY=dev \
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \
@@ -90,6 +90,8 @@ tkn pipeline start hits-pipeline \
   -w name=source,claimName=source,subPath=hits \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=example.org/right-lyrics/hits-service:latest \
+  -p OVERLAY=dev \
   -n right-lyrics
 
 tkn pipeline start lyrics-pipeline \
@@ -97,6 +99,8 @@ tkn pipeline start lyrics-pipeline \
   -w name=source,claimName=source,subPath=lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=example.org/right-lyrics/lyrics-service:latest \
+  -p OVERLAY=dev \
   -n right-lyrics
 
 tkn pipeline start songs-pipeline \
@@ -104,6 +108,8 @@ tkn pipeline start songs-pipeline \
   -w name=source,claimName=source,subPath=songs \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=example.org/right-lyrics/songs-service:latest \
+  -p OVERLAY=dev \
   -n right-lyrics
 
 tkn pipeline start import-pipeline \
@@ -111,6 +117,8 @@ tkn pipeline start import-pipeline \
   -w name=source,claimName=source,subPath=import \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=example.org/right-lyrics/import-service:latest \
+  -p OVERLAY=dev \
   -n right-lyrics
 
 tkn pipeline start ui-pipeline \
@@ -118,4 +126,6 @@ tkn pipeline start ui-pipeline \
   -w name=source,claimName=source,subPath=ui \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
+  -p IMAGE=example.org/right-lyrics/lyrics-ui:latest \
+  -p OVERLAY=dev \
   -n right-lyrics

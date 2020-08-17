@@ -23,7 +23,7 @@ spec:
         app: hits-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/hits-service:1.1
+        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:latest
           imagePullPolicy: Always
           name: hits-service
           env:
