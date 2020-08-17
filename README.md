@@ -40,11 +40,10 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics
 * **Operator** (Ansible)
 * **Authentication** (Keycloak)
 
-## Bonuses
+## Extras
 
-* [Build and deploy in Minikube with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
-* [Build and deploy in OpenShift with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
-
+* [Build and deploy in Minikube (DEV) with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
+* [Build and deploy in OpenShift (PROD) with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
 
 
 

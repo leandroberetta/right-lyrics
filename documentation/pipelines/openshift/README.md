@@ -1,3 +1,3 @@
-# Build and Deploy in OpenShift with OpenShift Pipelines
+# Build and Deploy in OpenShift (PROD) with OpenShift Pipelines
 
 Work in progress.
