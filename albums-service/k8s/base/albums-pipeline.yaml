@@ -5,9 +5,13 @@ metadata:
 spec:
   params:
     - name: GIT_REPOSITORY
-      default: https://github.com/leandroberetta/right-lyrics
+      type: string
     - name: GIT_REVISION
-      default: master
+      type: string
+    - name: IMAGE
+      type: string
+    - name: OVERLAY
+      type: string
   workspaces:
     - name: source
   tasks:
@@ -32,7 +36,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/albums-service:latest
+          value: $(params.IMAGE)
         - name: BASE_IMAGE
           value: registry.access.redhat.com/ubi8/openjdk-11:latest
         - name: BASE_IMAGE_S2I_SCRIPTS
@@ -51,4 +55,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/dev
+          value: apply -k $(workspaces.source.path)/albums-service/k8s/overlays/$(params.OVERLAY)

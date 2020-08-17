@@ -4,9 +4,9 @@ A very simple microservice architecture to deploy in OpenShift.
 
 ## Usage
 
-The application is deployed by an operator, follow [this instructions](./documentation/operators/README.md) to install it.
+The fastest way to deploy Right Lyrics is with the operator, follow [this instructions](./documentation/operators/README.md) to install it.
 
-With the operator running, create the following resource (in the same namespace where the operator is running):
+With the operator running, create the following custom resource (in the same namespace where the operator is running):
 
 ```yaml
 apiVersion: veicot.io/v1
@@ -15,7 +15,11 @@ metadata:
   name: right-lyrics
 ```
 
-The application will be available and ready to use at:
+```bash
+oc apply -f https://raw.githubusercontent.com/leandroberetta/right-lyrics/master/operator/deploy/crds/veicot.io_v1_rightlyrics_cr.yaml -n right-lyrics
+```
+
+After a few minutes, the application will be available and ready to use using the following link:
 
 ```bash
 echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
@@ -34,7 +38,7 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics
 * **Albums Service** (Quarkus + MariaDB)
 * **Import Service** (Quarkus)
 * **Operator** (Ansible)
-* **Keycloak**
+* **Authentication** (Keycloak)
 
 ## Bonuses
 
