@@ -1,17 +1,17 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: release-ui-pipeline
+  name: ui-pipeline
 spec:
   params:
     - name: GIT_REPOSITORY
-      default: https://github.com/leandroberetta/right-lyrics
+      type: string
     - name: GIT_REVISION
-      default: master
-    - name: CONTEXT_PATH
+      type: string
     - name: IMAGE
-    - name: BASE_IMAGE
-    - name: BASE_IMAGE_S2I_SCRIPTS      
+      type: string
+    - name: OVERLAY
+      type: string
   workspaces:
     - name: source
   tasks:
@@ -51,7 +51,7 @@ spec:
         - name: COMMAND
           value: run build
         - name: CONTEXT_PATH
-          value: $(params.CONTEXT_PATH)
+          value: lyrics-ui  
     - name: build
       taskRef:
         name: s2i
@@ -64,10 +64,21 @@ spec:
         - name: IMAGE
           value: $(params.IMAGE)
         - name: BASE_IMAGE
-          value: $(params.BASE_IMAGE)
+          value: registry.access.redhat.com/rhscl/nginx-114-rhel7
         - name: CONTEXT_PATH
-          value: $(params.CONTEXT_PATH)/build
-        - name: BASE_IMAGE_S2I_SCRIPTS
-          value: $(params.BASE_IMAGE_S2I_SCRIPTS)
+          value: lyrics-ui/build
         - name: TLS_VERIFY
           value: "false"
+        - name: FORMAT
+          value: docker
+    - name: deploy
+      taskRef:
+        name: kubectl
+      runAfter:
+        - build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: COMMAND
+          value: apply -k $(workspaces.source.path)/lyrics-ui/k8s/overlays/$(params.OVERLAY)

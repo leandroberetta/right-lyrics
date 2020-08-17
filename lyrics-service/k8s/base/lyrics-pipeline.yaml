@@ -5,9 +5,13 @@ metadata:
 spec:
   params:
     - name: GIT_REPOSITORY
-      default: https://github.com/leandroberetta/right-lyrics
+      type: string
     - name: GIT_REVISION
-      default: master
+      type: string
+    - name: IMAGE
+      type: string
+    - name: OVERLAY
+      type: string
   workspaces:
     - name: source
   tasks:
@@ -32,7 +36,7 @@ spec:
           workspace: source
       params:
         - name: IMAGE
-          value: example.org/right-lyrics/lyrics-service:latest
+          value: $(params.IMAGE)
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
@@ -49,4 +53,4 @@ spec:
           workspace: source
       params:
         - name: COMMAND
-          value: apply -k $(workspaces.source.path)/lyrics-service/k8s/overlays/dev
+          value: apply -k $(workspaces.source.path)/lyrics-service/k8s/overlays/$(PARAMS.OVERLAY)
