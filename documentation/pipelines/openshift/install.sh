@@ -98,11 +98,3 @@ tkn pipeline start ui-pipeline \
 oc expose svc lyrics-ui -n right-lyrics
 
 echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
-
-#
-# Import 
-#
-
-oc expose svc import-service -n right-lyrics
-
-curl -F uploadedFile=@import-service/src/main/resources/import/data.yaml "http://$(oc get route import-service -o jsonpath='{.spec.host}' -n right-lyrics)/api/import/upload"

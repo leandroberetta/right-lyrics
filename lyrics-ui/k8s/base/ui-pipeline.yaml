@@ -64,13 +64,11 @@ spec:
         - name: IMAGE
           value: $(params.IMAGE)
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/rhscl/nginx-114-rhel7
+          value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
           value: lyrics-ui/build
         - name: TLS_VERIFY
           value: "false"
-        - name: FORMAT
-          value: docker
     - name: deploy
       taskRef:
         name: kubectl
