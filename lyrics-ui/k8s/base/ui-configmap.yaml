@@ -4,7 +4,7 @@ metadata:
   name: lyrics-ui
 data:
   config.js: |
-    window.SONGS_SERVICE = "http://right.lyrics";
-    window.LYRICS_SERVICE = "http://right.lyrics";
-    window.ALBUMS_SERVICE = "http://right.lyrics";
-    window.KEYCLOAK_SERVICE = "http://right.lyrics";
+    window.SONGS_SERVICE = "http://right.lyrics/api/songs/";
+    window.LYRICS_SERVICE = "http://right.lyrics/api/lyrics/";
+    window.ALBUMS_SERVICE = "http://right.lyrics/api/albums/";
+    window.KEYCLOAK_SERVICE = "http://right.lyrics/auth/";

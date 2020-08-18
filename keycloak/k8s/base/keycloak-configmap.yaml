@@ -296,7 +296,8 @@ data:
           "secret": "**********",
           "redirectUris": [
             "http://right.lyrics/*",
-            "http://localhost:3000/*"
+            "http://localhost:3000/*",
+            "http://LYRICS_UI_ROUTE/*"
           ],
           "webOrigins": [
             "*"

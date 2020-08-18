@@ -19,7 +19,7 @@ class SongItem extends React.Component {
                 error: null
             };
 
-            this.albumsEndpoint = window.ALBUMS_SERVICE + "/api/albums/";
+            this.albumsEndpoint = window.ALBUMS_SERVICE;
         }
 
         componentDidMount() {

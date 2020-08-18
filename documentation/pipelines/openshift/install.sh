@@ -23,6 +23,8 @@ spec:
 
 oc apply -k ./keycloak/k8s/overlays/prod -n right-lyrics
 
+oc expose svc keycloak -n right-lyrics
+
 #
 # Karpenter
 #
@@ -94,14 +96,51 @@ tkn pipeline start ui-pipeline \
 # Routes
 #
 
-oc expose svc lyrics-ui -n right-lyrics
-oc expose svc lyrics-service -n right-lyrics
 oc expose svc albums-service -n right-lyrics
+oc expose svc hits-service -n right-lyrics
+oc expose svc lyrics-service -n right-lyrics
 oc expose svc songs-service -n right-lyrics
-oc expose svc keycloak -n right-lyrics
+oc expose svc import-service -n right-lyrics
+oc expose svc lyrics-ui -n right-lyrics
 
-echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route hits-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route import-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)"
+
+#
+# Redirect URI in Keycloak
+#
+
+LYRICS_UI_ROUTE=$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)
+
+echo $LYRICS_UI_ROUTE
+
+oc get cm right-lyrics-realm -o yaml -n right-lyrics > right-lyrics-realm.yaml 
+
+sed "s/right.lyrics/$LYRICS_UI_ROUTE/g" right-lyrics-realm.yaml > right-lyrics-realm-replaced.yaml
+
+oc apply -f right-lyrics-realm-replaced.yaml -n right-lyrics
+
+rm right-lyrics-realm.yaml right-lyrics-realm-replaced.yaml
+
+#
+# Backends configuration in Lyrics UI
+#
+
+ALBUMS_SERVICE_ROUTE=$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)
+LYRICS_SERVICE_ROUTE=$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)
+SONGS_SERVICE_ROUTE=$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)
+KEYCLOAK_ROUTE=$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)
+
+echo $ALBUMS_SERVICE_ROUTE
+echo $LYRICS_SERVICE_ROUTE
+echo $SONGS_SERVICE_ROUTE
+echo $KEYCLOAK_ROUTE
+
+oc get cm lyrics-ui -o yaml -n right-lyrics > lyrics-ui.yaml 
+
+sed -e "s/right.lyrics/$SONGS_SERVICE_ROUTE/1" -e "s/right.lyrics/$LYRICS_SERVICE_ROUTE/2" -e "s/right.lyrics/$ALBUMS_SERVICE_ROUTE/3" -e "s/right.lyrics/$KEYCLOCK_ROUTE/4" lyrics-ui.yaml > lyrics-ui-replaced.yaml
