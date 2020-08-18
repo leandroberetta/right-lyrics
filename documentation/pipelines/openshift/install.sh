@@ -50,6 +50,7 @@ tkn pipeline start albums-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \
@@ -58,6 +59,7 @@ tkn pipeline start hits-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start lyrics-pipeline \
@@ -66,6 +68,7 @@ tkn pipeline start lyrics-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start songs-pipeline \
@@ -74,6 +77,7 @@ tkn pipeline start songs-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start import-pipeline \
@@ -82,6 +86,7 @@ tkn pipeline start import-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start ui-pipeline \
@@ -90,6 +95,7 @@ tkn pipeline start ui-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-ui:latest \
   -p OVERLAY=prod \
+  --showlog \
   -n right-lyrics
 
 #
@@ -127,6 +133,8 @@ oc apply -f right-lyrics-realm-replaced.yaml -n right-lyrics
 
 rm right-lyrics-realm.yaml right-lyrics-realm-replaced.yaml
 
+oc patch deployment/keycloak --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
+
 #
 # Backends configuration in Lyrics UI
 #
@@ -143,4 +151,21 @@ echo $KEYCLOAK_ROUTE
 
 oc get cm lyrics-ui -o yaml -n right-lyrics > lyrics-ui.yaml 
 
-sed -e "s/right.lyrics/$SONGS_SERVICE_ROUTE/1" -e "s/right.lyrics/$LYRICS_SERVICE_ROUTE/2" -e "s/right.lyrics/$ALBUMS_SERVICE_ROUTE/3" -e "s/right.lyrics/$KEYCLOCK_ROUTE/4" lyrics-ui.yaml > lyrics-ui-replaced.yaml
+sed -e "s/right.lyrics\/api\/songs/$SONGS_SERVICE_ROUTE\/api\/songs/" \
+  -e "s/right.lyrics\/api\/lyrics/$LYRICS_SERVICE_ROUTE\/api\/lyrics/" \
+  -e "s/right.lyrics\/api\/albums/$ALBUMS_SERVICE_ROUTE\/api\/albums/" \
+  -e "s/right.lyrics\/auth/$KEYCLOAK_ROUTE\/auth/" \
+  lyrics-ui.yaml > lyrics-ui-replaced.yaml
+
+oc apply -f lyrics-ui-replaced.yaml -n right-lyrics
+
+rm lyrics-ui.yaml lyrics-ui-replaced.yaml
+
+oc patch deployment/lyrics-ui --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
+
+#
+# Data import
+#
+
+oc apply -f import-service/k8s/base/import-configmap.yaml -n right-lyrics
+oc apply -f import-service/k8s/base/import-job.yaml -n right-lyrics

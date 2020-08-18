@@ -32,12 +32,3 @@ Add an entry to the */etc/hosts* file to map a name with the minikube ip.
 ```bash  
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
 ```
-
-### Import data
-
-When all the services are in Running state, execute the following command to import some songs:
-
-```bash
-oc apply -f import-service/k8s/base/import-configmap.yaml -n right-lyrics
-oc apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
-```

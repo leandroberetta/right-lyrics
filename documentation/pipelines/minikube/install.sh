@@ -83,6 +83,7 @@ tkn pipeline start albums-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/albums-service:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start hits-pipeline \
@@ -92,6 +93,7 @@ tkn pipeline start hits-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/hits-service:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start lyrics-pipeline \
@@ -101,6 +103,7 @@ tkn pipeline start lyrics-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/lyrics-service:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start songs-pipeline \
@@ -110,6 +113,7 @@ tkn pipeline start songs-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/songs-service:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start import-pipeline \
@@ -119,6 +123,7 @@ tkn pipeline start import-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/import-service:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
 tkn pipeline start ui-pipeline \
@@ -128,5 +133,8 @@ tkn pipeline start ui-pipeline \
   -p GIT_REVISION=master \
   -p IMAGE=example.org/right-lyrics/lyrics-ui:latest \
   -p OVERLAY=dev \
+  --showlog \
   -n right-lyrics
 
+kubectl apply -f import-service/k8s/base/import-configmap.yaml -n right-lyrics
+kubectl apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
