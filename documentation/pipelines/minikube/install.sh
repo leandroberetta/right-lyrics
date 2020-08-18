@@ -54,7 +54,7 @@ spec:
 # Keycloak
 #
 
-kubectl apply -k ./keycloak/k8s/base -n right-lyrics
+kubectl apply -k ./keycloak/k8s/overlays/dev -n right-lyrics
 
 #
 # Karpenter

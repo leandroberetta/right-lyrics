@@ -3,4 +3,3 @@ resources:
   - redis-service.yaml
   - hits-deployment.yaml
   - hits-service.yaml
-  - hits-ingress.yaml

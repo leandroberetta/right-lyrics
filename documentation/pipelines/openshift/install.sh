@@ -21,7 +21,7 @@ spec:
 # Keycloak
 #
 
-oc apply -k ./keycloak/k8s/base -n right-lyrics
+oc apply -k ./keycloak/k8s/overlays/prod -n right-lyrics
 
 #
 # Karpenter

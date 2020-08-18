@@ -1,4 +1,3 @@
 resources:
   - import-deployment.yaml
   - import-service.yaml
-  - import-ingress.yaml

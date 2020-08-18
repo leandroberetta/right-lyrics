@@ -3,4 +3,3 @@ resources:
   - postgresql-service.yaml
   - songs-deployment.yaml
   - songs-service.yaml
-  - songs-ingress.yaml

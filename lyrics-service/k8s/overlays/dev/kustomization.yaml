@@ -2,6 +2,8 @@ bases:
   - ../../base
 patchesStrategicMerge:
   - image-patch.yaml
+resources:
+  - lyrics-ingress.yaml
 secretGenerator:
   - name: lyrics-mongodb
     literals:

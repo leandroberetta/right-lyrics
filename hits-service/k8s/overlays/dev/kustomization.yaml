@@ -2,6 +2,8 @@ bases:
   - ../../base
 patchesStrategicMerge:
   - image-patch.yaml
+resources:
+  - hits-ingress.yaml
 secretGenerator:
   - name: hits-redis
     literals:

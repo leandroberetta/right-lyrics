@@ -3,4 +3,3 @@ resources:
   - mariadb-service.yaml
   - albums-deployment.yaml
   - albums-service.yaml
-  - albums-ingress.yaml
