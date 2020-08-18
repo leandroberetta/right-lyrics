@@ -9,13 +9,13 @@ data:
         #   * Official English Documentation: http://nginx.org/en/docs/
         #   * Official Russian Documentation: http://nginx.org/ru/docs/
 
-
         worker_processes auto;
-        error_log /var/opt/rh/rh-nginx114/log/nginx/error.log;
-        pid /var/opt/rh/rh-nginx114/run/nginx/nginx.pid;
+        error_log /var/log/error.log;
+        pid /run/nginx.pid;
 
-        # Load dynamic modules. See /opt/rh/rh-nginx114/root/usr/share/doc/README.dynamic.
-        include /opt/rh/rh-nginx114/root/usr/share/nginx/modules/*.conf;
+
+        # Load configuration files for the default server block.
+        include      /opt/app-root/etc/nginx.default.d/*.conf;
 
         events {
             worker_connections  1024;
@@ -26,7 +26,7 @@ data:
                             '$status $body_bytes_sent "$http_referer" '
                             '"$http_user_agent" "$http_x_forwarded_for"';
 
-            access_log  /var/opt/rh/rh-nginx114/log/nginx/access.log  main;
+            access_log  /var/log/nginx/access.log  main;
 
             sendfile        on;
             tcp_nopush      on;
@@ -34,8 +34,9 @@ data:
             keepalive_timeout  65;
             types_hash_max_size 2048;
 
-            include       /etc/opt/rh/rh-nginx114/nginx/mime.types;
-            default_type  application/octet-stream;
+            include             /etc/nginx/mime.types;
+            default_type        application/octet-stream;
+
 
             # Load modular configuration files from the /etc/nginx/conf.d directory.
             # See http://nginx.org/en/docs/ngx_core_module.html#include
@@ -64,83 +65,25 @@ data:
 
                 location /auth/ {
                     proxy_pass http://keycloak:8080/auth/;
-
                     proxy_buffer_size          128k;
                     proxy_buffers              4 256k;
                     proxy_busy_buffers_size    256k;
+                    proxy_http_version 1.1;
                 }
 
                 location /api/songs {
                     proxy_pass http://songs-service:8080/api/songs;
+                    proxy_http_version 1.1;
                 }
 
                 location /api/lyrics {
                     proxy_pass http://lyrics-service:8080/api/lyrics;
+                    proxy_http_version 1.1;
                 }
 
                 location /api/albums {
                     proxy_pass http://albums-service:8080/api/albums;
-                }
-
-                # proxy the PHP scripts to Apache listening on 127.0.0.1:8080
-                #
-                #location ~ \.php$ {
-                #    proxy_pass   http://127.0.0.1;
-                #}
-
-                # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-                #
-                #location ~ \.php$ {
-                #    root           html;
-                #    fastcgi_pass   127.0.0.1:9000;
-                #    fastcgi_index  index.php;
-                #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
-                #    include        fastcgi_params;
-                #}
-
-                # deny access to .htaccess files, if Apache's document root
-                # concurs with nginx's one
-                #
-                #location ~ /\.ht {
-                #    deny  all;
-                #}
+                    proxy_http_version 1.1;
+                }                
             }
-
-
-            # another virtual host using mix of IP-, name-, and port-based configuration
-            #
-            #server {
-            #    listen       808000;
-            #    listen       somename:808080;
-            #    server_name  somename  alias  another.alias;
-
-            #    location / {
-            #        root   html;
-            #        index  index.html index.htm;
-            #    }
-            #}
-
-
-            # HTTPS server
-            #
-            #server {
-            #    listen       443;
-            #    server_name  localhost;
-
-            #    ssl                  on;
-            #    ssl_certificate      cert.pem;
-            #    ssl_certificate_key  cert.key;
-
-            #    ssl_session_timeout  5m;
-
-            #    ssl_protocols  SSLv2 SSLv3 TLSv1;
-            #    ssl_ciphers  HIGH:!aNULL:!MD5;
-            #    ssl_prefer_server_ciphers   on;
-
-            #    location / {
-            #        root   html;
-            #        index  index.html index.htm;
-            #    }
-            #}
-
         }

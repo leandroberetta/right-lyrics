@@ -10,101 +10,78 @@ import AlbumCover from './AlbumCover.js'
 
 class SongItem extends React.Component {
 
-        constructor(props) {
-            super(props);
+    constructor(props) {
+        super(props);
 
-            this.state = {
-                isLoaded: false,
-                album: null,
-                error: null
-            };
+        this.state = {
+            isLoaded: false,
+            album: null,
+            error: null
+        };
 
-            this.albumsEndpoint = window.ALBUMS_SERVICE + "/api/albums/";
-        }
+        this.albumEndpoint = (process.env.REACT_APP_ALBUMS_SERVICE_URL) ? process.env.REACT_APP_ALBUMS_SERVICE_URL : "/api/albums/";
+    }
 
-        componentDidMount() {
-            fetch(this.albumsEndpoint + this.props.song.albumId)
-                .then(result => result.json())
-                .then(
-                    (result) => {
-                        if (result) {
-                            console.log(result);
-                            this.setState({
-                                isLoaded: true,
-                                album: result.data,
-                                error: null
-                            })
-                        }
-                    },
-                    (error) => {
-                        console.log(error);
+    componentDidMount() {
+        fetch(this.albumEndpoint + this.props.song.albumId)
+            .then(result => result.json())
+            .then(
+                (result) => {
+                    if (result) {
+                        console.log(result);
                         this.setState({
-                            error: "Albums service not available.",
-                        });
+                            isLoaded: true,
+                            album: result.data,
+                            error: null
+                        })
                     }
-                )
+                },
+                (error) => {
+                    console.log(error);
+                    this.setState({
+                        error: "Albums service not available.",
+                    });
+                }
+            )
+    }
+
+    render() {
+        const { error, isLoaded, album } = this.state;
+
+        var close = "";
+        if (this.props.song.lyrics) {
+            close = (
+                <Row>
+                    <Col style={{ paddingTop: "10px" }} >
+                        <Button onClick={this.props.onDeselectSong} className="float-left main-color" variant="link"><FontAwesomeIcon icon={faArrowCircleLeft} /> Back</Button>
+                    </Col>
+                </Row>
+            );
         }
 
-        render() {
-            const { error, isLoaded, album } = this.state;
+        return (
+            <div>
+                <Media key={this.props.song.id} className="my-4" as="li">
+                    <AlbumCover error={error} isLoaded={isLoaded} album={album} />
+                    <Media.Body>
+                        <Row>
+                            <Col className="col-12 col-md-8">
+                                <h5 className="mt-0 mb-1">                                    
+                                    <button type="button" className="link-button" disabled={!this.props.authenticated} onClick={this.props.onSelectSong.bind(this, this.props.song.id)}>{this.props.song.name}</button>
+                                </h5>
+                                <p>{this.props.song.artist}</p>
+                            </Col>
+                            <Col className="col-12 col-md-4">
+                                { this.props.song.popularity && <SongPopularity popularity={this.props.song.popularity} /> }                                
+                            </Col>
+                        </Row>
+                        {close}
+                    </Media.Body>
+                </Media>
 
-            var close = "";
-            if (this.props.song.lyrics) {
-                close = ( <
-                    Row >
-                    <
-                    Col style = {
-                        { paddingTop: "10px" }
-                    } >
-                    <
-                    Button onClick = { this.props.onDeselectSong }
-                    className = "float-left main-color"
-                    variant = "link" > < FontAwesomeIcon icon = { faArrowCircleLeft }
-                    /> Back</Button >
-                    <
-                    /Col> < /
-                    Row >
-                );
-            }
+            </div>
+        );
+    }
+}
 
-            return ( <
-                div >
-                <
-                Media key = { this.props.song.id }
-                className = "my-4"
-                as = "li" >
-                <
-                AlbumCover error = { error }
-                isLoaded = { isLoaded }
-                album = { album }
-                /> <
-                Media.Body >
-                <
-                Row >
-                <
-                Col className = "col-12 col-md-8" >
-                <
-                h5 className = "mt-0 mb-1" >
-                <
-                button type = "button"
-                className = "link-button"
-                disabled = {!this.props.authenticated }
-                onClick = { this.props.onSelectSong.bind(this, this.props.song.id) } > { this.props.song.name } < /button> < /
-                h5 > <
-                p > { this.props.song.artist } < /p> < /
-                Col > <
-                Col className = "col-12 col-md-4" > {
-                    this.props.song.popularity && < SongPopularity popularity = { this.props.song.popularity }
-                    /> }                                 < /
-                    Col > <
-                    /Row> { close } < /
-                    Media.Body > <
-                    /Media>
-
-                    <
-                    /div>
-                );
-            }
-        }
-
-        export default SongItem;
+export default SongItem;

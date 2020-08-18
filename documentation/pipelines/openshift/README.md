@@ -46,13 +46,3 @@ Keycloak needs to be restarted to load the new URI:
 oc scale deployment/keycloak --replicas=0 -n right-lyrics
 oc scale deployment/keycloak --replicas=1 -n right-lyrics
 ```
-
-### Import data
-
-When all the services are in Running state, execute the following command to import some songs:
-
-```bash
-oc apply -f import-service/k8s/base/import-configmap.yaml -n right-lyrics
-oc apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
-```
-
