@@ -25,38 +25,12 @@ spec:
         - name: REPOSITORY
           value: $(params.GIT_REPOSITORY)
         - name: REVISION
-          value: $(params.GIT_REVISION)
-    - name: install
-      taskRef:
-        name: npm
-      runAfter:
-        - clone
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: COMMAND
-          value: install
-        - name: CONTEXT_PATH
-          value: lyrics-ui
-    - name: generate
-      taskRef:
-        name: npm
-      runAfter:
-        - install
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: COMMAND
-          value: run build
-        - name: CONTEXT_PATH
-          value: lyrics-ui  
+          value: $(params.GIT_REVISION)    
     - name: build
       taskRef:
         name: s2i
       runAfter:
-        - generate
+        - clone
       workspaces:
         - name: source
           workspace: source
@@ -64,13 +38,11 @@ spec:
         - name: IMAGE
           value: $(params.IMAGE)
         - name: BASE_IMAGE
-          value: registry.access.redhat.com/rhscl/nginx-116-rhel7
+          value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
           value: lyrics-ui/build
         - name: TLS_VERIFY
           value: "false"
-        - name: FORMAT
-          value: docker
     - name: deploy
       taskRef:
         name: kubectl

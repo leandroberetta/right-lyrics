@@ -130,8 +130,3 @@ tkn pipeline start ui-pipeline \
   -p OVERLAY=dev \
   -n right-lyrics
 
-#
-# Import 
-#
-
-curl -F uploadedFile=@import-service/src/main/resources/import/data.yaml http://right.lyrics/api/import/upload

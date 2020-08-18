@@ -296,7 +296,7 @@ data:
           "clientAuthenticatorType": "client-secret",
           "secret": "**********",
           "redirectUris": [            
-            "http://{{ lyrics_route | json_query('resources[0].spec.host') }}/*"
+            "http://{{ lyrics_ui_route | json_query('resources[0].spec.host') }}/*"
           ],
           "webOrigins": [
             "*"
