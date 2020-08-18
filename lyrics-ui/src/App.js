@@ -19,13 +19,13 @@ class App extends React.Component {
             authenticated: false
         };
 
-        this.songEndpoint = (process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL : "/api/songs/";
-        this.lyricEndpoint = (process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL : "/api/lyrics/";
+        this.songsEndpoint = window.SONGS_SERVICE + "/api/songs/";
+        this.lyricsEndpoint = window.LYRICS_SERVICE + "/api/lyrics/";
     }
 
     componentDidMount() {
         var keycloak = new Keycloak({
-            url: (process.env.REACT_APP_KEYCLOAK_URL) ? process.env.REACT_APP_KEYCLOAK_URL : "/auth/",
+            url: window.KEYCLOAK_SERVICE + "/auth/",
             realm: 'right-lyrics',
             clientId: 'lyrics-ui'
         });
@@ -49,12 +49,12 @@ class App extends React.Component {
     }
 
     onSelectSong = (songId) => {
-        fetch(this.songEndpoint + songId)
+        fetch(this.songsEndpoint + songId)
             .then(song => song.json())
             .then(
                 (song) => {
                     if (song) {
-                        fetch(this.lyricEndpoint + song.lyricsId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
+                        fetch(this.lyricsEndpoint + song.lyricsId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
                             .then(result => result.json())
                             .then(
                                 (result) => {
@@ -83,7 +83,7 @@ class App extends React.Component {
             query = "?filter=" + filter;
         }
 
-        fetch(this.songEndpoint + query)
+        fetch(this.songsEndpoint + query)
             .then(songs => songs.json())
             .then(
                 (songs) => {
@@ -108,41 +108,46 @@ class App extends React.Component {
         var mainSection = null;
 
         if (this.state.selectedSong) {
-            mainSection = (
-                <div>
-                    <SongItem onDeselectSong={this.onDeselectSong}
-                        onSelectSong={this.onSelectSong}
-                        authenticated={this.state.authenticated}
-                        key={this.state.selectedSong.id}
-                        song={this.state.selectedSong} />
-                    <SongLyrics lyrics={this.state.selectedSong.lyrics} />
-                </div >
+            mainSection = ( <
+                div >
+                <
+                SongItem onDeselectSong = { this.onDeselectSong }
+                onSelectSong = { this.onSelectSong }
+                authenticated = { this.state.authenticated }
+                key = { this.state.selectedSong.id }
+                song = { this.state.selectedSong }
+                /> <
+                SongLyrics lyrics = { this.state.selectedSong.lyrics }
+                /> < /
+                div >
             );
         } else {
-            mainSection = (
-                <SongList authenticated={this.state.authenticated}
-                    onSelectSong={this.onSelectSong}
-                    songs={this.state.songs} />
+            mainSection = ( <
+                SongList authenticated = { this.state.authenticated }
+                onSelectSong = { this.onSelectSong }
+                songs = { this.state.songs }
+                />
             );
         }
 
         if (this.state.error) {
-            errorSection = (
-                <Alert variant="danger" >
-                    <Alert.Heading > Error! </Alert.Heading>
-                    <p>{this.state.error}</p>
-                </Alert >
+            errorSection = ( <
+                Alert variant = "danger" >
+                <
+                Alert.Heading > Error! < /Alert.Heading> <
+                p > { this.state.error } < /p> < /
+                Alert >
             );
         }
 
-        return (
-            <Container className="padding">
-                <NavBar authenticated={this.state.authenticated}
-                    keycloak={this.state.keycloak}
-                    onSearch={this.onSearch} />
-                {mainSection}
-                {errorSection}
-            </Container >
+        return ( <
+            Container className = "padding" >
+            <
+            NavBar authenticated = { this.state.authenticated }
+            keycloak = { this.state.keycloak }
+            onSearch = { this.onSearch }
+            /> { mainSection } { errorSection } < /
+            Container >
         );
     };
 
