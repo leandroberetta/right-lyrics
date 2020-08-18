@@ -35,8 +35,8 @@ spec:
             - name: NPM_RUN
               value: serve
           volumeMounts:
-            - mountPath: /etc/nginx/nginx.conf
+            - mountPath: /opt/app-root/src/build/config.js
               name: lyrics-ui
-              subPath: nginx.conf
+              subPath: config.js
           ports:
             - containerPort: 8080

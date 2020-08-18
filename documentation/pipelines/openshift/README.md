@@ -20,6 +20,15 @@ Every step needed is in the [install.sh](install.sh) script.
 sh install.sh
 ```
 
+#### Setting the backends URIS in Lyrics UI
+
+```bash
+echo "http://$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)"
+````
+
 #### Setting the redirect URI in Keycloak
 
 The redirect URI needs to be set accordingly with the Lyrics UI host (it will vary between clusters unless a custom domain is set).

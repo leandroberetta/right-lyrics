@@ -31,7 +31,7 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics
 
 ## Components
 
-* **Lyrics UI** (React.js + NGINX)
+* **Lyrics UI** (React.js + Node.js)
 * **Lyrics Service** (Node.js + MongoDB)
 * **Songs Service** (Spring Boot + PostgreSQL)
 * **Hits Service** (Python + Redis)

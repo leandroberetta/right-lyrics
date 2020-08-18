@@ -40,7 +40,7 @@ spec:
         - name: BASE_IMAGE
           value: registry.access.redhat.com/rhscl/nodejs-10-rhel7
         - name: CONTEXT_PATH
-          value: lyrics-ui/build
+          value: lyrics-ui
         - name: TLS_VERIFY
           value: "false"
     - name: deploy

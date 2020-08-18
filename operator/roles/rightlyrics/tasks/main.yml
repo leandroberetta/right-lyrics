@@ -158,7 +158,7 @@
 - name: Keycloak - Route
   k8s:
     state: present
-    definition: "{{ lookup('template', 'songs-service/songs-route.yaml') }}"
+    definition: "{{ lookup('template', 'keycloak/keycloak-route.yaml') }}"
     merge_type: merge    
 - name: Keycloak - Register Route
   k8s_info:
@@ -193,7 +193,7 @@
     kind: Route
     name: lyrics-ui
     namespace: "{{ meta.namespace }}"
-  register: lyrics_route
+  register: lyrics_ui_route
 - name: Keycloak - ConfigMap
   k8s:
     state: present

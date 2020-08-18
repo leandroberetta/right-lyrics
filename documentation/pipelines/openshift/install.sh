@@ -29,7 +29,6 @@ oc apply -k ./keycloak/k8s/base -n right-lyrics
 
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/npm/npm.yaml -n right-lyrics
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 
 #
@@ -92,9 +91,17 @@ tkn pipeline start ui-pipeline \
   -n right-lyrics
 
 #
-# UI Route
+# Routes
 #
 
 oc expose svc lyrics-ui -n right-lyrics
+oc expose svc lyrics-service -n right-lyrics
+oc expose svc albums-service -n right-lyrics
+oc expose svc songs-service -n right-lyrics
+oc expose svc keycloak -n right-lyrics
 
 echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)"

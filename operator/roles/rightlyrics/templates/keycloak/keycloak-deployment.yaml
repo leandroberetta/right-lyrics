@@ -5,6 +5,7 @@ metadata:
   namespace: {{ meta.namespace }}
   labels:
     app: keycloak
+    app.kubernetes.io/part-of: right-lyrics
 spec:
   replicas: 1
   selector:
