@@ -46,4 +46,3 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics
 * [Build and deploy in OpenShift (PROD) with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
 
 
-

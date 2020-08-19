@@ -7,12 +7,17 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - lyrics-ui-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+        - keycloak-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+        - songs-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+        - albums-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+        - lyrics-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+        - import-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -20,13 +25,16 @@ metadata:
   name: lyrics-ui
 spec:
   hosts:
-  - "*"
+    - lyrics-ui-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
   gateways:
-  - right-lyrics
-  http:
-  - route:
-    - destination:
-        host: lyrics-ui
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: lyrics-ui 
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -34,61 +42,16 @@ metadata:
   name: keycloak
 spec:
   hosts:
-  - keycloak
-  http:
-  - route:
-    - destination:
-        host: keycloak
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: albums-service
-spec:
-  hosts:
-  - albums-service
-  http:
-  - route:
-    - destination:
-        host: albums-service
-        port:
-          number: 8080
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: hits-service
-spec:
-  hosts:
-  - hits-service
-  http:
-  - route:
-    - destination:
-        host: hits-service
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: import-service
-spec:
-  hosts:
-  - import-service
-  http:
-  - route:
-    - destination:
-        host: import-service
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: lyrics-service
-spec:
-  hosts:
-  - lyrics-service
-  http:
-  - route:
-    - destination:
-        host: lyrics-service
+    - keycloak-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+  gateways:
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /auth
+      route:
+        - destination:
+            host: keycloak
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -96,8 +59,65 @@ metadata:
   name: songs-service
 spec:
   hosts:
-  - songs-service
-  http:
-  - route:
-    - destination:
-        host: songs-service
+    - songs-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+  gateways:
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /api/songs
+      route:
+        - destination:
+            host: songs-service
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: import-service
+spec:
+  hosts:
+    - import-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+  gateways:
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /api/import
+      route:
+        - destination:
+            host: import-service
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: import-service
+spec:
+  hosts:
+    - albums-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+  gateways:
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /api/albums
+      route:
+        - destination:
+            host: albums-service
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: lyrics-service
+spec:
+  hosts:
+    - lyrics-service-right-lyrics-istio.apps.cluster-76db.76db.sandbox1118.opentlc.com
+  gateways:
+    - right-lyrics
+  http:   
+    - match:
+        - uri:
+            prefix: /api/lyrics
+      route:
+        - destination:
+            host: lyrics-service
+---

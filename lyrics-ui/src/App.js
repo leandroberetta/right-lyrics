@@ -26,8 +26,8 @@ class App extends React.Component {
     componentDidMount() {
         var keycloak = new Keycloak({
             url: window.KEYCLOAK_SERVICE,
-            realm: 'right-lyrics',
-            clientId: 'lyrics-ui'
+            realm: window.KEYCLOAK_REALM,
+            clientId: window.KEYCLOAK_CLIENT_ID
         });
 
         keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
@@ -118,8 +118,8 @@ class App extends React.Component {
                 song = { this.state.selectedSong }
                 /> <
                 SongLyrics lyrics = { this.state.selectedSong.lyrics }
-                /> <
-                /div >
+                /> < /
+                div >
             );
         } else {
             mainSection = ( <
@@ -135,8 +135,8 @@ class App extends React.Component {
                 Alert variant = "danger" >
                 <
                 Alert.Heading > Error! < /Alert.Heading> <
-                p > { this.state.error } < /p> <
-                /Alert >
+                p > { this.state.error } < /p> < /
+                Alert >
             );
         }
 
@@ -146,8 +146,8 @@ class App extends React.Component {
             NavBar authenticated = { this.state.authenticated }
             keycloak = { this.state.keycloak }
             onSearch = { this.onSearch }
-            /> { mainSection } { errorSection } <
-            /Container >
+            /> { mainSection } { errorSection } < /
+            Container >
         );
     };
 
