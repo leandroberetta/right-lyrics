@@ -13,6 +13,7 @@ spec:
   selector:
     matchLabels:
       app: albums-service
+      version: 1.0
   strategy:
     type: RollingUpdate
   template:
@@ -21,9 +22,10 @@ spec:
         sidecar.istio.io/inject: "true"
       labels:
         app: albums-service
+        version: 1.0
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest
+        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:1.0
           env:
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
