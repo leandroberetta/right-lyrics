@@ -1,5 +1,0 @@
-@function shadow($multiplier, $opacity) {
-    @return $multiplier * 1px $multiplier * 1px $multiplier * 2px
-      rgba($color-gray-light-2, $opacity);
-  }
-  
