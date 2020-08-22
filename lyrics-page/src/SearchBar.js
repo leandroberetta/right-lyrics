@@ -6,7 +6,7 @@ class SearchBar extends React.Component {
     render() {
         return (
             <Form>
-                <FormControl type="text" placeholder="Search for songs" className="mr-sm-2 form-control-md" onChange={this.props.onSearch}/>              
+                <FormControl type="text" placeholder="Search for songs" className="mr-sm-2 form-control-md search-bar" onChange={this.props.onSearch}/>              
             </Form>
         );
     }

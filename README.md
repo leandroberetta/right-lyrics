@@ -2,7 +2,7 @@
 
 A very simple microservice architecture to deploy in OpenShift.
 
-## Usage
+## Deploy in OpenShift
 
 The fastest way to deploy Right Lyrics is with the operator, follow [this instructions](./documentation/operator/README.md) to install it.
 
@@ -42,7 +42,7 @@ echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics
 
 ## Extras
 
-* [Build and deploy in Minikube (DEV) with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
-* [Build and deploy in OpenShift (PROD) with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
+* [Deploy in Minikube (DEV) with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
+* [Deploy in OpenShift (PROD) with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
 
 

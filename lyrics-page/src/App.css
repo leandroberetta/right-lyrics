@@ -10,6 +10,7 @@
 
 .main-color {
     color: #5E548E !important;
+    opacity: 1 !important;
 }
 
 .secondary-color {
@@ -35,4 +36,29 @@
     color: #000 !important;
     cursor: auto;
     text-decoration: none !important;
+}
+
+.search-bar {
+    border: none !important;
+    border-bottom: 4px solid #5E548E !important;
+    border-radius: 0 !important;
+    color: #000 !important;
+}
+
+.search-bar:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+::placeholder {
+    color: #000 !important;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #000 !important;
+}
+
+::-ms-input-placeholder {
+    color: #000 !important;
 }

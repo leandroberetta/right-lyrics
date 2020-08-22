@@ -1,6 +1,6 @@
 bases:
   - ../../base
 resources:
-  - ui-ingress.yaml
+  - page-ingress.yaml
 patchesStrategicMerge:
   - image-patch.yaml

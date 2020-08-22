@@ -84,11 +84,11 @@ tkn pipeline start import-pipeline \
   --showlog \
   -n right-lyrics
 
-tkn pipeline start ui-pipeline \
-  -w name=source,claimName=source,subPath=ui \
+tkn pipeline start page-pipeline \
+  -w name=source,claimName=source,subPath=page \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-ui:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:latest \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -102,27 +102,27 @@ oc expose svc hits-service -n right-lyrics
 oc expose svc lyrics-service -n right-lyrics
 oc expose svc songs-service -n right-lyrics
 oc expose svc import-service -n right-lyrics
-oc expose svc lyrics-ui -n right-lyrics
+oc expose svc lyrics-page -n right-lyrics
 
 echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route hits-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route import-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)"
 echo "http://$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)"
 
 #
 # Redirect URI in Keycloak
 #
 
-LYRICS_UI_ROUTE=$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)
+LYRICS_PAGE_ROUTE=$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)
 
-echo $LYRICS_UI_ROUTE
+echo $LYRICS_PAGE_ROUTE
 
 oc get cm right-lyrics-realm -o yaml -n right-lyrics > right-lyrics-realm.yaml 
 
-sed "s/right.lyrics/$LYRICS_UI_ROUTE/g" right-lyrics-realm.yaml > right-lyrics-realm-replaced.yaml
+sed "s/right.lyrics/$LYRICS_PAGE_ROUTE/g" right-lyrics-realm.yaml > right-lyrics-realm-replaced.yaml
 
 oc apply -f right-lyrics-realm-replaced.yaml -n right-lyrics
 
@@ -131,7 +131,7 @@ rm right-lyrics-realm.yaml right-lyrics-realm-replaced.yaml
 oc patch deployment/keycloak --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
 
 #
-# Backends configuration in Lyrics UI
+# Backends configuration in Lyrics Page
 #
 
 ALBUMS_SERVICE_ROUTE=$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)
@@ -144,19 +144,19 @@ echo $LYRICS_SERVICE_ROUTE
 echo $SONGS_SERVICE_ROUTE
 echo $KEYCLOAK_ROUTE
 
-oc get cm lyrics-ui -o yaml -n right-lyrics > lyrics-ui.yaml 
+oc get cm lyrics-page -o yaml -n right-lyrics > lyrics-page.yaml 
 
 sed -e "s/right.lyrics\/api\/songs/$SONGS_SERVICE_ROUTE\/api\/songs/" \
   -e "s/right.lyrics\/api\/lyrics/$LYRICS_SERVICE_ROUTE\/api\/lyrics/" \
   -e "s/right.lyrics\/api\/albums/$ALBUMS_SERVICE_ROUTE\/api\/albums/" \
   -e "s/right.lyrics\/auth/$KEYCLOAK_ROUTE\/auth/" \
-  lyrics-ui.yaml > lyrics-ui-replaced.yaml
+  lyrics-page.yaml > lyrics-page-replaced.yaml
 
-oc apply -f lyrics-ui-replaced.yaml -n right-lyrics
+oc apply -f lyrics-page-replaced.yaml -n right-lyrics
 
-rm lyrics-ui.yaml lyrics-ui-replaced.yaml
+rm lyrics-page.yaml lyrics-page-replaced.yaml
 
-oc patch deployment/lyrics-ui --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
+oc patch deployment/lyrics-page --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
 
 #
 # Data import

@@ -1,6 +1,6 @@
-window.SONGS_SERVICE = "http://localhost:8080";
-window.LYRICS_SERVICE = "http://localhost:8081";
-window.ALBUMS_SERVICE = "http://localhost:8082";
-window.KEYCLOAK_SERVICE = "http://localhost:8083";
+window.SONGS_SERVICE = "http://right.lyrics/api/songs/";
+window.LYRICS_SERVICE = "http://right.lyrics/api/lyrics/";
+window.ALBUMS_SERVICE = "http://right.lyrics/api/albums/";
+window.KEYCLOAK_SERVICE = "http://right.lyrics/auth/";
 window.KEYCLOAK_REALM = "right-lyrics";
-window.KEYCLOAK_CLIENT_ID = "lyrics-ui";
+window.KEYCLOAK_CLIENT_ID = "lyrics-page";

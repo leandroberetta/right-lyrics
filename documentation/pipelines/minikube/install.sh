@@ -120,12 +120,12 @@ tkn pipeline start import-pipeline \
   --showlog \
   -n right-lyrics
 
-tkn pipeline start ui-pipeline \
+tkn pipeline start page-pipeline \
   -s pipeline \
-  -w name=source,claimName=source,subPath=ui \
+  -w name=source,claimName=source,subPath=page \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=example.org/right-lyrics/lyrics-ui:latest \
+  -p IMAGE=example.org/right-lyrics/lyrics-page:latest \
   -p OVERLAY=dev \
   --showlog \
   -n right-lyrics

@@ -1,4 +1,4 @@
-# Build and deploy in OpenShift (PROD) with OpenShift Pipelines
+# Deploy in OpenShift (PROD) with OpenShift Pipelines
 
 Right Lyrics can be deployed in OpenShift using:
 

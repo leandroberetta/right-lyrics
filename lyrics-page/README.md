@@ -1,4 +1,4 @@
-# Lyrics UI
+# Lyrics Page
 
 ## Local
 

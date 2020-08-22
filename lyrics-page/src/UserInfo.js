@@ -25,7 +25,7 @@ class UserInfo extends Component {
         return (
             <div>
                 <Button className="float-right main-color"
-                    variant="link"
+                    variant="link"                    
                     disabled > {this.state.name}
                 </Button>
             </div>

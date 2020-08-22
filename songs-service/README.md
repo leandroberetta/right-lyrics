@@ -17,11 +17,7 @@ docker run --name songs-postgresql -d \
     -e POSTGRESQL_DATABASE=${DB} \
     registry.access.redhat.com/rhscl/postgresql-96-rhel7
 
-mvn clean install 
+export HITS_SERVICE_URL=right.lyrics
 
-export HITS_SERVICE_URL=localhost:5000
-
-java -Dspring.profiles.active=dev -jar target/rl-songs-service-1.1.jar
-
-curl localhost:8081/api/song/2
+mvn spring-boot:run
 ```
