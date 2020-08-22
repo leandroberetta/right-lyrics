@@ -4,15 +4,15 @@ metadata:
   annotations:
     app.openshift.io/connects-to: songs-service,lyrics-service,albums-service
   labels:
-    app: lyrics-ui
+    app: lyrics-page
     app.openshift.io/runtime: nginx
     app.kubernetes.io/part-of: right-lyrics
-  name: lyrics-ui
+  name: lyrics-page
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lyrics-ui
+      app: lyrics-page
   strategy:
     type: RollingUpdate
   template:
@@ -20,22 +20,22 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: lyrics-ui
+        app: lyrics-page
     spec:
       volumes:
         - configMap:
-            name: lyrics-ui
-          name: lyrics-ui
+            name: lyrics-page
+          name: lyrics-page
       containers:
-        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-ui:latest
+        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:latest
           imagePullPolicy: Always
-          name: lyrics-ui
+          name: lyrics-page
           env:
             - name: NPM_RUN
               value: serve
           volumeMounts:
-            - mountPath: /opt/app-root/src/build/config.js
-              name: lyrics-ui
+            - mountPath: /opt/app-root/src/bpageld/config.js
+              name: lyrics-page
               subPath: config.js
           ports:
             - containerPort: 8080

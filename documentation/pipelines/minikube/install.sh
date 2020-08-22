@@ -62,19 +62,13 @@ kubectl apply -k ./keycloak/k8s/overlays/dev -n right-lyrics
 
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/npm/npm.yaml -n right-lyrics
 kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 
 #
 # Pipelines (DEV)
 #
 
-kubectl apply -f albums-service/k8s/base/albums-pipeline.yaml -n right-lyrics
-kubectl apply -f hits-service/k8s/base/hits-pipeline.yaml -n right-lyrics
-kubectl apply -f lyrics-service/k8s/base/lyrics-pipeline.yaml -n right-lyrics
-kubectl apply -f songs-service/k8s/base/songs-pipeline.yaml -n right-lyrics
-kubectl apply -f import-service/k8s/base/import-pipeline.yaml -n right-lyrics
-kubectl apply -f lyrics-ui/k8s/base/ui-pipeline.yaml -n right-lyrics
+kubectl apply -f pipelines -n right-lyrics
 
 tkn pipeline start albums-pipeline \
   -s pipeline \

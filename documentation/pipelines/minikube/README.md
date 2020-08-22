@@ -17,7 +17,7 @@ A Postman collection is available for testing the services:
 
 ### Usage
 
-Every step needed is in the [install.sh](install.sh) script.
+Run the [install.sh](install.sh) script.
 
 ```bash
 sh install.sh
@@ -27,7 +27,7 @@ sh install.sh
 
 The ingress addon is used to provide an easy way to use the application. 
 
-Add an entry to the */etc/hosts* file to map a name with the minikube ip.
+Add an entry to the */etc/hosts* file to map a host name with the minikube ip.
 
 ```bash  
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts

@@ -9,12 +9,12 @@ Right Lyrics can be deployed in OpenShift using:
 ### Prerequisites
 
 * OpenShift 4.2 or higher
-* OpenShift Pipelines (installed by the operator)
+* OpenShift Pipelines
 * Tekton CLI (tkn)
 
 ### Usage
 
-Every step needed is in the [install.sh](install.sh) script.
+Run the [install.sh](install.sh) script.
 
 ```bash
 sh install.sh
