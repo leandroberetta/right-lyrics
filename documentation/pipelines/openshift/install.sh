@@ -104,25 +104,15 @@ oc expose svc songs-service -n right-lyrics
 oc expose svc import-service -n right-lyrics
 oc expose svc lyrics-page -n right-lyrics
 
-echo "http://$(oc get route albums-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route hits-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route import-service -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)"
-echo "http://$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)"
-
 #
 # Redirect URI in Keycloak
 #
 
 LYRICS_PAGE_ROUTE=$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)
 
-echo $LYRICS_PAGE_ROUTE
+oc get cm right-lyrics-realm -o yaml -n right-lyrics > right-lyrics-realm.yaml
 
-oc get cm right-lyrics-realm -o yaml -n right-lyrics > right-lyrics-realm.yaml 
-
-sed "s/right.lyrics/$LYRICS_PAGE_ROUTE/g" right-lyrics-realm.yaml > right-lyrics-realm-replaced.yaml
+sed "s/right\.lyrics/$LYRICS_PAGE_ROUTE/g" right-lyrics-realm.yaml > right-lyrics-realm-replaced.yaml
 
 oc apply -f right-lyrics-realm-replaced.yaml -n right-lyrics
 
@@ -139,17 +129,12 @@ LYRICS_SERVICE_ROUTE=$(oc get route lyrics-service -o jsonpath='{.spec.host}' -n
 SONGS_SERVICE_ROUTE=$(oc get route songs-service -o jsonpath='{.spec.host}' -n right-lyrics)
 KEYCLOAK_ROUTE=$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyrics)
 
-echo $ALBUMS_SERVICE_ROUTE
-echo $LYRICS_SERVICE_ROUTE
-echo $SONGS_SERVICE_ROUTE
-echo $KEYCLOAK_ROUTE
-
 oc get cm lyrics-page -o yaml -n right-lyrics > lyrics-page.yaml 
 
-sed -e "s/right.lyrics\/api\/songs/$SONGS_SERVICE_ROUTE\/api\/songs/" \
-  -e "s/right.lyrics\/api\/lyrics/$LYRICS_SERVICE_ROUTE\/api\/lyrics/" \
-  -e "s/right.lyrics\/api\/albums/$ALBUMS_SERVICE_ROUTE\/api\/albums/" \
-  -e "s/right.lyrics\/auth/$KEYCLOAK_ROUTE\/auth/" \
+sed -e "s/right\.lyrics\/api\/songs/$SONGS_SERVICE_ROUTE\/api\/songs/" \
+  -e "s/right\.lyrics\/api\/lyrics/$LYRICS_SERVICE_ROUTE\/api\/lyrics/" \
+  -e "s/right\.lyrics\/api\/albums/$ALBUMS_SERVICE_ROUTE\/api\/albums/" \
+  -e "s/right\.lyrics\/auth/$KEYCLOAK_ROUTE\/auth/" \
   lyrics-page.yaml > lyrics-page-replaced.yaml
 
 oc apply -f lyrics-page-replaced.yaml -n right-lyrics
