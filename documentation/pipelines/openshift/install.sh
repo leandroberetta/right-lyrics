@@ -48,7 +48,7 @@ tkn pipeline start albums-pipeline \
   -w name=source,claimName=source,subPath=albums \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:1.0 \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
