@@ -43,7 +43,7 @@ tkn pipeline start albums-pipeline \
   -w name=source,claimName=source,subPath=albums \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:1.0 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -52,7 +52,7 @@ tkn pipeline start hits-pipeline \
   -w name=source,claimName=source,subPath=hits \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:1.1 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -61,7 +61,7 @@ tkn pipeline start lyrics-pipeline \
   -w name=source,claimName=source,subPath=lyrics \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:1.1 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -70,7 +70,7 @@ tkn pipeline start songs-pipeline \
   -w name=source,claimName=source,subPath=songs \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:1.2 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -79,7 +79,7 @@ tkn pipeline start import-pipeline \
   -w name=source,claimName=source,subPath=import \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:1.0 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
@@ -88,7 +88,7 @@ tkn pipeline start page-pipeline \
   -w name=source,claimName=source,subPath=page \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:latest \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.2 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
