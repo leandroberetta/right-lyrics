@@ -27,7 +27,7 @@ echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyri
 
 ## Components
 
-* **Lyrics Page** (React.js + Node.js)
+* **Lyrics Page** (React.js)
 * **Lyrics Service** (Node.js + MongoDB)
 * **Songs Service** (Spring Boot + PostgreSQL)
 * **Hits Service** (Python + Redis)
