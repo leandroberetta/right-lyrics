@@ -289,14 +289,14 @@ data:
         },
         {
           "id": "035d50d3-9d55-483e-8a2c-bf55273441c7",
-          "clientId": "lyrics-ui",
+          "clientId": "lyrics-page",
           "surrogateAuthRequired": false,
           "enabled": true,
           "alwaysDisplayInConsole": false,
           "clientAuthenticatorType": "client-secret",
           "secret": "**********",
           "redirectUris": [            
-            "http://{{ lyrics_ui_route | json_query('resources[0].spec.host') }}/*"
+            "http://{{ lyrics_page_route | json_query('resources[0].spec.host') }}/*"
           ],
           "webOrigins": [
             "*"

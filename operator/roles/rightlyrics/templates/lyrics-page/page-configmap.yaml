@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: lyrics-ui
+  name: lyrics-page
   namespace: {{ meta.namespace }}
 data:
   config.js: |
@@ -9,3 +9,5 @@ data:
     window.LYRICS_SERVICE = "http://{{ lyrics_service_route | json_query('resources[0].spec.host') }}";
     window.ALBUMS_SERVICE = "http://{{ albums_service_route | json_query('resources[0].spec.host') }}";
     window.KEYCLOAK_SERVICE = "http://{{ keycloak_route | json_query('resources[0].spec.host') }}";
+    window.KEYCLOAK_CLIENT_ID = "lyrics-page";
+    window.KEYCLOAK_REALM = "right-lyrics"

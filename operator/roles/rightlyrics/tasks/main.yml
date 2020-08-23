@@ -167,33 +167,33 @@
     name: keycloak
     namespace: "{{ meta.namespace }}"
   register: keycloak_route           
-- name: Lyrics UI - ConfigMap
+- name: Lyrics Page - ConfigMap
   k8s:
     state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-configmap.yaml') }}"
+    definition: "{{ lookup('template', 'lyrics-page/page-configmap.yaml') }}"
     merge_type: merge
-- name: Lyrics UI - Deployment
+- name: Lyrics Page - Deployment
   k8s:
     state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-deployment.yaml') }}"
+    definition: "{{ lookup('template', 'lyrics-page/page-deployment.yaml') }}"
     merge_type: merge       
-- name: Lyrics UI - Service
+- name: Lyrics Page - Service
   k8s:
     state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-service.yaml') }}"
+    definition: "{{ lookup('template', 'lyrics-page/page-service.yaml') }}"
     merge_type: merge
-- name: Lyrics UI - Route
+- name: Lyrics Page - Route
   k8s:
     state: present
-    definition: "{{ lookup('template', 'lyrics-ui/ui-route.yaml') }}"
+    definition: "{{ lookup('template', 'lyrics-page/page-route.yaml') }}"
     merge_type: merge
-- name: Lyrics UI - Register Route
+- name: Lyrics Page - Register Route
   k8s_info:
     api_version: v1
     kind: Route
-    name: lyrics-ui
+    name: lyrics-page
     namespace: "{{ meta.namespace }}"
-  register: lyrics_ui_route
+  register: lyrics_page_route
 - name: Keycloak - ConfigMap
   k8s:
     state: present
