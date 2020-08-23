@@ -32,5 +32,5 @@ oc apply -f https://raw.githubusercontent.com/leandroberetta/right-lyrics/master
 After a few minutes, the application will be available and ready to use in the following link:
 
 ```bash
-echo "http://$(oc get route lyrics-ui -o jsonpath='{.spec.host}' -n right-lyrics)"
+echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)"
 ```

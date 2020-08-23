@@ -5,7 +5,7 @@ metadata:
     app.openshift.io/connects-to: songs-service,lyrics-service,albums-service
   labels:
     app: lyrics-page
-    app.openshift.io/runtime: nginx
+    app.openshift.io/runtime: nodejs
     app.kubernetes.io/part-of: right-lyrics
   name: lyrics-page
   namespace: {{ meta.namespace }}
@@ -35,7 +35,7 @@ spec:
             - name: NPM_RUN
               value: serve
           volumeMounts:
-            - mountPath: /opt/app-root/src/bpageld/config.js
+            - mountPath: /opt/app-root/src/build/config.js
               name: lyrics-page
               subPath: config.js
           ports:

@@ -5,9 +5,9 @@ metadata:
   namespace: {{ meta.namespace }}
 data:
   config.js: |
-    window.SONGS_SERVICE = "http://{{ songs_service_route | json_query('resources[0].spec.host') }}";
-    window.LYRICS_SERVICE = "http://{{ lyrics_service_route | json_query('resources[0].spec.host') }}";
-    window.ALBUMS_SERVICE = "http://{{ albums_service_route | json_query('resources[0].spec.host') }}";
-    window.KEYCLOAK_SERVICE = "http://{{ keycloak_route | json_query('resources[0].spec.host') }}";
+    window.SONGS_SERVICE = "http://{{ songs_service_route | json_query('resources[0].spec.host') }}/api/songs/";
+    window.LYRICS_SERVICE = "http://{{ lyrics_service_route | json_query('resources[0].spec.host') }}/api/lyrics/";
+    window.ALBUMS_SERVICE = "http://{{ albums_service_route | json_query('resources[0].spec.host') }}/api/albums/";
+    window.KEYCLOAK_SERVICE = "http://{{ keycloak_route | json_query('resources[0].spec.host') }}/auth/";
     window.KEYCLOAK_CLIENT_ID = "lyrics-page";
-    window.KEYCLOAK_REALM = "right-lyrics"
+    window.KEYCLOAK_REALM = "right-lyrics";
