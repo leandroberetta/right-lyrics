@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: songs
+spec:
+  host: songs
+  subsets:
+  - name: "1.2"
+    labels:
+      version: "1.2"
+  - name: "1.3"
+    labels:
+      version: "1.3"
