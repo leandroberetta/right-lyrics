@@ -16,7 +16,7 @@ class SongLyrics extends React.Component {
 
     render() {
         return (
-            <div style={{borderLeft: "5px solid #5E548E", paddingLeft: "10px"}}>
+            <div className="padding" style={{borderLeft: "5px solid #5E548E", paddingLeft: "10px"}}>
                 <MDReactComponent text={this.props.lyrics} onIterate={this.handleIterate} />
             </div>
         );

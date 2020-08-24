@@ -88,7 +88,7 @@ tkn pipeline start page-pipeline \
   -w name=source,claimName=source,subPath=page \
   -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
   -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.2 \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.3 \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics

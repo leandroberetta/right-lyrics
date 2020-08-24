@@ -5,6 +5,7 @@ import SongList from './SongList.js'
 import NavBar from './NavBar.js'
 import SongItem from './SongItem.js'
 import SongLyrics from './SongLyrics.js'
+import SongVideo from './SongVideo.js'
 
 class App extends React.Component {
     constructor(props) {
@@ -115,6 +116,7 @@ class App extends React.Component {
                         authenticated={this.state.authenticated}
                         key={this.state.selectedSong.id}
                         song={this.state.selectedSong} />
+                    { this.state.selectedSong.youtubeLink && <SongVideo song={this.state.selectedSong} /> }
                     <SongLyrics lyrics={this.state.selectedSong.lyrics} />
                 </div>
             );

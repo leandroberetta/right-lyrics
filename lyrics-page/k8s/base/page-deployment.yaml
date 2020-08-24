@@ -27,7 +27,7 @@ spec:
             name: lyrics-page
           name: lyrics-page
       containers:
-        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.2
+        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.3
           imagePullPolicy: Always
           name: lyrics-page
           env:
