@@ -5,6 +5,7 @@ metadata:
     app.openshift.io/connects-to: songs-postgresql,hits-service
   labels:
     app: songs-service
+    version: "1.2"
     app.openshift.io/runtime: spring
     app.kubernetes.io/part-of: right-lyrics
   name: songs-service
@@ -13,6 +14,7 @@ spec:
   selector:
     matchLabels:
       app: songs-service
+      version: "1.2"
   strategy:
     type: RollingUpdate
   template:
@@ -21,6 +23,7 @@ spec:
         sidecar.istio.io/inject: "true"
       labels:
         app: songs-service
+        version: "1.2"
     spec:
       containers:
         - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:1.2
