@@ -10,6 +10,7 @@ data:
       year: 1999
       songs:
         - name: Californication
+          youtubeLink: https://www.youtube.com/embed/YlUKcNNmywk
           lyrics: |-
             Psychic spies from China try to steal your mind's elation  
             And little girls from Sweden dream of silver screen quotation  
@@ -66,6 +67,7 @@ data:
       year: 1991
       songs:
         - name: Even Flow
+          youtubeLink: https://www.youtube.com/embed/CxKWTzr-k6s
           lyrics: |-
             Freezin' rests his head on a pillow made of concrete again ooh yeah  
             Oh feelin' maybe he'll see a little betters any days ooh yeah  
@@ -111,6 +113,7 @@ data:
       year: 1997
       songs:
         - name: Everlong
+          youtubeLink: https://www.youtube.com/embed/eBG7P-K-r1Y
           lyrics: |-
             Hello  
             I've waited here for you  

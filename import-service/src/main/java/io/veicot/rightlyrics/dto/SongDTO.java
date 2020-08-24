@@ -10,4 +10,5 @@ public class SongDTO {
     private Long albumId;
     private String lyricsId;
     private String artist;
+    private String youtubeLink;
 }

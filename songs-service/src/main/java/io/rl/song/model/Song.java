@@ -13,6 +13,7 @@ public class Song {
     private String artist;
     private String lyricsId;
     private Long albumId;
+    private String youtubeLink;
 
     @Transient
     private String popularity;
@@ -68,4 +69,11 @@ public class Song {
         this.popularity = popularity;
     }
 
+    public String getYoutubeLink() {
+        return youtubeLink;
+    }
+
+    public void setYoutubeLink(String youtubeLink) {
+        this.youtubeLink = youtubeLink;
+    }
 }

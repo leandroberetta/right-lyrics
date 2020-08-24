@@ -104,6 +104,7 @@ public class SongController {
             actualSong.setArtist(updatedSong.getArtist());
             actualSong.setLyricsId(updatedSong.getLyricsId());
             actualSong.setAlbumId(updatedSong.getAlbumId());
+            actualSong.setYoutubeLink(updatedSong.getYoutubeLink());
 
             return ResponseEntity.ok(repository.save(actualSong));
         } else 
