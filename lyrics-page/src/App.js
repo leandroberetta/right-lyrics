@@ -50,7 +50,7 @@ class App extends React.Component {
     }
 
     onSelectSong = (songId) => {
-        fetch(this.songsEndpoint + songId)
+        fetch(this.songsEndpoint + songId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
             .then(song => song.json())
             .then(
                 (song) => {
