@@ -1,14 +1,19 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: songs
+  name: songs-service
 spec:
   hosts:
-  - songs
+  - "*"
   gateways:
-  - right-lyrics-gateway
+  - songs-service-gateway
   http:
   - route:
     - destination:
-        host: songs
+        host: songs-service
+        subset: 1-2
+      weight: 50
+    - destination:
+        host: songs-service
         subset: 1-3
+      weight: 50
