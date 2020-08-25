@@ -312,7 +312,7 @@ oc apply -f https://raw.githubusercontent.com/leandroberetta/right-lyrics/1.2/im
 oc apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
 
 #
-# Right Lyrics (Songs 1.3)
+# Right Lyrics (Songs v1.3)
 #
 
 tkn pipeline start songs-pipeline \
@@ -323,3 +323,8 @@ tkn pipeline start songs-pipeline \
   -p OVERLAY=prod \
   --showlog \
   -n right-lyrics
+
+oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/1/YlUKcNNmywk
+oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/2/CxKWTzr-k6s
+oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/3/eBG7P-K-r1Y
+
