@@ -1,4 +1,4 @@
-# Deploy a Canary version with Service Mesh
+# Deploy a Canary version with Service Mesh
 
 Canary deployments can be managed with OpenShift Service Mesh (Istio).
 
@@ -25,4 +25,4 @@ So as a result of doing a Canary deployment, sometimes the YouTube preview will 
 
 This situation can be seen in Kiali too:
 
-![canary](./documentation/images/canary.png)
+![canary](../images/canary.png)
