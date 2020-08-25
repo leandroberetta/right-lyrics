@@ -1,6 +1,97 @@
 #!/user/bin/env bash
 
 #
+# Right Lyrics 
+#
+
+oc create namespace right-lyrics
+
+echo "apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: source
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi" | oc apply -f - -n right-lyrics
+
+#
+# Keycloak
+#
+
+oc apply -k ./keycloak/k8s/overlays/prod -n right-lyrics
+
+#
+# Karpenter
+#
+
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
+
+#
+# Pipelines (PROD) 
+#
+
+oc apply -f pipelines -n right-lyrics
+
+tkn pipeline start albums-pipeline \
+  -w name=source,claimName=source,subPath=albums \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/albums-service:1.0 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+tkn pipeline start hits-pipeline \
+  -w name=source,claimName=source,subPath=hits \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/hits-service:1.1 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+tkn pipeline start lyrics-pipeline \
+  -w name=source,claimName=source,subPath=lyrics \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:1.1 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+tkn pipeline start songs-pipeline \
+  -w name=source,claimName=source,subPath=songs \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=1.2 \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:1.2 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+tkn pipeline start import-pipeline \
+  -w name=source,claimName=source,subPath=import \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=1.2 \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:1.0 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+tkn pipeline start page-pipeline \
+  -w name=source,claimName=source,subPath=page \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-page:1.3 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics
+
+#
 # Routes
 #
 
@@ -127,6 +218,10 @@ rm lyrics-page.yaml lyrics-page-replaced.yaml
 
 oc patch deployment/lyrics-page --patch "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"last-restart\":\"`date +'%s'`\"}}}}}" -n right-lyrics
 
+#
+# Istio
+#
+
 echo "apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -172,6 +267,32 @@ spec:
 echo "apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
+  name: hits-service
+spec:
+  hosts:
+  - hits-service
+  http:
+  - route:
+    - destination:
+        host: hits-service" | oc apply -f - -n right-lyrics
+
+echo "apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: songs-service
+spec:
+  hosts:
+  - \"*\"
+  gateways:
+  - songs-service-gateway
+  http:
+  - route:
+    - destination:
+        host: songs-service" | oc apply -f - -n right-lyrics
+
+echo "apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
   name: keycloak
 spec:
   hosts:
@@ -182,3 +303,23 @@ spec:
   - route:
     - destination:
         host: keycloak" | oc apply -f - -n right-lyrics        
+
+#
+# Data import
+#
+
+oc apply -f https://raw.githubusercontent.com/leandroberetta/right-lyrics/1.2/import-service/k8s/base/import-configmap.yaml -n right-lyrics
+oc apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
+
+#
+# Right Lyrics (Songs 1.3)
+#
+
+tkn pipeline start songs-pipeline \
+  -w name=source,claimName=source,subPath=songs \
+  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
+  -p GIT_REVISION=master \
+  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:1.3 \
+  -p OVERLAY=prod \
+  --showlog \
+  -n right-lyrics

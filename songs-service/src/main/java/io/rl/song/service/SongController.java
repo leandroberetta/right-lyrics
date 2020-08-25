@@ -111,6 +111,20 @@ public class SongController {
             return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/youtube/{id}/{youtubeId}")
+    public ResponseEntity<Song> setYoutubeLink(@PathVariable Long id, @PathVariable String youtubeId) {
+        Optional<Song> song = repository.findById(id);
+
+        if (song.isPresent()) {
+            Song actualSong = song.get();
+
+            actualSong.setYoutubeLink(String.format("https://www.youtube.com/embed/%s", youtubeId));
+
+            return ResponseEntity.ok(repository.save(actualSong));
+        } else 
+            return ResponseEntity.notFound().build();
+    }
+
     private String hitSong(Long songId) {
         String popularity = null;                
 
