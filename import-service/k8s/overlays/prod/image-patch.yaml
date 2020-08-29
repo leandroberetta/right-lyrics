@@ -1,0 +1,11 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: import-service
+spec:
+  template:
+    spec:
+      containers:
+        - name: import-service
+          image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/import-service:1.1

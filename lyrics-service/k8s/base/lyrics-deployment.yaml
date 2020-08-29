@@ -23,7 +23,7 @@ spec:
         app: lyrics-service
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/lyrics-service:1.1
+        - image: quay.io/right-lyrics/lyrics-service:1.1
           imagePullPolicy: Always
           name: lyrics-service
           env:
