@@ -8,7 +8,7 @@ Right Lyrics can be deployed in OpenShift using:
 
 ### Prerequisites
 
-* OpenShift 4.2 or higher
+* OpenShift (4.2 or higher)
 * OpenShift Pipelines
 * Tekton CLI (tkn)
 
@@ -42,7 +42,9 @@ spec:
 Keycloak is used to provide authentication and authorization.
 
 ```bash
-kubectl apply -k ./keycloak/k8s/overlays/prod -n right-lyrics
+oc apply -k ./keycloak/k8s/overlays/prod -n right-lyrics
+
+oc expose svc keycloak -n right-lyrics
 ```
 
 ##### Karpenter
