@@ -1,8 +1,5 @@
 bases:
   - ../../base
-resources:
-  - songs-virtual-service.yaml
-  - songs-destination-rule.yaml
 patchesStrategicMerge:
   - resources-patch.yaml
   - image-patch.yaml
