@@ -1,6 +1,6 @@
 # Deploy in Minikube (DEV) with Tekton Pipelines
 
-Right Lyrics can be developed locally on Minikube deploying the services (and its related dependencies) using:
+Right Lyrics can be developed locally on Minikube building and deploying the services (and its related dependencies) using:
 
 * Tekton Pipelines
 * Karpenter Tasks
@@ -17,15 +17,31 @@ A Postman collection is available for testing the services:
 
 ### Usage
 
+#### Minikube
+
+Start a Minikube instance:
+
+```bash
+minikube start --memory=8g --insecure-registry "example.org" --driver=hyperkit --container-runtime=cri-o
+```
+
+Notes:
+
+* An internal registry (example.org) will be used to store the built images
+* Hypekit is used for macOS, change to other virtualization driver based on the base OS
+* CRI-O will be used as the container technology
+
+
+
 Run the [install.sh](install.sh) script.
 
 ```bash
-sh install.sh
+sh documentation/pipelines/minikube/install.sh
 ```
 
 #### Accessing the application outside Minikube
 
-The ingress addon is used to provide an easy way to use the application. 
+The ingress addon provides an easy way to use the application. 
 
 Add an entry to the */etc/hosts* file to map a host name with the minikube ip.
 
