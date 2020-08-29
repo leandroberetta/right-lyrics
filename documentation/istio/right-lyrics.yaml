@@ -2609,6 +2609,7 @@ objects:
       app.openshift.io/connects-to: songs-postgresql,hits-service
     labels:
       app: songs-service
+      version: "1.2"
       app.openshift.io/runtime: spring
       app.kubernetes.io/part-of: right-lyrics
     name: songs-service
@@ -2617,6 +2618,7 @@ objects:
     selector:
       matchLabels:
         app: songs-service
+        version: "1.2"
     strategy:
       type: RollingUpdate
     template:
@@ -2625,6 +2627,7 @@ objects:
           sidecar.istio.io/inject: "true"
         labels:
           app: songs-service
+          version: "1.2"
       spec:
         containers:
           - image: quay.io/right-lyrics/songs-service:1.2

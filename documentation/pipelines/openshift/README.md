@@ -34,7 +34,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi" | kubectl apply -f - -n right-lyrics
+      storage: 1Gi" | oc apply -f - -n right-lyrics
 ```
 
 ##### Keycloak
@@ -52,9 +52,9 @@ oc expose svc keycloak -n right-lyrics
 The pipelines use Karpenter tasks for the clone, build and deploy tasks.
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/oc/oc.yaml -n right-lyrics
 ```
 
 ##### Pipelines
@@ -62,7 +62,7 @@ kubectl apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/mast
 Create the pipelines:
 
 ```bash
-kubectl apply -f pipelines -n right-lyrics
+oc apply -f pipelines -n right-lyrics
 ```
 
 Start Albums pipeline:
