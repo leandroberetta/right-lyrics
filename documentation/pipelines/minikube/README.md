@@ -119,7 +119,7 @@ Create the pipelines:
 
 ```bash
 kubectl apply -f pipelines -n right-lyrics
-````
+```
 
 Start Albums pipeline:
 
