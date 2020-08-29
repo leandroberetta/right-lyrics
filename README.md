@@ -15,7 +15,7 @@ metadata:
   name: right-lyrics
 ```
 
-After a few minutes, the application will be available and ready to use in the following link:
+After a few minutes, the application will be available and ready to use at:
 
 ```bash
 echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics)"

@@ -39,9 +39,9 @@ minikube addons enable registry-aliases
 minikube addons enable ingress
 ```
 
-The registry and registry-aliases addons provides the registry service to store the built images. 
+The *registry* and *registry-aliases* addons provides the registry service to store the built images. 
 
-The ingress provides the entry point to the cluster (port 80 and 443). To use the application, add an entry to the */etc/hosts* file to map a host name with the minikube ip.
+The *ingress* provides the entry point to the cluster (port 80 and 443). To use the application, add an entry to the */etc/hosts* file to map a host name with the minikube ip.
 
 ```bash  
 echo "$(minikube ip) right.lyrics" | sudo tee -a /etc/hosts
@@ -63,7 +63,7 @@ Create the namespace to deploy the services:
 kubectl create namespace right-lyrics
 ```
 
-Create some extra resources for the pipelines:
+Create extra resources for the pipelines:
 
 ```bash
 echo "apiVersion: v1
@@ -121,7 +121,7 @@ Create the pipelines:
 kubectl apply -f pipelines -n right-lyrics
 ````
 
-Start Albums Service pipeline:
+Start Albums pipeline:
 
 ```bash
 tkn pipeline start albums-pipeline \
@@ -135,7 +135,7 @@ tkn pipeline start albums-pipeline \
   -n right-lyrics
 ```
 
-Start Hits Service pipeline:
+Start Hits pipeline:
 
 ```bash
 tkn pipeline start hits-pipeline \
@@ -149,7 +149,7 @@ tkn pipeline start hits-pipeline \
   -n right-lyrics
 ```
 
-Start Lyrics Service pipeline:
+Start Lyrics pipeline:
 
 ```bash
 tkn pipeline start lyrics-pipeline \
@@ -163,7 +163,7 @@ tkn pipeline start lyrics-pipeline \
   -n right-lyrics
 ```
 
-Start Songs Service pipeline:
+Start Songs pipeline:
 
 ```bash
 tkn pipeline start songs-pipeline \
@@ -177,7 +177,7 @@ tkn pipeline start songs-pipeline \
   -n right-lyrics
 ```
 
-Start Import Service pipeline:
+Start Import pipeline:
 
 ```bash
 tkn pipeline start import-pipeline \
@@ -191,7 +191,7 @@ tkn pipeline start import-pipeline \
   -n right-lyrics
 ```
 
-Start Lyrics Page pipeline:
+Start Page pipeline:
 
 ```bash
 tkn pipeline start page-pipeline \
@@ -210,4 +210,10 @@ After all the services are up and running, import some data:
 ```bash
 kubectl apply -f import-service/k8s/base/import-configmap.yaml -n right-lyrics
 kubectl apply -f import-service/k8s/base/import-job.yaml -n right-lyrics
+```
+
+Finally, the application will be available at:
+
+```bash
+echo "http://$(kubectl get ingress page -o jsonpath='{.spec.rules[0].host}' -n right-lyrics)"
 ```
