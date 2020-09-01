@@ -1,5 +1,7 @@
 package io.rl.song.service;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.rl.song.model.Song;
 import io.rl.song.repository.SongRepository;
 
@@ -31,18 +33,24 @@ import java.util.stream.Stream;
 public class SongController {
 
     private final SongRepository repository;
+    private Counter searchOKCounter;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Value("${hits.service.url}")
     private String hitsService;
 
     Logger logger = LoggerFactory.getLogger(SongController.class);
 
-    public SongController(SongRepository repository) {
+    public SongController(SongRepository repository, MeterRegistry meterRegistry) {
         this.repository = repository;
-    }
 
-    @Autowired
-    RestTemplate restTemplate;
+        searchOKCounter = Counter
+                .builder("songs.search.ok")
+                .description("Amount of successful searches")
+                .register(meterRegistry);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Song> get(@PathVariable("id") Long id) {
@@ -74,7 +82,11 @@ public class SongController {
         for (Song song: songs) {
             song.setPopularity(this.getSongPopularity(song.getId()));
         }
-        
+
+        if (!songs.isEmpty()) {
+            searchOKCounter.increment();
+        }
+
         return ResponseEntity.ok(songs);
     }
 
