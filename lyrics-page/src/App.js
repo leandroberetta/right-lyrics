@@ -71,25 +71,30 @@ class App extends React.Component {
             .then(
                 (song) => {
                     if (song) {
-                        fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
-                            .then(result => result.json())
-                            .then(
-                                (result) => {
-                                    if (result) {
-                                        song.lyrics = result.lyrics;
+                        if (this.lyricsEndpoint) {
+                            fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
+                                .then(result => result.json())
+                                .then(
+                                    (result) => {
+                                        if (result) {
+                                            song.lyrics = result.lyrics;
+                                            this.setState({
+                                                selectedSong: song
+                                            })
+                                        }
+                                    },
+                                    (error) => {
+                                        console.log(error);
                                         this.setState({
-                                            selectedSong: song
-                                        })
+                                            error: "Lyrics service not available."                                        
+                                        });
                                     }
-                                },
-                                (error) => {
-                                    console.log(error);
-                                    this.setState({
-                                        error: "Lyrics service not available.",
-                                        selectedSong: song
-                                    });
-                                }
-                            )
+                                )
+                        } else {
+                            this.setState({
+                                selectedSong: song
+                            });
+                        }
                     }
                 }
             )
