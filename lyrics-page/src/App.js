@@ -20,22 +20,25 @@ class App extends React.Component {
             authenticated: false
         };
 
-        this.songsEndpoint = window.SONGS_SERVICE;
-        this.lyricsEndpoint = window.LYRICS_SERVICE;
+        this.songsEndpoint = ((process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL : window.SONGS_SERVICE);
+        this.lyricsEndpoint = ((process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL : window.LYRICS_SERVICE);
+        this.keycloakEnabled = ((process.env.REACT_APP_KEYCLOAK_ENABLED) ? process.env.REACT_APP_KEYCLOAK_ENABLED : window.KEYCLOAK_ENABLED);
     }
 
     componentDidMount() {
-        var keycloak = new Keycloak({
-            url: window.KEYCLOAK_SERVICE,
-            realm: window.KEYCLOAK_REALM,
-            clientId: window.KEYCLOAK_CLIENT_ID
-        });
-
-        keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
-            this.setState({ keycloak: keycloak, authenticated: authenticated })
-        }).catch(() => {
-            console.log("Error");
-        });
+        if (this.keycloakEnabled === "true") {
+            var keycloak = new Keycloak({
+                url: ((process.env.REACT_APP_KEYCLOAK_URL) ? process.env.REACT_APP_KEYCLOAK_URL : window.KEYCLOAK_SERVICE),
+                realm: ((process.env.KEYCLOAK_REALM) ? process.env.KEYCLOAK_REALM : window.KEYCLOAK_REALM),
+                clientId: ((process.env.KEYCLOAK_CLIENT_ID) ? process.env.KEYCLOAK_CLIENT_ID : window.KEYCLOAK_CLIENT_ID)
+            });
+    
+            keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
+                this.setState({ keycloak: keycloak, authenticated: authenticated })
+            }).catch(() => {
+                console.log("Error");
+            });
+        }
 
         this.getSongs();
     }
@@ -49,13 +52,24 @@ class App extends React.Component {
         this.getSongs(this.state.searchValue);
     }
 
+    getHeaders = () => {
+        if (this.state.keycloak) {
+            return {
+                "Authorization": "Bearer " + this.state.keycloak.token,
+                "Username": this.state.keycloak.subject
+            };
+        } else {
+            return {};
+        }
+    }
+
     onSelectSong = (songId) => {
-        fetch(this.songsEndpoint + songId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
+        fetch(this.songsEndpoint + songId, { headers: this.getHeaders() })
             .then(song => song.json())
             .then(
                 (song) => {
                     if (song) {
-                        fetch(this.lyricsEndpoint + song.lyricsId, { headers: { "Authorization": "Bearer " + this.state.keycloak.token } })
+                        fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
                             .then(result => result.json())
                             .then(
                                 (result) => {
@@ -116,7 +130,7 @@ class App extends React.Component {
                         authenticated={this.state.authenticated}
                         key={this.state.selectedSong.id}
                         song={this.state.selectedSong} />
-                    { this.state.selectedSong.youtubeLink && <SongVideo song={this.state.selectedSong} /> }
+                    {this.state.selectedSong.youtubeLink && <SongVideo song={this.state.selectedSong} />}
                     <SongLyrics lyrics={this.state.selectedSong.lyrics} />
                 </div>
             );
