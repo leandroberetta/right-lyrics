@@ -71,10 +71,6 @@ class App extends React.Component {
             .then(
                 (song) => {
                     if (song) {
-                        this.setState({
-                            selectedSong: song
-                        });
-
                         fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
                             .then(result => result.json())
                             .then(
@@ -87,9 +83,10 @@ class App extends React.Component {
                                     }
                                 },
                                 (error) => {
-                                    console.log(error);
+                                    console.log(error);                                    
                                     this.setState({
                                         error: "Lyrics service not available.",
+                                        selectedSong: song
                                     });
                                 }
                             )
