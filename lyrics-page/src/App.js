@@ -34,10 +34,12 @@ class App extends React.Component {
             });
     
             keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
-                this.setState({ keycloak: keycloak, authenticated: authenticated })
+                this.setState({ keycloak: keycloak, authenticated: authenticated });
             }).catch(() => {
                 console.log("Error");
             });
+        } else {
+            this.setState({ authenticated: true });
         }
 
         this.getSongs();
