@@ -83,10 +83,9 @@ class App extends React.Component {
                                     }
                                 },
                                 (error) => {
-                                    console.log(error);                                    
+                                    console.log(error);
                                     this.setState({
                                         error: "Lyrics service not available.",
-                                        selectedSong: song
                                     });
                                 }
                             )
