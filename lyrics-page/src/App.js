@@ -71,6 +71,7 @@ class App extends React.Component {
             .then(
                 (song) => {
                     if (song) {
+                        console.log("0");
                         if (this.lyricsEndpoint) {
                             console.log("1");
                             fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
