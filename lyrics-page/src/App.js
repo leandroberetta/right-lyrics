@@ -71,6 +71,10 @@ class App extends React.Component {
             .then(
                 (song) => {
                     if (song) {
+                        this.setState({
+                            selectedSong: song
+                        });
+
                         fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
                             .then(result => result.json())
                             .then(
