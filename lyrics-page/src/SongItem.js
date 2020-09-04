@@ -23,26 +23,28 @@ class SongItem extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.albumsEndpoint + this.props.song.albumId)
-            .then(result => result.json())
-            .then(
-                (result) => {
-                    if (result) {
-                        console.log(result);
+        if (this.albumsEndpoint) {
+            fetch(this.albumsEndpoint + this.props.song.albumId)
+                .then(result => result.json())
+                .then(
+                    (result) => {
+                        if (result) {
+                            console.log(result);
+                            this.setState({
+                                isLoaded: true,
+                                album: result.data,
+                                error: null
+                            })
+                        }
+                    },
+                    (error) => {
+                        console.log(error);
                         this.setState({
-                            isLoaded: true,
-                            album: result.data,
-                            error: null
-                        })
+                            error: "Albums service not available.",
+                        });
                     }
-                },
-                (error) => {
-                    console.log(error);
-                    this.setState({
-                        error: "Albums service not available.",
-                    });
-                }
-            )
+                )
+        }
     }
 
     render() {
@@ -81,7 +83,7 @@ class SongItem extends React.Component {
                                 <p> {this.props.song.artist} </p>
                             </Col >
                             <Col className="col-12 col-md-4" >
-                                { this.props.song.popularity && <SongPopularity popularity={this.props.song.popularity} /> }
+                                {this.props.song.popularity && <SongPopularity popularity={this.props.song.popularity} />}
                             </Col >
                         </Row>
                         {close}
