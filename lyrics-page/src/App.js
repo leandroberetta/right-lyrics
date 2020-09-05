@@ -70,32 +70,29 @@ class App extends React.Component {
             .then(song => song.json())
             .then(
                 (song) => {
-                    if (song) {
-                        console.log("0");
-                        if (this.lyricsEndpoint) {
-                            console.log("1");
+                    if (song) {                        
+                        if (this.lyricsEndpoint) {                            
                             fetch(this.lyricsEndpoint + song.lyricsId, { headers: this.getHeaders() })
                                 .then(result => result.json())
                                 .then(
                                     (result) => {
-                                        if (result) {
-                                            console.log("2");
+                                        if (result) {                                            
                                             song.lyrics = result.lyrics;
                                             this.setState({
                                                 selectedSong: song
                                             })
                                         }
                                     },
-                                    (error) => {
-                                        console.log("3");
+                                    (error) => {                                        
                                         console.log(error);
+                                        song.lyrics = "Lyrics not available.";
                                         this.setState({
-                                            error: "Lyrics service not available."                                        
+                                            selectedSong: song
                                         });
                                     }
                                 )
                         } else {
-                            console.log("4");
+                            song.lyrics = "Lyrics not available.";
                             this.setState({
                                 selectedSong: song
                             });
