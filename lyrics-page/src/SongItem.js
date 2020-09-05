@@ -51,7 +51,7 @@ class SongItem extends React.Component {
         const { error, isLoaded, album } = this.state;
 
         var close = null;
-        if (this.props.song) {
+        if (this.props.song.lyrics) {
             close = (
                 <Row>
                     <Col style={{ paddingTop: "10px" }}>
