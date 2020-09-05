@@ -22,7 +22,11 @@ class App extends React.Component {
 
         this.songsEndpoint = ((process.env.REACT_APP_SONGS_SERVICE_URL) ? process.env.REACT_APP_SONGS_SERVICE_URL : window.SONGS_SERVICE);
         this.lyricsEndpoint = ((process.env.REACT_APP_LYRICS_SERVICE_URL) ? process.env.REACT_APP_LYRICS_SERVICE_URL : window.LYRICS_SERVICE);
-        this.keycloakEnabled = ((process.env.REACT_APP_KEYCLOAK_ENABLED) ? process.env.REACT_APP_KEYCLOAK_ENABLED : window.KEYCLOAK_ENABLED);
+        this.keycloakEnabled = true;
+
+        if (!process.env.REACT_APP_KEYCLOAK_URL && !window.KEYCLOAK_SERVICE) {
+            this.keycloakEnabled = false;
+        }
     }
 
     componentDidMount() {
