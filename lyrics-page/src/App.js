@@ -30,7 +30,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if (this.keycloakEnabled === "true") {
+        if (this.keycloakEnabled == true) {
             var keycloak = new Keycloak({
                 url: ((process.env.REACT_APP_KEYCLOAK_URL) ? process.env.REACT_APP_KEYCLOAK_URL : window.KEYCLOAK_SERVICE),
                 realm: ((process.env.KEYCLOAK_REALM) ? process.env.KEYCLOAK_REALM : window.KEYCLOAK_REALM),
