@@ -1,4 +1,4 @@
-# Deploy in OpenShift step by step
+# Deploy in OpenShift (step by step guide)
 
 Create a project for Right Lyrics:
 

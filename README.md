@@ -38,7 +38,7 @@ echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyri
 
 ## Extras
 
-* [Deploy in OpenShift step by step](./documentation/steps/README.md)
+* [Deploy in OpenShift (step by step guide)](./documentation/steps/README.md)
 * [Deploy in Minikube (DEV) with Tekton Pipelines](./documentation/pipelines/minikube/README.md)
 * [Deploy in OpenShift (PROD) with OpenShift Pipelines](./documentation/pipelines/openshift/README.md)
 * [Deploy a Canary version using OpenShift Service Mesh](./documentation/istio/README.md)
