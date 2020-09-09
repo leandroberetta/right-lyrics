@@ -20,6 +20,7 @@ objects:
     labels:
       app: ${NAME_PREFFIX}-songs-postgresql
       app.openshift.io/runtime: postgresql
+      app.kubernetes.io/part-of: right-lyrics
     name: ${NAME_PREFFIX}-songs-postgresql
   spec:
     replicas: 1
@@ -136,6 +137,7 @@ objects:
     labels:
       app: ${NAME_PREFFIX}-songs-service
       app.openshift.io/runtime: spring
+      app.kubernetes.io/part-of: right-lyrics
     name: ${NAME_PREFFIX}-songs-service
   spec:
     replicas: 1
@@ -179,7 +181,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - ${NAME_PREFFIX}-songs-service
+        - songs-service
         from:
           kind: ImageStreamTag
           name: ${NAME_PREFFIX}-songs-service:latest
