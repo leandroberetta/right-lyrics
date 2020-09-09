@@ -5,16 +5,16 @@ metadata:
     app.openshift.io/connects-to: songs-postgresql,hits-service
   labels:
     app: songs-service
-    version: "1.3"
+    version: v2
     app.openshift.io/runtime: spring
     app.kubernetes.io/part-of: right-lyrics
-  name: songs-service-v-1-3
+  name: songs-service-v2
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: songs-service
-      version: "1.3"
+      version: v2
   strategy:
     type: RollingUpdate
   template:
@@ -26,7 +26,7 @@ spec:
         prometheus.io/port: "8080"
       labels:
         app: songs-service
-        version: "1.3"
+        version: v2
     spec:
       containers:
         - image: quay.io/right-lyrics/songs-service:1.3
