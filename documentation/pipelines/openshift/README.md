@@ -54,7 +54,7 @@ The pipelines use Karpenter tasks for the clone, build and deploy tasks.
 ```bash
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
 oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/oc/oc.yaml -n right-lyrics
+oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
 ```
 
 ##### Pipelines

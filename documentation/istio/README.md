@@ -4,7 +4,7 @@ Canary deployments can be managed with OpenShift Service Mesh (Istio).
 
 ### Overview
 
-The new version of Songs adds a YouTube preview to show in the Lyrics Page.
+The new version of Songs adds a YouTube preview to be shown in the Lyrics Page.
 
 So as a result of doing a Canary deployment, sometimes the YouTube preview will appear and sometimes it won't.
 
@@ -15,17 +15,52 @@ This situation can be observed in Kiali too:
 ### Prerequisites
 
 * OpenShift (4.2 or higher)
-* OpenShift Pipelines
 * OpenShift Service Mesh
-* Tekton CLI (tkn)
 
 ### Usage
 
 #### Service Mesh
 
-Create a control plane in the *right-lyrics-istio* project using the operator.
+Install Service Mesh with the official documentation in [this](https://docs.openshift.com/container-platform/4.5/service_mesh/service_mesh_install/installing-ossm.html) link.
 
-Then add the *right-lyrics* project to the member roll as follows:
+Then create a control plane in the *right-lyrics-istio* project using the operator:
+
+```bash
+oc new-project right-lyrics-istio
+
+echo 'apiVersion: maistra.io/v1
+kind: ServiceMeshControlPlane
+metadata:
+  name: basic-install
+  namespace: right-lyrics-istio
+spec:
+  version: v1.1
+  istio:
+    gateways:
+      istio-egressgateway:
+        autoscaleEnabled: false
+      istio-ingressgateway:
+        autoscaleEnabled: false
+        ior_enabled: false
+    mixer:
+      policy:
+        autoscaleEnabled: false
+      telemetry:
+        autoscaleEnabled: false
+    pilot:
+      autoscaleEnabled: false
+      traceSampling: 100
+    kiali:
+      enabled: true
+    grafana:
+      enabled: true
+    tracing:
+      enabled: true
+      jaeger:
+        template: all-in-one' | oc apply -f - -n right-lyrics-istio
+```
+
+Finally, add the *right-lyrics* project to the member roll as follows:
 
 ```bash
 echo "apiVersion: maistra.io/v1
@@ -37,7 +72,7 @@ spec:
     - right-lyrics" | oc apply -f -n right-lyrics-istio
 ```
 
-#### Right Lyrics (with Songs 1.2)
+#### Right Lyrics (with Songs v1)
 
 Create the project to deploy the services:
 
@@ -77,7 +112,7 @@ KEYCLOAK_ROUTE=$(oc get route keycloak -o jsonpath='{.spec.host}' -n right-lyric
 echo "apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: lyrics-page-gateway
+  name: right-lyrics
 spec:
   selector:
     istio: ingressgateway
@@ -87,67 +122,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - $LYRICS_PAGE_ROUTE" | oc apply -f - -n right-lyrics
-
-echo "apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: songs-service-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - $SONGS_SERVICE_ROUTE" | oc apply -f - -n right-lyrics
-
-echo "apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: lyrics-service-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - $LYRICS_SERVICE_ROUTE" | oc apply -f - -n right-lyrics
-
-echo "apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: albums-service-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - $ALBUMS_SERVICE_ROUTE" | oc apply -f - -n right-lyrics
-
-echo "apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: keycloak-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - $KEYCLOAK_ROUTE" | oc apply -f - -n right-lyrics
+    - \"*\"" | oc apply -f - -n right-lyrics
 ```
 
 ##### Virtual Services
@@ -159,9 +134,9 @@ metadata:
   name: lyrics-page
 spec:
   hosts:
-  - \"*\"
+  - $LYRICS_PAGE_ROUTE
   gateways:
-  - lyrics-page-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
@@ -173,9 +148,9 @@ metadata:
   name: albums-service
 spec:
   hosts:
-  - \"*\"
+  - $ALBUMS_SERVICE_ROUTE
   gateways:
-  - albums-service-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
@@ -187,9 +162,9 @@ metadata:
   name: lyrics-service
 spec:
   hosts:
-  - \"*\"
+  - $LYRICS_SERVICE_ROUTE
   gateways:
-  - lyrics-service-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
@@ -201,9 +176,9 @@ metadata:
   name: songs-service
 spec:
   hosts:
-  - \"*\"
+  - $SONGS_SERVICE_ROUTE
   gateways:
-  - songs-service-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
@@ -215,13 +190,25 @@ metadata:
   name: keycloak
 spec:
   hosts:
-  - \"*\"
+  - $KEYCLOAK_ROUTE
   gateways:
-  - keycloak-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
-        host: keycloak" | oc apply -f - -n right-lyrics   
+        host: keycloak" | oc apply -f - -n right-lyrics 
+
+echo "apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hits-service
+spec:
+  hosts:
+  - hits-service
+  http:
+  - route:
+    - destination:
+        host: hits-service" | oc apply -f - -n right-lyrics 
 ```
 
 ##### Configuration
@@ -264,52 +251,61 @@ The application will be available at:
 echo "http://$(oc get route lyrics-page -o jsonpath='{.spec.host}' -n right-lyrics-istio)"
 ```
 
-#### Right Lyrics (with Songs 1.3)
-
-##### Karpenter
-
-The pipelines use Karpenter tasks for the clone, build and deploy tasks.
+#### Right Lyrics (with Songs v2)
 
 ```bash
-oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/git/git.yaml -n right-lyrics
-oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/s2i/s2i.yaml -n right-lyrics
-oc apply -f https://raw.githubusercontent.com/leandroberetta/karpenter/master/tasks/kubectl/kubectl.yaml -n right-lyrics
-```
-
-##### Pipelines
-
-Create extra resources for the pipelines:
-
-```bash
-echo "apiVersion: v1
-kind: PersistentVolumeClaim
+echo "apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: source
+  annotations:
+    app.openshift.io/connects-to: songs-postgresql,hits-service
+  labels:
+    app: songs-service
+    version: v2
+    app.openshift.io/runtime: spring
+    app.kubernetes.io/part-of: right-lyrics
+  name: songs-service-v2
 spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi" | oc apply -f - -n right-lyrics
-```
-
-Create Songs pipeline:
-
-```bash
-oc apply -f pipelines/songs-pipeline.yaml -n right-lyrics
-```
-
-Start Songs pipeline to deploy the new version (1.3):
-
-```bash
-tkn pipeline start songs-pipeline \
-  -w name=source,claimName=source,subPath=songs \
-  -p GIT_REPOSITORY=https://github.com/leandroberetta/right-lyrics \
-  -p GIT_REVISION=master \
-  -p IMAGE=image-registry.openshift-image-registry.svc.cluster.local:5000/right-lyrics/songs-service:1.3 \
-  -p OVERLAY=prod \
-  --showlog \
-  -n right-lyrics
+  replicas: 1
+  selector:
+    matchLabels:
+      app: songs-service
+      version: v2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: \"true\"
+        prometheus.io/scrape: \"true\"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: \"8080\"
+        prometheus.io/scheme: http
+      labels:
+        app: songs-service
+        version: v2
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/songs-service:2.0
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: songs-postgresql
+                  key: password
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: songs-postgresql
+                  key: user
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://songs-postgresql:5432/right-lyrics
+            - name: HITS_SERVICE_URL
+              value: http://hits-service:8080
+          imagePullPolicy: Always
+          name: songs-service
+          ports:
+            - containerPort: 8080" | oc apply -f - -n right-lyrics
 ```
 
 ##### Canary
@@ -322,18 +318,18 @@ metadata:
   name: songs-service
 spec:
   hosts:
-  - \"*\"
+  - $SONGS_SERVICE_ROUTE
   gateways:
-  - songs-service-gateway
+  - right-lyrics
   http:
   - route:
     - destination:
         host: songs-service
-        subset: 1-2
+        subset: v1
       weight: 50
     - destination:
         host: songs-service
-        subset: 1-3
+        subset: v2
       weight: 50" | oc apply -f - -n right-lyrics
 
 echo "apiVersion: networking.istio.io/v1alpha3
@@ -343,16 +339,20 @@ metadata:
 spec:
   host: songs-service
   subsets:
-  - name: 1-2
+  - name: v1
     labels:
-      version: \"1.2\"
-  - name: 1-3
+      version: v1
+  - name: v2
     labels:
-      version: \"1.3\""  | oc apply -f - -n right-lyrics      
+      version: v2"  | oc apply -f - -n right-lyrics      
+````
 
-oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/1/YlUKcNNmywk
-oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/2/CxKWTzr-k6s
-oc rsh -n right-lyrics deployment/songs-service-v-1-3 curl -X POST http://localhost:8080/api/songs/youtube/3/eBG7P-K-r1Y
+Update the songs with the YouTube links:
+
+```bash
+oc rsh -n right-lyrics deployment/songs-service-v2 curl -X POST http://localhost:8080/api/songs/youtube/1/YlUKcNNmywk
+oc rsh -n right-lyrics deployment/songs-service-v2 curl -X POST http://localhost:8080/api/songs/youtube/2/CxKWTzr-k6s
+oc rsh -n right-lyrics deployment/songs-service-v2 curl -X POST http://localhost:8080/api/songs/youtube/3/eBG7P-K-r1Y
 ```
 
 Test again the application, 50% of the time there will be a YouTube preview in the Lyrics Page.
