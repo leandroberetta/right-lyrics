@@ -13,4 +13,5 @@ spec:
             backend:
               service:
                 name: albums-service
-                port: 8080
+                port: 
+                  number: 8080
