@@ -9,5 +9,7 @@ spec:
         paths:
           - path: /api/songs
             backend:
-              serviceName: songs-service
-              servicePort: 8080
+              service:
+                name: songs-service
+                port: 
+                  number: 8080
