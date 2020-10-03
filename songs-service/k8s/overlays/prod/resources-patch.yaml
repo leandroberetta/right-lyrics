@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: songs-service-v-1-3
+  name: songs-service
 spec:
   replicas: 2
   template:
