@@ -8,6 +8,7 @@ spec:
       http:
         paths:
           - path: /api/songs
+            pathType: Prefix
             backend:
               service:
                 name: songs-service
