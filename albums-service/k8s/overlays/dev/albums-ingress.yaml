@@ -9,6 +9,8 @@ spec:
       http:
         paths:
           - path: /api/albums
+            pathType: Prefix
             backend:
-              serviceName: albums-service
-              servicePort: 8080
+              service:
+                name: albums-service
+                port: 8080
