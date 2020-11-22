@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-lyrics-page
+data:
+  config.js: |
+    window.SONGS_SERVICE = "http://{{ .Release.Name }}-songs-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}/api/songs/";
+    window.LYRICS_SERVICE = "http://{{ .Release.Name }}-lyrics-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}/api/lyrics/";
+    window.ALBUMS_SERVICE = "http://{{ .Release.Name }}-albums-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}/api/albums/";
+    {{ if .Values.keycloakEnabled }}
+    window.KEYCLOAK_SERVICE = "http://{{ .Release.Name }}-keycloak-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}/auth/";
+    window.KEYCLOAK_CLIENT_ID = "lyrics-page";
+    window.KEYCLOAK_REALM = "right-lyrics";
+    {{ end }}

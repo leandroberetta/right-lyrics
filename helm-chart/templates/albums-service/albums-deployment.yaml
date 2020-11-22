@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: {{ .Release.Name }}-albums-mariadb
+  labels:
+    app: {{ .Release.Name }}-albums-service
+    app.openshift.io/runtime: quarkus
+  name: {{ .Release.Name }}-albums-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-albums-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-albums-service
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/albums-service:1.0
+          env:
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-albums-mariadb
+                  key: password
+            - name: QUARKUS_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-albums-mariadb
+                  key: user
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: jdbc:mysql://{{ .Release.Name }}-albums-mariadb:3306/rl
+          imagePullPolicy: Always
+          name: albums-service
+          ports:
+            - containerPort: 8080

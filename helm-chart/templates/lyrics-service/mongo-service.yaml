@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Release.Name }}-lyrics-mongodb
+  name: {{ .Release.Name }}-lyrics-mongodb
+spec:
+  ports:
+    - name: tcp-27017
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+  selector:
+    app: {{ .Release.Name }}-lyrics-mongodb

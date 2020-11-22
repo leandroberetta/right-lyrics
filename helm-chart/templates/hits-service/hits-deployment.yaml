@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: {{ .Release.Name }}-hits-redis
+  labels:
+    app: {{ .Release.Name }}-hits-service
+    app.openshift.io/runtime: python
+  name: {{ .Release.Name }}-hits-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-hits-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-hits-service
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/hits-service:1.1
+          imagePullPolicy: Always
+          name: hits-service
+          readinessProbe:
+            httpGet:
+              path: /api/popularity/1
+              port: 8080
+          env:
+            - name: DB_HOST
+              value: {{ .Release.Name }}-hits-redis
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-hits-redis
+                  key: password
+          ports:
+            - containerPort: 8080

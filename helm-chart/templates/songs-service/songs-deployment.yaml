@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.openshift.io/connects-to: {{ .Release.Name }}-songs-postgresql,{{ .Release.Name }}-hits-service
+  labels:
+    app: {{ .Release.Name }}-songs-service
+    app.openshift.io/runtime: spring
+  name: {{ .Release.Name }}-songs-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-songs-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-songs-service
+    spec:
+      containers:
+        - image: quay.io/right-lyrics/songs-service:1.2
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-songs-postgresql
+                  key: password
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-songs-postgresql
+                  key: user
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ .Release.Name }}-songs-postgresql:5432/right-lyrics
+            - name: HITS_SERVICE_URL
+              value: http://{{ .Release.Name }}-hits-service:8080
+          imagePullPolicy: Always
+          name: songs-service
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-hits-redis
+    app.openshift.io/runtime: redis
+  name: {{ .Release.Name }}-hits-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-hits-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-hits-redis
+    spec:
+      containers:
+        - image: centos/redis-5-centos7
+          imagePullPolicy: Always
+          name: {{ .Release.Name }}-hits-redis
+          livenessProbe:
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 6379
+            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 6379
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-hits-redis
+                  key: password

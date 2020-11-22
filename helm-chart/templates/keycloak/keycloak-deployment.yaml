@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-keycloak
+  labels:
+    app: {{ .Release.Name }}-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-keycloak
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-keycloak
+    spec:
+      volumes:
+        - configMap:
+            name: {{ .Release.Name }}-right-lyrics-realm
+          name: right-lyrics-realm
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:11.0.0
+          env:
+            - name: KEYCLOAK_USER
+              value: "admin"
+            - name: KEYCLOAK_PASSWORD
+              value: "admin"
+            - name: KEYCLOAK_IMPORT
+              value: /tmp/right-lyrics-realm.json
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          volumeMounts:
+            - mountPath: /tmp/right-lyrics-realm.json
+              name: right-lyrics-realm
+              subPath: right-lyrics-realm.json
+          readinessProbe:
+            httpGet:
+              path: /auth/realms/master
+              port: 8080

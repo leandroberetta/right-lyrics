@@ -1,0 +1,5 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Visit the application at:
+
+http://{{ .Release.Name }}-lyrics-page-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}

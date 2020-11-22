@@ -1,5 +1,0 @@
-resources:
-  - mongo-deployment.yaml
-  - mongo-service.yaml
-  - lyrics-deployment.yaml
-  - lyrics-service.yaml
