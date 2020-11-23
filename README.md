@@ -2,36 +2,35 @@
 
 A very simple microservice architecture to deploy in OpenShift.
 
-## Usage
+## Overview
+
+![overview](./overview.png)
+
+## Deployment
 
 The fastest way to deploy Right Lyrics is with a Helm chart:
 
 ```bash
 kubectl create namespace right-lyrics
 
-helm install my-rl ./helm-chart --set wildcardDomain=right.ly
+helm install my-right-lyrics ./helm-chart --set wildcardDomain=beretta.io
 ```
 
-NOTE: Set the wildcardDomain variable accordingly.
+**NOTE**: Set the wildcardDomain variable accordingly.
 
 As part of the output you will see:
 
 ```
-Thank you for installing right-lyrics.
+Thanks for installing Right Lyrics.
+
+  ____  _       _     _     _               _
+ |  _ \(_) __ _| |__ | |_  | |   _   _ _ __(_) ___ ___
+ | |_) | |/ _` | '_ \| __| | |  | | | | '__| |/ __/ __|
+ |  _ <| | (_| | | | | |_  | |__| |_| | |  | | (__\__ \
+ |_| \_\_|\__, |_| |_|\__| |_____\__, |_|  |_|\___|___/
+          |___/                  |___/
 
 Visit the application at:
 
-http://my-rl-lyrics-page-right-lyrics.right.ly
+http://lyrics-page-right-lyrics.beretta.io
 ```
-
-## Overview
-
-![overview](./overview.png)
-
-## Components
-
-* **Lyrics Page** (React.js)
-* **Lyrics Service** (Express.js + MongoDB)
-* **Songs Service** (Spring Boot + PostgreSQL)
-* **Hits Service** (Python + Redis)
-* **Albums Service** (Quarkus + MariaDB)

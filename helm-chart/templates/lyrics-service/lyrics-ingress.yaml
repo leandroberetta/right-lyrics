@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-lyrics-service
 spec:
   rules:
-    - host: {{ .Release.Name }}-lyrics-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}
+    - host: lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
           - path: /

@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-albums-service
 spec:
   rules:
-    - host: {{ .Release.Name }}-albums-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}
+    - host: albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
           - path: /

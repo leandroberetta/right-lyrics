@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-songs-service
 spec:
   rules:
-    - host: {{ .Release.Name }}-songs-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}
+    - host: songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
           - path: /

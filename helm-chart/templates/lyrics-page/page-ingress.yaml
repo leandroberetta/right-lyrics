@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
 spec:
   rules:
-    - host: {{ .Release.Name }}-lyrics-page-{{ .Release.Namespace }}.{{ .Values.wildcardDomain }}
+    - host: lyrics-page-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
           - path: /
