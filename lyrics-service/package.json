@@ -1,6 +1,6 @@
 {
   "name": "lyrics-service",
-  "version": "1.2",
+  "version": "1.2.0",
   "description": "Right Lyrics - Lyrics Service",
   "main": "index.js",
   "scripts": {
