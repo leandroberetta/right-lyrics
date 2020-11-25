@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-import-job
+  annotations:
+    helm.sh/hook: post-install
+  labels:
+    app.openshift.io/runtime: golang
+spec:
+  template:
+    spec:
+      volumes:
+        - configMap:
+            name: {{ .Release.Name }}-data
+          name: data
+      containers:
+        - name: import
+          image: image-registry.openshift-image-registry.svc:5000/right-lyrics/right-lyrics-git:latest
+          env:
+            - name: DATA_FILE
+              value: /tmp/data.yaml
+            - name: ALBUMS_SERVICE
+              value: http://albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/albums/
+            - name: LYRICS_SERVICE
+              value: http://lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/lyrics/
+            - name: SONGS_SERVICE
+              value: http://songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/songs/
+          volumeMounts:
+            - mountPath: /tmp/data.yaml
+              name: data
+              subPath: data.yaml
+      restartPolicy: Never

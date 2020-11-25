@@ -5,7 +5,7 @@ metadata:
     app.openshift.io/connects-to: {{ .Release.Name }}-songs-postgresql,{{ .Release.Name }}-hits-service
   labels:
     app: {{ .Release.Name }}-songs-service
-    app.openshift.io/runtime: spring
+    app.openshift.io/runtime: spring-boot
   name: {{ .Release.Name }}-songs-service
 spec:
   replicas: 1

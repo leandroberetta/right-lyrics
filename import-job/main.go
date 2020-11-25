@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -129,14 +130,14 @@ func createAlbum(title, artist, coverUrl, year string) int {
 	}
 
 	resp, err := http.Post(
-		os.Getenv("ALBUMS_SERVICE"),
+		fmt.Sprintf("%s/api/albums/", os.Getenv("ALBUMS_SERVICE")),
 		"application/json",
 		bytes.NewReader(albumCreateRequestJson))
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	albumCreateResponse := AlbumCreateResponse{}
 
@@ -162,13 +163,13 @@ func createLyrics(name, lyrics string) string {
 	}
 
 	resp, err := http.Post(
-		os.Getenv("LYRICS_SERVICE"),
+		fmt.Sprintf("%s/api/lyrics/", os.Getenv("LYRICS_SERVICE")),
 		"application/json",
 		bytes.NewReader(lyricsCreateRequestJson))
-
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	lyricsCreateResponse := LyricsCreateResponse{}
@@ -198,14 +199,14 @@ func createSong(name, artist, lyricsId, youTubeLink string, albumId int) int {
 	}
 
 	resp, err := http.Post(
-		os.Getenv("SONGS_SERVICE"),
+		fmt.Sprintf("%s/api/songs/", os.Getenv("SONGS_SERVICE")),
 		"application/json",
 		bytes.NewReader(songCreateRequestJson))
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	songCreateResponse := SongCreateResponse{}
 
