@@ -22,7 +22,7 @@ spec:
         app: {{ .Release.Name }}-albums-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/albums-service:1.0
+        - image: quay.io/right-lyrics/albums-service:1.1
           env:
             - name: QUARKUS_DATASOURCE_PASSWORD
               valueFrom:
@@ -38,5 +38,13 @@ spec:
               value: jdbc:mysql://{{ .Release.Name }}-albums-mariadb:3306/rl
           imagePullPolicy: Always
           name: albums-service
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
           ports:
             - containerPort: 8080

@@ -22,9 +22,17 @@ spec:
         app: {{ .Release.Name }}-lyrics-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/lyrics-service:1.1
+        - image: quay.io/right-lyrics/lyrics-service:1.2
           imagePullPolicy: Always
           name: lyrics-service
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
           env:
             - name: DB_HOST
               value: {{ .Release.Name }}-lyrics-mongodb

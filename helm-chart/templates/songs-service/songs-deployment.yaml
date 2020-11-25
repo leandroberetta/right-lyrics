@@ -22,7 +22,7 @@ spec:
         app: {{ .Release.Name }}-songs-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/songs-service:1.2
+        - image: quay.io/right-lyrics/songs-service:2.1
           env:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
@@ -40,5 +40,13 @@ spec:
               value: http://{{ .Release.Name }}-hits-service:8080
           imagePullPolicy: Always
           name: songs-service
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
           ports:
             - containerPort: 8080

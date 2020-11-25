@@ -22,12 +22,16 @@ spec:
         app: {{ .Release.Name }}-hits-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/hits-service:1.1
+        - image: quay.io/right-lyrics/hits-service:1.2
           imagePullPolicy: Always
           name: hits-service
           readinessProbe:
             httpGet:
-              path: /api/popularity/1
+              path: /health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
               port: 8080
           env:
             - name: DB_HOST

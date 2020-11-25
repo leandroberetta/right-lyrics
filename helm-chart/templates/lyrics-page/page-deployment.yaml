@@ -26,9 +26,17 @@ spec:
             name: {{ .Release.Name }}-lyrics-page
           name: lyrics-page
       containers:
-        - image: quay.io/right-lyrics/lyrics-page:1.2
+        - image: quay.io/right-lyrics/lyrics-page:1.4
           imagePullPolicy: Always
           name: lyrics-page
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
           env:
             - name: NPM_RUN
               value: serve
