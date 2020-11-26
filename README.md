@@ -11,9 +11,9 @@ A very simple microservice architecture to deploy in OpenShift.
 The fastest way to deploy Right Lyrics is with a Helm chart:
 
 ```bash
-kubectl create namespace right-lyrics
+oc create namespace right-lyrics
 
-helm install my-right-lyrics ./helm-chart --wait --set wildcardDomain=beretta.io
+helm install right-lyrics ./helm-chart --wait --set wildcardDomain=beretta.io
 ```
 
 **NOTE**: Set the wildcardDomain variable accordingly.

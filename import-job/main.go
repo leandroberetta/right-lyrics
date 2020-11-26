@@ -137,7 +137,9 @@ func createAlbum(title, artist, coverUrl, year string) int {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	albumCreateResponse := AlbumCreateResponse{}
 
@@ -169,6 +171,7 @@ func createLyrics(name, lyrics string) string {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
@@ -206,7 +209,9 @@ func createSong(name, artist, lyricsId, youTubeLink string, albumId int) int {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	songCreateResponse := SongCreateResponse{}
 
