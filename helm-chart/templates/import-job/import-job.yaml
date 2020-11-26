@@ -15,16 +15,16 @@ spec:
           name: data
       containers:
         - name: import
-          image: image-registry.openshift-image-registry.svc:5000/right-lyrics/right-lyrics-git:latest
+          image: quay.io/right-lyrics/import-job:1.0
           env:
             - name: DATA_FILE
               value: /tmp/data.yaml
             - name: ALBUMS_SERVICE
-              value: http://albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/albums/
+              value: http://albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
             - name: LYRICS_SERVICE
-              value: http://lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/lyrics/
+              value: http://lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
             - name: SONGS_SERVICE
-              value: http://songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/songs/
+              value: http://songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
           volumeMounts:
             - mountPath: /tmp/data.yaml
               name: data
