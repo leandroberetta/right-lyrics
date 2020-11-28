@@ -1,4 +1,0 @@
-bases:
-  - ../../base
-resources:
-  - keycloak-ingress.yaml

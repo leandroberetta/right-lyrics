@@ -1,6 +1,0 @@
-bases:
-  - ../../base
-resources:
-  - page-ingress.yaml
-patchesStrategicMerge:
-  - image-patch.yaml

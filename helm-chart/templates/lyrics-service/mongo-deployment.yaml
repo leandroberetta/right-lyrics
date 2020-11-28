@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-lyrics-mongodb
+    app.openshift.io/runtime: mongodb
+  name: {{ .Release.Name }}-lyrics-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-lyrics-mongodb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-lyrics-mongodb
+    spec:
+      containers:
+        - image: registry.access.redhat.com/rhscl/mongodb-36-rhel7
+          imagePullPolicy: Always
+          name: lyrics-mongodb
+          livenessProbe:
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval="quit()"
+            initialDelaySeconds: 3
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 6379
+          env:
+            - name: MONGODB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ .Release.Name }}-lyrics-mongodb
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ .Release.Name }}-lyrics-mongodb
+            - name: MONGODB_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ .Release.Name }}-lyrics-mongodb
+            - name: MONGODB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: {{ .Release.Name }}-lyrics-mongodb

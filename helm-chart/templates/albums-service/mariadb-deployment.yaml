@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-albums-mariadb
+    app.openshift.io/runtime: mariadb
+  name: {{ .Release.Name }}-albums-mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-albums-mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Release.Name }}-albums-mariadb
+    spec:
+      containers:
+        - image: registry.access.redhat.com/rhscl/mariadb-102-rhel7
+          imagePullPolicy: Always
+          name: albums-mariadb
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 3306
+          env:
+            - name: DATABASE_SERVICE_NAME
+              value: {{ .Release.Name }}-albums-mariadb
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ .Release.Name }}-albums-mariadb
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ .Release.Name }}-albums-mariadb
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ .Release.Name }}-albums-mariadb
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: {{ .Release.Name }}-albums-mariadb

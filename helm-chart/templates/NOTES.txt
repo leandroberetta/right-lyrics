@@ -1,0 +1,12 @@
+Thanks for installing Right Lyrics.
+
+  ____  _       _     _     _               _          
+ |  _ \(_) __ _| |__ | |_  | |   _   _ _ __(_) ___ ___ 
+ | |_) | |/ _` | '_ \| __| | |  | | | | '__| |/ __/ __|
+ |  _ <| | (_| | | | | |_  | |__| |_| | |  | | (__\__ \
+ |_| \_\_|\__, |_| |_|\__| |_____\__, |_|  |_|\___|___/
+          |___/                  |___/                 
+
+Visit the application at:
+
+http://lyrics-page-{{ .Release.Name }}.{{ .Values.wildcardDomain }}

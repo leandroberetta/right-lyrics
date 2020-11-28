@@ -43,4 +43,8 @@ app.post('/api/lyrics', (req, res) => {
     });
 });
 
+app.get('/health', (req, res) => {
+    return res.send({status: "UP"});
+});
+
 app.listen(8080)

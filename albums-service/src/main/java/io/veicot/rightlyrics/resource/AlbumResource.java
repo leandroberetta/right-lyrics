@@ -119,29 +119,4 @@ public class AlbumResource {
 
         return response;
     }
-
-    @GET
-    @Path("/load")
-    @Transactional
-    public Response<List<AlbumDto>> load() {
-        List<Album> albums = new ArrayList<>();
-
-        albums.add(new Album("Californication", "Red Hot Chili Pepers",
-                "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg", "1999"));
-
-        albums.add(new Album("Ten", "Pearl Jam", "https://upload.wikimedia.org/wikipedia/en/2/2d/PearlJam-Ten2.jpg",
-                "1999"));
-
-        albums.add(new Album("The Colour And The Shape", "Foo Fighters",
-                "https://upload.wikimedia.org/wikipedia/en/0/0d/FooFighters-TheColourAndTheShape.jpg", "1997"));
-
-        albumRepository.persist(albums);
-
-        Response<List<AlbumDto>> response = new Response<>();
-
-        response.setStatus(0);
-        response.setData(albumMapper.albumsToAlbumsDto(albums));
-
-        return response;
-    }
 }

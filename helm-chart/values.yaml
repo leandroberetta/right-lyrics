@@ -1,0 +1,6 @@
+wildcardDomain: right.ly
+keycloak:
+  enabled: false
+  host: http://keycloak.right.ly
+  clientID: lyrics-page
+  realm: right-lyrics
