@@ -5,7 +5,7 @@ metadata:
     app.openshift.io/connects-to: {{ .Release.Name }}-lyrics-mongodb
   labels:
     app: {{ .Release.Name }}-lyrics-service
-    app.openshift.io/runtime: nodejs
+    app.openshift.io/runtime: golang
   name: {{ .Release.Name }}-lyrics-service
 spec:
   replicas: 1
@@ -22,7 +22,7 @@ spec:
         app: {{ .Release.Name }}-lyrics-service
     spec:
       containers:
-        - image: quay.io/right-lyrics/lyrics-service:1.2
+        - image: quay.io/right-lyrics/lyrics-service:2.0
           imagePullPolicy: Always
           name: lyrics-service
           readinessProbe:

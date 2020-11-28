@@ -1,7 +1,5 @@
 package io.veicot.rightlyrics.resource.response;
 
-import io.veicot.rightlyrics.resource.response.Response;
-
 public class SearchResponse<T> extends Response<T> {
 
     private Integer length;
