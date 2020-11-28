@@ -49,7 +49,7 @@ type LyricsCreateRequest struct {
 }
 
 type LyricsCreateResponse struct {
-	Id     string `json:"_id"`
+	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Lyrics string `json:"lyrics"`
 }
