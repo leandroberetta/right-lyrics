@@ -37,4 +37,4 @@ http://lyrics-page-right-lyrics.beretta.io
 
 Also, the following components are deployed:
 
-![components](./components.png)
+![components](./components3.png)
