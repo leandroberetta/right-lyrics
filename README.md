@@ -13,12 +13,12 @@ The fastest way to deploy Right Lyrics is with a Helm chart:
 ```bash
 oc create namespace right-lyrics
 
-helm install right-lyrics ./helm-chart --wait --set wildcardDomain=beretta.io
+helm install right-lyrics ./helm-chart --wait --set wildcardDomain=beretta.io -n right-lyrics
 ```
 
 **NOTE**: Set the wildcardDomain variable accordingly.
 
-As part of the output you will see:
+As a result, you'll see the following output:
 
 ```
 Thanks for installing Right Lyrics.
@@ -34,3 +34,7 @@ Visit the application at:
 
 http://lyrics-page-right-lyrics.beretta.io
 ```
+
+Also, the following components are deployed:
+
+![components](./components.png)
