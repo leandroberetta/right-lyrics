@@ -6,7 +6,7 @@ A very simple microservice architecture to deploy in OpenShift.
 
 ![overview](./overview.png)
 
-## Components
+## Components
 
 ![components](./components.png)
 
