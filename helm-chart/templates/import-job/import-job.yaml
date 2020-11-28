@@ -4,6 +4,7 @@ metadata:
   name: {{ .Release.Name }}-import-job
   annotations:
     helm.sh/hook: post-install
+    helm.sh/hook-delete-policy: hook-succeeded
   labels:
     app.openshift.io/runtime: golang
 spec:
