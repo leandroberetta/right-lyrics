@@ -1,6 +1,5 @@
 package io.veicot.rightlyrics.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;

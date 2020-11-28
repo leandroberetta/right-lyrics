@@ -49,7 +49,7 @@ type LyricsCreateRequest struct {
 }
 
 type LyricsCreateResponse struct {
-	Id     string `json:"_id"`
+	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Lyrics string `json:"lyrics"`
 }
@@ -130,7 +130,7 @@ func createAlbum(title, artist, coverUrl, year string) int {
 	}
 
 	resp, err := http.Post(
-		fmt.Sprintf("%s/api/albums/", os.Getenv("ALBUMS_SERVICE")),
+		fmt.Sprintf("%s/api/albums", os.Getenv("ALBUMS_SERVICE")),
 		"application/json",
 		bytes.NewReader(albumCreateRequestJson))
 
@@ -165,7 +165,7 @@ func createLyrics(name, lyrics string) string {
 	}
 
 	resp, err := http.Post(
-		fmt.Sprintf("%s/api/lyrics/", os.Getenv("LYRICS_SERVICE")),
+		fmt.Sprintf("%s/api/lyrics", os.Getenv("LYRICS_SERVICE")),
 		"application/json",
 		bytes.NewReader(lyricsCreateRequestJson))
 	if err != nil {
@@ -176,10 +176,11 @@ func createLyrics(name, lyrics string) string {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	lyricsCreateResponse := LyricsCreateResponse{}
-
+	fmt.Println(string(body))
 	err = json.Unmarshal(body, &lyricsCreateResponse)
 
 	if err != nil {
+		log.Println("lala")
 		log.Fatalln(err)
 	}
 
@@ -202,7 +203,7 @@ func createSong(name, artist, lyricsId, youTubeLink string, albumId int) int {
 	}
 
 	resp, err := http.Post(
-		fmt.Sprintf("%s/api/songs/", os.Getenv("SONGS_SERVICE")),
+		fmt.Sprintf("%s/api/songs", os.Getenv("SONGS_SERVICE")),
 		"application/json",
 		bytes.NewReader(songCreateRequestJson))
 
