@@ -30,23 +30,25 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if (this.keycloakEnabled == true) {
+        if (this.keycloakEnabled === true) {
             var keycloak = new Keycloak({
                 url: ((process.env.REACT_APP_KEYCLOAK_URL) ? process.env.REACT_APP_KEYCLOAK_URL : window.KEYCLOAK_SERVICE),
-                realm: ((process.env.KEYCLOAK_REALM) ? process.env.KEYCLOAK_REALM : window.KEYCLOAK_REALM),
-                clientId: ((process.env.KEYCLOAK_CLIENT_ID) ? process.env.KEYCLOAK_CLIENT_ID : window.KEYCLOAK_CLIENT_ID)
+                realm: ((process.env.REACT_APP_KEYCLOAK_REALM) ? process.env.REACT_APP_KEYCLOAK_REALM : window.KEYCLOAK_REALM),
+                clientId: ((process.env.REACT_APP_KEYCLOAK_CLIENT_ID) ? process.env.REACT_APP_KEYCLOAK_CLIENT_ID : window.KEYCLOAK_CLIENT_ID)
             });
     
             keycloak.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(authenticated => {
                 this.setState({ keycloak: keycloak, authenticated: authenticated });
+                if (authenticated === true)
+                    this.getSongs();
             }).catch(() => {
                 console.log("Error");
             });
         } else {
+            console.log("asd")
             this.setState({ authenticated: true });
+            this.getSongs();
         }
-
-        this.getSongs();
     }
 
     onSearch = (event) => {
@@ -59,6 +61,7 @@ class App extends React.Component {
     }
 
     getHeaders = () => {
+        console.log(this.state.keycloak)
         if (this.state.keycloak) {
             return {
                 "Authorization": "Bearer " + this.state.keycloak.token,
@@ -111,7 +114,7 @@ class App extends React.Component {
         if (filter) {
             query = "?filter=" + filter;
         }
-
+        console.log(this.getHeaders())
         fetch(this.songsEndpoint + query, { headers: this.getHeaders() })
             .then(songs => songs.json())
             .then(
@@ -124,15 +127,16 @@ class App extends React.Component {
 
                 },
                 (error) => {
+                    console.log("error")
                     console.log(error);
-
-                    if (error.)
 
                     this.setState({
                         error: "Songs service not available.",
                     });
                 }
-            )
+            ).catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     render() {
@@ -145,6 +149,7 @@ class App extends React.Component {
                     <SongItem onDeselectSong={this.onDeselectSong}
                         onSelectSong={this.onSelectSong}
                         authenticated={this.state.authenticated}
+                        headers={this.getHeaders}
                         key={this.state.selectedSong.id}
                         song={this.state.selectedSong} />
                     {this.state.selectedSong.youtubeLink && <SongVideo song={this.state.selectedSong} />}
@@ -155,6 +160,7 @@ class App extends React.Component {
             mainSection = (
                 <SongList authenticated={this.state.authenticated}
                     onSelectSong={this.onSelectSong}
+                    headers={this.getHeaders}
                     songs={this.state.songs} />
             );
         }

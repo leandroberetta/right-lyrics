@@ -24,7 +24,7 @@ class SongItem extends React.Component {
 
     componentDidMount() {
         if (this.albumsEndpoint) {
-            fetch(this.albumsEndpoint + this.props.song.albumId)
+            fetch(this.albumsEndpoint + this.props.song.albumId, { headers: this.props.headers() })
                 .then(result => result.json())
                 .then(
                     (result) => {

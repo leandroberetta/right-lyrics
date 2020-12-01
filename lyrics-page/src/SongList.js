@@ -7,7 +7,7 @@ class SongList extends React.Component {
         return (
             <ul className="list-unstyled">
                 {this.props.songs.map(song => (
-                    <SongItem authenticated={this.props.authenticated} onSelectSong={this.props.onSelectSong} key={song.id} song={song}></SongItem>
+                    <SongItem headers={this.props.headers} authenticated={this.props.authenticated} onSelectSong={this.props.onSelectSong} key={song.id} song={song}></SongItem>
                 ))}
             </ul>
         );
