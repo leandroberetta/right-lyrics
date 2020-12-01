@@ -56,7 +56,7 @@ type LyricsService struct {
 
 func (lyricsService *LyricsService) getLyrics(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	if r.Method == http.MethodOptions {
 		return
 	}
@@ -68,7 +68,7 @@ func (lyricsService *LyricsService) getLyrics(w http.ResponseWriter, r *http.Req
 
 func (lyricsService *LyricsService) createLyrics(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	if r.Method == http.MethodOptions {
 		return
 	}

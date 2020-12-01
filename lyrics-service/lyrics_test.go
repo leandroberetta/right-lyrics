@@ -125,6 +125,10 @@ func TestGetLyricsCORS(t *testing.T) {
 	if got[0] != expected {
 		t.Errorf("getLyrics CORS error: expected %s got %s", expected, got)
 	}
+	got = rr.Result().Header["Access-Control-Allow-Headers"]
+	if got[0] != expected {
+		t.Errorf("getLyrics CORS error: expected %s got %s", expected, got)
+	}
 }
 
 func TestCreateLyrics(t *testing.T) {
@@ -178,5 +182,9 @@ func TestCreateLyricsCORS(t *testing.T) {
 	got := rr.Result().Header["Access-Control-Allow-Origin"]
 	if got[0] != expected {
 		t.Errorf("createLyrics CORS error: expected %s got %s", expected, got)
+	}
+	got = rr.Result().Header["Access-Control-Allow-Headers"]
+	if got[0] != expected {
+		t.Errorf("getLyrics CORS error: expected %s got %s", expected, got)
 	}
 }

@@ -112,7 +112,7 @@ class App extends React.Component {
             query = "?filter=" + filter;
         }
 
-        fetch(this.songsEndpoint + query)
+        fetch(this.songsEndpoint + query, { headers: this.getHeaders() })
             .then(songs => songs.json())
             .then(
                 (songs) => {
@@ -125,6 +125,9 @@ class App extends React.Component {
                 },
                 (error) => {
                     console.log(error);
+
+                    if (error.)
+
                     this.setState({
                         error: "Songs service not available.",
                     });
