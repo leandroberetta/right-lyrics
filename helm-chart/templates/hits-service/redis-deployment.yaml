@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Release.Name }}-hits-redis
+    app: hits-redis
     app.openshift.io/runtime: redis
-  name: {{ .Release.Name }}-hits-redis
+  name: hits-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-hits-redis
+      app: hits-redis
   strategy:
     type: Recreate
   template:
@@ -17,12 +17,12 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-hits-redis
+        app: hits-redis
     spec:
       containers:
         - image: centos/redis-5-centos7
           imagePullPolicy: Always
-          name: {{ .Release.Name }}-hits-redis
+          name: hits-redis
           livenessProbe:
             initialDelaySeconds: 30
             tcpSocket:
@@ -43,5 +43,5 @@ spec:
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-hits-redis
+                  name: hits-redis
                   key: password

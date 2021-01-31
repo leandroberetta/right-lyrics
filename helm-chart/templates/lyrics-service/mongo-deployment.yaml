@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Release.Name }}-lyrics-mongodb
+    app: lyrics-mongodb
     app.openshift.io/runtime: mongodb
-  name: {{ .Release.Name }}-lyrics-mongodb
+  name: lyrics-mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-lyrics-mongodb
+      app: lyrics-mongodb
   strategy:
     type: Recreate
   template:
@@ -17,7 +17,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-lyrics-mongodb
+        app: lyrics-mongodb
     spec:
       containers:
         - image: registry.access.redhat.com/rhscl/mongodb-36-rhel7
@@ -44,19 +44,19 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: {{ .Release.Name }}-lyrics-mongodb
+                  name: lyrics-mongodb
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: {{ .Release.Name }}-lyrics-mongodb
+                  name: lyrics-mongodb
             - name: MONGODB_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: {{ .Release.Name }}-lyrics-mongodb
+                  name: lyrics-mongodb
             - name: MONGODB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: database
-                  name: {{ .Release.Name }}-lyrics-mongodb
+                  name: lyrics-mongodb

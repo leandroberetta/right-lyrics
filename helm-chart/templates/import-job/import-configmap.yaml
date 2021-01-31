@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-data
+  name: music-data
 data:
   data.yaml: |
     albums:   

@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.openshift.io/connects-to: {{ .Release.Name }}-songs-postgresql,{{ .Release.Name }}-hits-service
+    app.openshift.io/connects-to: songs-postgresql,hits-service
   labels:
-    app: {{ .Release.Name }}-songs-service
+    app: songs-service
     app.openshift.io/runtime: spring-boot
-  name: {{ .Release.Name }}-songs-service
+  name: songs-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-songs-service
+      app: songs-service
   strategy:
     type: RollingUpdate
   template:
@@ -19,7 +19,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-songs-service
+        app: songs-service
         version: v1
     spec:
       containers:
@@ -28,17 +28,17 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-songs-postgresql
+                  name: songs-postgresql
                   key: password
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-songs-postgresql
+                  name: songs-postgresql
                   key: user
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ .Release.Name }}-songs-postgresql:5432/right-lyrics
+              value: jdbc:postgresql://songs-postgresql:5432/right-lyrics
             - name: HITS_SERVICE_URL
-              value: http://{{ .Release.Name }}-hits-service:8080
+              value: http://hits-service:8080
           imagePullPolicy: Always
           name: songs-service
           readinessProbe:

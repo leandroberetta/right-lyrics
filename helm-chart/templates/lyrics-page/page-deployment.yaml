@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.openshift.io/connects-to: {{ .Release.Name }}-songs-service,{{ .Release.Name }}-lyrics-service,{{ .Release.Name }}-albums-service
+    app.openshift.io/connects-to: songs-service,lyrics-service,albums-service
   labels:
-    app: {{ .Release.Name }}-lyrics-page
+    app: lyrics-page
     app.openshift.io/runtime: nodejs
-  name: {{ .Release.Name }}-lyrics-page
+  name: lyrics-page
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-lyrics-page
+      app: lyrics-page
   strategy:
     type: RollingUpdate
   template:
@@ -19,11 +19,11 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-lyrics-page
+        app: lyrics-page
     spec:
       volumes:
         - configMap:
-            name: {{ .Release.Name }}-lyrics-page
+            name: lyrics-page
           name: lyrics-page
       containers:
         - image: quay.io/right-lyrics/lyrics-page:1.5

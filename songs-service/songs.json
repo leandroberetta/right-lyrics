@@ -1,0 +1,114 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Songs Service",
+        "version": "1.3",
+        "description": "Songs Service"
+    },
+    "paths": {
+        "/api/songs": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "description": "",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Get songs"
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Create song"
+            }
+        },
+        "/api/songs/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Get song by ID"
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Update song by ID"
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Delete song by ID"
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        }
+    },
+    "components": {
+        "schemas": {
+            "Song": {
+                "title": "Root Type for Song",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "artist": {
+                        "type": "string"
+                    },
+                    "lyricsId": {
+                        "type": "string"
+                    },
+                    "albumId": {
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "popularity": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "name": "Californication",
+                    "artist": "Red Hot Chili Peppers",
+                    "lyricsId": "6009ac723094a8fc117f2238",
+                    "albumId": 1,
+                    "popularity": "5"
+                }
+            }
+        }
+    }
+}

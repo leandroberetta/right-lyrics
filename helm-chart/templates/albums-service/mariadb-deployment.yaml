@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Release.Name }}-albums-mariadb
+    app: albums-mariadb
     app.openshift.io/runtime: mariadb
-  name: {{ .Release.Name }}-albums-mariadb
+  name: albums-mariadb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-albums-mariadb
+      app: albums-mariadb
   strategy:
     type: Recreate
   template:
@@ -17,7 +17,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-albums-mariadb
+        app: albums-mariadb
     spec:
       containers:
         - image: registry.access.redhat.com/rhscl/mariadb-102-rhel7
@@ -45,24 +45,24 @@ spec:
             - containerPort: 3306
           env:
             - name: DATABASE_SERVICE_NAME
-              value: {{ .Release.Name }}-albums-mariadb
+              value: albums-mariadb
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
                   key: user
-                  name: {{ .Release.Name }}-albums-mariadb
+                  name: albums-mariadb
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: {{ .Release.Name }}-albums-mariadb
+                  name: albums-mariadb
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: {{ .Release.Name }}-albums-mariadb
+                  name: albums-mariadb
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: database
-                  name: {{ .Release.Name }}-albums-mariadb
+                  name: albums-mariadb

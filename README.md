@@ -1,6 +1,6 @@
 # Right Lyrics
 
-A very simple microservice architecture to deploy in OpenShift.
+A very simple microservice architecture to deploy in OpenShift (or any Kubernetes).
 
 ## Overview
 
@@ -15,9 +15,9 @@ A very simple microservice architecture to deploy in OpenShift.
 The fastest way to deploy Right Lyrics is with a Helm chart:
 
 ```bash
-oc create namespace right-lyrics
+kubectl create namespace right-lyrics
 
-helm install right-lyrics ./helm-chart --wait --set wildcardDomain=beretta.io -n right-lyrics
+helm install rl ./helm-chart --wait --set wildcardDomain=veicot.io -n right-lyrics
 ```
 
 **NOTE**: Set the wildcardDomain variable accordingly.
@@ -36,5 +36,5 @@ Thanks for installing Right Lyrics.
 
 Visit the application at:
 
-http://lyrics-page-right-lyrics.beretta.io
+http://rl.veicot.io
 ```

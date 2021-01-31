@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ .Release.Name }}-lyrics-page
-  name: {{ .Release.Name }}-lyrics-page
+    app: lyrics-page
+  name: lyrics-page
 spec:
   ports:
     - name: tcp-8080
@@ -11,4 +11,4 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app: {{ .Release.Name }}-lyrics-page
+    app: lyrics-page

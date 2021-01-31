@@ -1,0 +1,130 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Albums Service",
+        "version": "1.1",
+        "description": "Albums Service"
+    },
+    "paths": {
+        "/api/albums": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Get albums"
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Create album"
+            }
+        },
+        "/api/albums/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Get album by ID"
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Update album by ID"
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Delete album by ID"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Album": {
+                "title": "Root Type for Album",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "artist": {
+                                "type": "string"
+                            },
+                            "coverUrl": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "format": "int32",
+                                "type": "integer"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "year": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "status": {
+                        "format": "int32",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "data": {
+                        "artist": "Red Hot Chili Peppers",
+                        "coverUrl": "https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg",
+                        "id": 1,
+                        "title": "Californication",
+                        "year": "1999"
+                    },
+                    "status": 0
+                }
+            }
+        }
+    }
+}

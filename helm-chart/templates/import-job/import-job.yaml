@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-import-job
+  name: import-job
   annotations:
     helm.sh/hook: post-install
     helm.sh/hook-delete-policy: hook-succeeded
@@ -12,7 +12,7 @@ spec:
     spec:
       volumes:
         - configMap:
-            name: {{ .Release.Name }}-data
+            name: music-data
           name: data
       containers:
         - name: import
@@ -22,11 +22,11 @@ spec:
             - name: DATA_FILE
               value: /tmp/data.yaml
             - name: ALBUMS_SERVICE
-              value: http://{{ .Release.Name }}-albums-service:8080
+              value: http://albums-service:8080
             - name: LYRICS_SERVICE
-              value: http://{{ .Release.Name }}-lyrics-service:8080
+              value: http://lyrics-service:8080
             - name: SONGS_SERVICE
-              value: http://{{ .Release.Name }}-songs-service:8080
+              value: http://songs-service:8080
           volumeMounts:
             - mountPath: /tmp/data.yaml
               name: data

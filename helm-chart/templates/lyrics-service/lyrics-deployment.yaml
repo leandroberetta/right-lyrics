@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.openshift.io/connects-to: {{ .Release.Name }}-lyrics-mongodb
+    app.openshift.io/connects-to: lyrics-mongodb
   labels:
-    app: {{ .Release.Name }}-lyrics-service
+    app: lyrics-service
     app.openshift.io/runtime: golang
-  name: {{ .Release.Name }}-lyrics-service
+  name: lyrics-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-lyrics-service
+      app: lyrics-service
   strategy:
     type: RollingUpdate
   template:
@@ -19,7 +19,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: {{ .Release.Name }}-lyrics-service
+        app: lyrics-service
     spec:
       containers:
         - image: quay.io/right-lyrics/lyrics-service:2.0
@@ -35,13 +35,13 @@ spec:
               port: 8080
           env:
             - name: DB_HOST
-              value: {{ .Release.Name }}-lyrics-mongodb
+              value: lyrics-mongodb
             - name: DB_NAME
               value: right-lyrics
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-lyrics-mongodb
+                  name: lyrics-mongodb
                   key: password
             - name: DB_USERNAME
               value: right-lyrics

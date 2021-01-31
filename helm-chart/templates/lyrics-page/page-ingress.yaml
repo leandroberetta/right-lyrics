@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-lyrics-page
+  name: lyrics-page
   annotations:
     nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
 spec:
@@ -13,6 +13,20 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: {{ .Release.Name }}-lyrics-page
+                name: lyrics-page
+                port: 
+                  number: 8080
+          - path: /config.js
+            pathType: Exact
+            backend:
+              service:
+                name: lyrics-page
+                port: 
+                  number: 8080
+          - path: /static/
+            pathType: Prefix
+            backend:
+              service:
+                name: lyrics-page
                 port: 
                   number: 8080
