@@ -4,10 +4,10 @@ metadata:
   name: {{ .Release.Name }}-lyrics-service
 spec:
   rules:
-    - host: lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+    - host: {{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
-          - path: /
+          - path: /api/lyrics
             pathType: Prefix
             backend:
               service:

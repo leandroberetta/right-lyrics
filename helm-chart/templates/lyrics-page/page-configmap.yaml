@@ -4,9 +4,9 @@ metadata:
   name: {{ .Release.Name }}-lyrics-page
 data:
   config.js: |
-    window.SONGS_SERVICE = "http://songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/songs/";
-    window.LYRICS_SERVICE = "http://lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/lyrics/";
-    window.ALBUMS_SERVICE = "http://albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/albums/";
+    window.SONGS_SERVICE = "http://{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/songs/";
+    window.LYRICS_SERVICE = "http://{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/lyrics/";
+    window.ALBUMS_SERVICE = "http://{{ .Release.Name }}.{{ .Values.wildcardDomain }}/api/albums/";
     {{ if .Values.keycloakEnabled }}
     window.KEYCLOAK_SERVICE = "{{ .Values.keycloak.host }}/auth/";
     window.KEYCLOAK_CLIENT_ID = "{{ .Values.keycloak.clientId }}";

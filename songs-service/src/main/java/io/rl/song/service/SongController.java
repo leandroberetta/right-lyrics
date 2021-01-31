@@ -33,7 +33,6 @@ import java.util.stream.Stream;
 public class SongController {
 
     private final SongRepository repository;
-    private Counter searchOKCounter;
 
     @Autowired
     RestTemplate restTemplate;
@@ -45,11 +44,6 @@ public class SongController {
 
     public SongController(SongRepository repository, MeterRegistry meterRegistry) {
         this.repository = repository;
-
-        searchOKCounter = Counter
-                .builder("songs.search.ok")
-                .description("Amount of successful searches")
-                .register(meterRegistry);
     }
 
     @GetMapping("/{id}")
@@ -83,10 +77,6 @@ public class SongController {
             song.setPopularity(this.getSongPopularity(song.getId()));
         }
 
-        if (!songs.isEmpty()) {
-            searchOKCounter.increment();
-        }
-
         return ResponseEntity.ok(songs);
     }
 
@@ -116,21 +106,6 @@ public class SongController {
             actualSong.setArtist(updatedSong.getArtist());
             actualSong.setLyricsId(updatedSong.getLyricsId());
             actualSong.setAlbumId(updatedSong.getAlbumId());
-            actualSong.setYoutubeLink(updatedSong.getYoutubeLink());
-
-            return ResponseEntity.ok(repository.save(actualSong));
-        } else 
-            return ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/youtube/{id}/{youtubeId}")
-    public ResponseEntity<Song> setYoutubeLink(@PathVariable Long id, @PathVariable String youtubeId) {
-        Optional<Song> song = repository.findById(id);
-
-        if (song.isPresent()) {
-            Song actualSong = song.get();
-
-            actualSong.setYoutubeLink(String.format("https://www.youtube.com/embed/%s", youtubeId));
 
             return ResponseEntity.ok(repository.save(actualSong));
         } else 

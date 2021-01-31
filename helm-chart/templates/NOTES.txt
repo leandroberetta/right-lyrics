@@ -9,4 +9,4 @@ Thanks for installing Right Lyrics.
 
 Visit the application at:
 
-http://lyrics-page-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+http://{{ .Release.Name }}.{{ .Values.wildcardDomain }}

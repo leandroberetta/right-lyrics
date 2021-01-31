@@ -26,7 +26,7 @@ spec:
             name: {{ .Release.Name }}-lyrics-page
           name: lyrics-page
       containers:
-        - image: quay.io/right-lyrics/lyrics-page:1.4
+        - image: quay.io/right-lyrics/lyrics-page:1.5
           imagePullPolicy: Always
           name: lyrics-page
           readinessProbe:

@@ -4,10 +4,10 @@ metadata:
   name: {{ .Release.Name }}-songs-service
 spec:
   rules:
-    - host: songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+    - host: {{ .Release.Name }}.{{ .Values.wildcardDomain }}
       http:
         paths:
-          - path: /
+          - path: /api/songs
             pathType: Prefix
             backend:
               service:

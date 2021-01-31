@@ -22,11 +22,11 @@ spec:
             - name: DATA_FILE
               value: /tmp/data.yaml
             - name: ALBUMS_SERVICE
-              value: http://albums-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+              value: http://{{ .Release.Name }}-albums-service:8080
             - name: LYRICS_SERVICE
-              value: http://lyrics-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+              value: http://{{ .Release.Name }}-lyrics-service:8080
             - name: SONGS_SERVICE
-              value: http://songs-service-{{ .Release.Name }}.{{ .Values.wildcardDomain }}
+              value: http://{{ .Release.Name }}-songs-service:8080
           volumeMounts:
             - mountPath: /tmp/data.yaml
               name: data
